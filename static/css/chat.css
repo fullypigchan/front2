@@ -1504,19 +1504,66 @@ body {
 
 /* 모달 메뉴바 */
 .Extend-Menu-Wrapper {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    transform: translate(1044px, 395px);
+    position: absolute;
+    left: 380px;
+    top: 120px;
     min-width: max-content;
     z-index: 50;
 }
 
 .Extend-Menu-Container {
+    display: flex;
+    flex-direction: column;
     background-color: #f0f4f5;
     border: 1px #e4eaec;
     border-radius: 0.75rem;
     box-shadow: var(0 0 #0000, 0 0 #0000), var(0 0 #0000, 0 0 #0000), var(0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1));
+}
+
+.Menu-Content {
+    display: flex;
+    height: 48px;
+    width: 100%;
+    cursor: pointer;
+    align-items: center;
+    gap: 12px;
+    border-radius: 0px;
+    background-color: #f0f4f5;
+    padding-left: 16px;
+    padding-right: 16px;
+
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.Menu-Content svg {
+    width: 20px;
+    height: 20px;
+}
+
+.Menu-Text {
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 400;
+    color: inherit;
+}
+
+.Menu-Icon {
+    display: flex;
+    width: 100%;
+    height: 48px;
+    padding: 0px 16px;
+    align-items: center;
+    border-radius: 0px;
+    gap: 12px;
+    background-color: #f0f4f5;
+    border: none;
+    cursor: pointer;
+
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
 }
 
 /* 토글용 css */

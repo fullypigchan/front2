@@ -35,7 +35,130 @@ window.onload = () => {
     // 대화 차단 모달
     const banUserModal = document.querySelector(".Small-Modal.Ban-User");
 
-    // 이모지 api -----------------------------------
+    // 반응형 js -----------------------------------
+    const userListWrapper = document.querySelector(".Chat-UserList-Wrapper");
+    const backBtn = document.getElementById("chat-back-btn");
+
+    // 좌측 검색바
+    const searchBarPlaceholder = document.querySelector(
+        ".Header-SearchBar:not(.Input)",
+    );
+    const searchBarInput = document.querySelector(".Header-SearchBar.Input");
+    const searchInput = document.querySelector(".Search-Conversation-Input");
+    const searchClearBtn = document.querySelector(".Search-Clear-Btn");
+    const searchConvPanel = document.querySelector(".Search-Conversation");
+    const searchConvEmpty = document.querySelector(".Search-Conv-Empty"); // 검색값 없을 때 그리드
+    const searchConvResults = document.querySelector(".Search-Conv-Results"); // 검색값 있을 때 리스트
+    const userListEl = document.querySelector(".UserList-Wrapper");
+
+    // 모바일 여부 판단
+    function isMobile() {
+        return window.innerWidth <= 600;
+    }
+
+    // 채팅방 열기 (모바일이면 유저목록 숨기기)
+    function openChatRoom() {
+        newChatDiv.classList.add("off");
+        chatDiv.classList.remove("off");
+        if (isMobile()) {
+            userListWrapper.classList.add("off");
+        }
+    }
+
+    // 채팅방 닫기 (모바일이면 유저목록 다시 보이기)
+    function closeChatRoom() {
+        chatDiv.classList.add("off");
+        newChatDiv.classList.remove("off");
+        if (isMobile()) {
+            userListWrapper.classList.remove("off");
+        }
+    }
+
+    // 뒤로가기 버튼 이벤트
+    backBtn.addEventListener("click", () => {
+        closeChatRoom();
+    });
+
+    // 화면 크기 변경 시 처리
+    window.addEventListener("resize", () => {
+        if (!isMobile()) {
+            // 데스크탑으로 전환되면 유저목록 항상 표시
+            userListWrapper.classList.remove("off");
+        } else {
+            // 모바일로 전환 시 채팅방이 열려있으면 유저목록 숨기기
+            if (!chatDiv.classList.contains("off")) {
+                userListWrapper.classList.add("off");
+            }
+        }
+    });
+    // ---------------------------------------------
+
+    // 좌측 대화 검색 -----------------------------------
+
+    // 검색 패널 열기
+    function openSearchPanel() {
+        searchBarPlaceholder.style.display = "none";
+        searchBarInput.style.display = "flex";
+        userListEl.style.display = "none";
+        searchConvPanel.classList.remove("off");
+        // 기본: 그리드(빈 상태) 표시
+        searchConvEmpty.style.display = "flex";
+        searchConvResults.classList.add("off");
+        setTimeout(() => searchInput.focus(), 50);
+    }
+
+    // 검색 패널 닫기
+    function closeSearchPanel() {
+        searchBarPlaceholder.style.display = "";
+        searchBarInput.style.display = "none";
+        userListEl.style.display = "";
+        searchConvPanel.classList.add("off");
+        searchInput.value = "";
+        searchClearBtn.classList.add("off");
+    }
+
+    // 플레이스홀더 검색바 클릭 → 패널 열기
+    searchBarPlaceholder.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openSearchPanel();
+    });
+
+    // input 값 변화 → 그리드/리스트 전환
+    searchInput.addEventListener("input", () => {
+        const hasValue = searchInput.value.trim().length > 0;
+        // 지우기 버튼 토글
+        searchClearBtn.classList.toggle("off", !hasValue);
+        // 그리드 ↔ 리스트 전환
+        searchConvEmpty.style.display = hasValue ? "none" : "flex";
+        searchConvResults.classList.toggle("off", !hasValue);
+    });
+
+    // 지우기 버튼 → input 초기화 후 그리드로 복귀
+    searchClearBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        searchClearBtn.classList.add("off");
+        searchConvEmpty.style.display = "flex";
+        searchConvResults.classList.add("off");
+        searchInput.focus();
+    });
+
+    // ESC 누르면 검색 패널 닫기
+    searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeSearchPanel();
+    });
+
+    // 검색 패널 바깥 클릭 시 닫기
+    document.addEventListener("click", (e) => {
+        if (
+            !searchConvPanel.classList.contains("off") &&
+            !searchBarInput.contains(e.target) &&
+            !searchBarPlaceholder.contains(e.target) &&
+            !searchConvPanel.contains(e.target)
+        ) {
+            closeSearchPanel();
+        }
+    });
+    // ---------------------------------------------
     // 채팅 입력란 이모지 버튼
     const picker = new EmojiButton({
         position: "bottom-start",
@@ -97,8 +220,7 @@ window.onload = () => {
     // ---------------------------------------------
 
     // 상담 받기 클릭시 전문가 검색창 표시
-    newChatBtn.addEventListener("click", (e) => {
-        e.preventDefault();
+    function openSearchExpertModal() {
         openModal(searchExpertModal);
 
         // 전문가 모달창 닫기 버튼
@@ -134,8 +256,7 @@ window.onload = () => {
 
                 // 완료되면 모달 닫고 채팅방 div 열기
                 closeModal(searchExpertModal);
-                newChatDiv.classList.add("off");
-                chatDiv.classList.remove("off");
+                openChatRoom();
             });
         });
 
@@ -143,7 +264,22 @@ window.onload = () => {
         closeBtn.addEventListener("click", (e) => {
             closeModal(searchExpertModal);
         });
+    }
+
+    // 상담 받기 버튼 (채팅 없을 때 중앙 버튼)
+    newChatBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        openSearchExpertModal();
     });
+
+    // 헤더 Invite 버튼 (전문가 찾기)
+    const inviteBtn = document.querySelector(".Header-Each-Button.Invite");
+    if (inviteBtn) {
+        inviteBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            openSearchExpertModal();
+        });
+    }
 
     // 채팅방 이벤트 --------------------------------------
     // 채팅방이 있다면 클릭 시 채팅방 불러오기
@@ -157,8 +293,7 @@ window.onload = () => {
                 // 해당 유저의 채팅방 요청
 
                 // 성공하면 채팅방 열기
-                newChatDiv.classList.add("off");
-                chatDiv.classList.remove("off");
+                openChatRoom();
             });
         });
     }
@@ -234,6 +369,10 @@ window.onload = () => {
         } else {
             left = rect.right - menuWidth;
         }
+        // 왼쪽 경계 밖으로 나가지 않도록
+        left = Math.max(8, left);
+        // 오른쪽 경계 밖으로 나가지 않도록
+        left = Math.min(left, window.innerWidth - menuWidth - 8);
 
         chatMenu.style.top = `${top}px`;
         chatMenu.style.left = `${left}px`;
@@ -244,11 +383,17 @@ window.onload = () => {
         const menu = c.querySelector(".Message-Buttons");
         const emojiBtn = menu.querySelector(".Message-Button.Emote");
         const moreBtn = menu.querySelector(".Message-Button.Menu");
-        const chatEmoteBtn = menu.querySelector(".Message-Button.Emote");
         if (menu) {
             c.addEventListener("mouseover", (e) => {
                 menu.classList.remove("off");
             });
+            c.addEventListener(
+                "touchstart",
+                () => {
+                    menu.classList.remove("off");
+                },
+                { passive: true },
+            );
             c.addEventListener("mouseleave", (e) => {
                 // 메뉴바가 열려있고 이 채팅의 버튼이 activeBtn이면 숨기지 않음
                 if (activeBtn === moreBtn) return;
@@ -259,13 +404,13 @@ window.onload = () => {
             emojiBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 if (
-                    activeEmoteBtn === chatEmoteBtn &&
+                    activeEmoteBtn === emojiBtn &&
                     !emojiPicker.classList.contains("off")
                 ) {
                     closeEmojiPicker();
                     return;
                 }
-                openEmojiPicker(chatEmoteBtn);
+                openEmojiPicker(emojiBtn);
             });
 
             // 더보기 메뉴 이벤트
@@ -281,14 +426,14 @@ window.onload = () => {
                     return;
                 }
 
+                // 모바일에서 menu 버튼이 off 상태일 수 있으므로 강제 표시
+                menu.classList.remove("off");
+
                 activeBtn = moreBtn;
-                updateMenuPosition();
+                // on 먼저 붙여서 크기를 렌더링한 뒤 위치 계산
                 chatMenu.classList.remove("off");
                 chatMenu.classList.add("on");
-            });
-            // 이모지 클릭 이벤트
-            chatEmoteBtn.addEventListener("click", (e) => {
-                pickerMenu.togglePicker(chatEmoteBtn);
+                updateMenuPosition();
             });
         }
     });
@@ -314,13 +459,47 @@ window.onload = () => {
 
     // 채팅 메뉴 이벤트
     const toast = document.querySelector(".Clipboard-Toast");
+
+    // 답글 컨테이너
+    const replyContainer = chatDiv.querySelector(".ChatPage-Reply-Container");
+    const replyTextUser = replyContainer.querySelector(".Reply-Text-User");
+    const replyTextContent = replyContainer.querySelector(
+        ".Reply-Text-Content",
+    );
+    const replyCloseBtn = replyContainer.querySelector(".Reply-Close");
+
+    function openReply(userName, content) {
+        replyTextUser.textContent = userName;
+        replyTextContent.textContent = content;
+        replyContainer.classList.remove("off");
+    }
+
+    function closeReply() {
+        replyContainer.classList.add("off");
+        replyTextUser.textContent = "";
+        replyTextContent.textContent = "";
+    }
+
+    replyCloseBtn.addEventListener("click", () => closeReply());
+
     const chatMenuBtns = chatMenu.querySelectorAll(".Extend-Menu-Button");
     chatMenuBtns.forEach((button) => {
         button.addEventListener("click", (e) => {
             const name = button.getAttribute("name");
             switch (name) {
                 case "reply":
-                    // 답글 로직
+                    const targetChat = activeBtn.closest(".Each-Main-Content");
+                    const userName =
+                        targetChat
+                            ?.closest(".Left, .Right, .MyReply, .Reply")
+                            ?.querySelector(".UserName-Text")
+                            ?.textContent.trim() ?? "상대방";
+                    const content =
+                        targetChat
+                            ?.querySelector(".Message-Content")
+                            ?.textContent.trim() ?? "";
+                    openReply(userName, content);
+                    closeMenu();
                     break;
                 case "trans":
                     openModal(postChatModal);
@@ -649,12 +828,15 @@ window.onload = () => {
     function openModal(modal) {
         modalBackDrop.classList.remove("off");
         modal.classList.remove("off");
-        if (modal.classList.contains("Big-Modal")) {
+        if (
+            modal.classList.contains("Big-Modal") ||
+            modal.classList.contains("Small-Modal")
+        ) {
             requestAnimationFrame(() => modal.classList.add("on"));
         }
+        // Small-Modal 열릴 때 백드롭을 Big-Modal(51) 위로 올려서 Big-Modal을 가림
         if (modal.classList.contains("Small-Modal")) {
-            modalBackDrop.style.zIndex = "60";
-            requestAnimationFrame(() => modal.classList.add("on"));
+            modalBackDrop.style.zIndex = "53";
         }
     }
 
@@ -667,8 +849,10 @@ window.onload = () => {
                 "transitionend",
                 () => {
                     modal.classList.add("off");
-                    // 열린 Big-Modal이 없으면 백드롭도 닫기
-                    const anyOpen = document.querySelectorAll(".Big-Modal.on");
+                    // 열린 모달이 없으면 백드롭도 닫기
+                    const anyOpen = document.querySelectorAll(
+                        ".Big-Modal.on, .Small-Modal.on",
+                    );
                     if (anyOpen.length === 0) {
                         modalBackDrop.classList.add("off");
                     }
@@ -676,13 +860,15 @@ window.onload = () => {
                 { once: true },
             );
         } else if (modal.classList.contains("Small-Modal")) {
-            console.log(modalBackDrop.style.zIndex);
-            if (modalBackDrop.style.zIndex == "60") {
-                modalBackDrop.classList.add("off");
-            } else {
-                modalBackDrop.style.zIndex = "";
-            }
+            modal.classList.remove("on");
             modal.classList.add("off");
+            // Small-Modal 닫히면 백드롭 z-index 원복
+            modalBackDrop.style.zIndex = "";
+            // 열린 Big-Modal이 없으면 백드롭도 닫기
+            const anyOpen = document.querySelectorAll(".Big-Modal.on");
+            if (anyOpen.length === 0) {
+                modalBackDrop.classList.add("off");
+            }
         } else {
             modalBackDrop.classList.add("off");
             modal.classList.add("off");
@@ -694,7 +880,11 @@ window.onload = () => {
         const modals = document.querySelectorAll(
             ".Big-Modal, .Small-Modal, .Search-Modal",
         );
-        modals.forEach((modal) => modal.classList.add("off"));
+        modals.forEach((modal) => {
+            modal.classList.remove("on");
+            modal.classList.add("off");
+        });
+        modalBackDrop.style.zIndex = "";
         modalBackDrop.classList.add("off");
     });
 

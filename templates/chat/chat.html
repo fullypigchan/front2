@@ -350,6 +350,7 @@
                                                             <!--  -->
 
                                                             <!-- 내 답글 답변 li -->
+                                                            <!-- 대상 답글의 id 가져와서 dataset에 넣어야함 -->
                                                             <li class="Each-Main-Content MyReply" data-reply-to="msg-2">
                                                                 <div class="Chat-Left">
                                                                     <div class="Chat-Message-Wrapper">
@@ -400,6 +401,7 @@
                                                             </li>
 
                                                             <!-- 상대방 답글 답변 li -->
+                                                            <!-- 대상 답글의 id 가져와서 dataset에 넣어야함 -->
                                                             <li class="Each-Main-Content Reply" data-reply-to="msg-1">
                                                                 <div class="Chat-Left">
                                                                     <div class="Chat-Message-Wrapper">
@@ -725,12 +727,13 @@
         <div class="Big-Modal Info off">
             <div class="Big-Modal-Wrapper">
                 <div class="Big-Modal-Container">
-                    <!-- 닫기, 별명 변경 버튼 부분 -->
                     <div class="Big-Modal-Header">
+                        <!-- 모달 닫기 버튼 -->
                         <button class="Big-Modal-Button Close">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" data-icon="icon-arrow-left" viewBox="0 0 24 24" width="1em" height="1em" display="flex" role="img" class="text-[24px]"><path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"></path></svg>
                         </button>
                         <div class="Big-Change-Alias">
+                            <!-- 상대방 별명 변경 버튼 -->
                             <button class="Big-Modal-Button Alias">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" data-icon="icon-people-edit" viewBox="0 0 24 24" width="1em" height="1em" display="flex" role="img" class="text-[24px]"><path stroke-linejoin="round" stroke-width="2" d="M12 10C13.933 10 15.5 8.433 15.5 6.5C15.5 4.567 13.933 3 12 3C10.067 3 8.5 4.567 8.5 6.5C8.5 8.433 10.067 10 12 10Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.99968 20H7.79494C6.02717 20 4.59593 18.4191 5.43304 16.8621C6.67402 14.5539 9.02123 13 11.9997 13C12.7232 13 13.4095 13.0917 14.0518 13.2636"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 21V20.2427C14 19.447 14.3161 18.684 14.8787 18.1214L18 15C18.5523 14.4477 19.4477 14.4477 20 15C20.5523 15.5523 20.5523 16.4477 20 17L16.8787 20.1213C16.3161 20.684 15.553 21 14.7574 21H14Z"></path></svg>
                             </button>
@@ -769,18 +772,21 @@
                         <div class="Modal-Setting-Container">
                             <!-- 버튼 부분 -->
                             <div class="Modal-Upper-Contents">
+                                <!-- 화상통화 버튼 -->
                                 <div class="Modal-Upper-Button Call">
                                     <button class="Button-Content">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" data-icon="icon-phone-stroke" viewBox="0 0 24 24" width="1em" height="1em" display="flex" role="img"><path d="M3 6.42383C3.00022 4.533 4.533 3.00022 6.42383 3H9.61816L12.2168 8.19727L10.6885 9.72461C11.4852 11.4181 12.5812 12.5137 14.2744 13.3105L15.8027 11.7832L21 14.3818V17.5762C20.9998 19.467 19.467 20.9998 17.5762 21C9.5262 21 3 14.4738 3 6.42383ZM5 6.42383C5 13.3692 10.6308 19 17.5762 19C18.3624 18.9998 18.9998 18.3624 19 17.5762V15.6182L16.1973 14.2168L15.207 15.207L14.7412 15.6738L14.1289 15.4287C11.3748 14.3271 9.67293 12.6252 8.57129 9.87109L8.32617 9.25879L8.79297 8.79297L9.7832 7.80273L8.38184 5H6.42383C5.63757 5.00022 5.00022 5.63757 5 6.42383Z"></path></svg>
                                     </button>
                                     <div class="Button-Text">화상통화</div>
                                 </div>
+                                <!-- 프로필 이동 버튼 -->
                                 <div class="Modal-Upper-Button Profile">
                                     <button class="Button-Content">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" data-icon="icon-people2-stroke" viewBox="0 0 24 24" width="1em" height="1em" display="flex" role="img"><path stroke-linejoin="round" stroke-width="2" d="M15.5 6.5C15.5 8.433 13.933 10 12 10C10.067 10 8.5 8.433 8.5 6.5C8.5 4.567 10.067 3 12 3C13.933 3 15.5 4.567 15.5 6.5Z"></path><path stroke-linejoin="round" stroke-width="2" d="M11.9997 13C9.02123 13 6.67402 14.5539 5.43304 16.8621C4.59593 18.4191 6.02717 20 7.79494 20H16.2044C17.9722 20 19.4034 18.4191 18.5663 16.8621C17.3254 14.5539 14.9781 13 11.9997 13Z"></path></svg>
                                     </button>
                                     <div class="Button-Text">프로필</div>
                                 </div>
+                                <!-- 더보기 메뉴 버튼 -->
                                 <div class="Modal-Upper-Button More">
                                     <button class="Button-Content">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" data-icon="icon-more" viewBox="0 0 24 24" width="1em" height="1em" display="flex" role="img"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path></svg>
@@ -807,26 +813,31 @@
                             </div>
                             <!-- 설정 부분 -->
                             <div class="Modal-Bottom-Contents">
+                                <!-- 사라진 메세지 설정 버튼 -->
                                 <div class="Modal-Bottom-Setting RemovedMsg">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" data-icon="icon-chat-bubble-temp" viewBox="0 0 24 24" width="1em" height="1em" display="flex" role="img" class="size-6"><path stroke="currentColor" stroke-width="2" d="M3 3L21 21"></path><path fill="currentColor" d="M4.66211 10.3184C4.53869 10.8592 4.47168 11.4218 4.47168 12C4.47168 14.2117 5.42459 16.1992 6.94531 17.5781L7.53027 18.1084L7.13086 18.79L6.69727 19.5283H12C12.578 19.5283 13.1401 19.4602 13.6807 19.3369L15.2441 20.9004C14.2321 21.2694 13.1397 21.4717 12 21.4717H3.30273L4.16211 20.0078L5.07422 18.4541C3.49793 16.7634 2.52832 14.4957 2.52832 12C2.52832 10.8601 2.7295 9.76712 3.09863 8.75488L4.66211 10.3184ZM12 2.52832C17.2309 2.52832 21.4717 6.76907 21.4717 12C21.4717 13.1397 21.2694 14.2321 20.9004 15.2441L19.3369 13.6807C19.4602 13.1401 19.5283 12.578 19.5283 12C19.5283 7.84208 16.1579 4.47168 12 4.47168C11.4218 4.47168 10.8592 4.53869 10.3184 4.66211L8.75488 3.09863C9.76712 2.7295 10.8601 2.52832 12 2.52832Z"></path></svg>
                                     <div class="Bottom-Setting-Text">
                                         <div class="Setting-Text">사라진 메세지</div>
                                     </div>
                                     <div class="Bottom-Setting-Arrow">
+                                        <!-- 설정이 변경되면 선택한 설정으로 innerHTML 변경 -->
                                         <div class="Setting-Arrow">끄기</div>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" data-icon="icon-chevron-right" viewBox="0 0 24 24" width="1em" height="1em" display="flex" role="img"><path d="M14.586 12L7.543 4.96l1.414-1.42L17.414 12l-8.457 8.46-1.414-1.42L14.586 12z"></path></svg>
                                     </div>
                                 </div>
+                                <!-- 스크린샷 차단 설정 버튼 -->
                                 <div class="Modal-Bottom-Setting BanScreanShot">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" data-icon="icon-screenshot" viewBox="0 0 24 24" width="1em" height="1em" display="flex" role="img" class="size-6"><path stroke="currentColor" stroke-width="2" d="M9 4C8.07069 4 7.60603 4 7.21964 4.07686C5.63288 4.39249 4.39249 5.63288 4.07686 7.21964C4 7.60603 4 8.07069 4 9M15 4C15.9293 4 16.394 4 16.7804 4.07686C18.3671 4.39249 19.6075 5.63288 19.9231 7.21964C20 7.60603 20 8.07069 20 9M9 20C8.07069 20 7.60603 20 7.21964 19.9231C5.63288 19.6075 4.39249 18.3671 4.07686 16.7804C4 16.394 4 15.9293 4 15M15 20C15.9293 20 16.394 20 16.7804 19.9231C18.3671 19.6075 19.6075 18.3671 19.9231 16.7804C20 16.394 20 15.9293 20 15"></path><path fill="currentColor" d="M10 9C8.34315 9 7 10.3431 7 12C7 13.6569 8.34315 15 10 15H14C15.6569 15 17 13.6569 17 12C17 10.3431 15.6569 9 14 9H10ZM14 10.6006C14.8284 10.6006 15.5 11.2722 15.5 12.1006C15.4997 12.9288 14.8283 13.6006 14 13.6006H13C12.1717 13.6006 11.5003 12.9288 11.5 12.1006C11.5 11.2722 12.1716 10.6006 13 10.6006H14Z"></path></svg>
                                     <div class="Bottom-Setting-Text">
                                         <div class="Setting-Text">스크린샷 차단하기</div>
                                     </div>
                                     <div class="Bottom-Setting-Arrow">
+                                        <!-- 설정이 변경되면 끄기, 켜기로 토글 같이 변경 -->
                                         <div class="Setting-Arrow">끄기</div>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" data-icon="icon-chevron-right" viewBox="0 0 24 24" width="1em" height="1em" display="flex" role="img"><path d="M14.586 12L7.543 4.96l1.414-1.42L17.414 12l-8.457 8.46-1.414-1.42L14.586 12z"></path></svg>
                                     </div>
                                 </div>
+                                <!-- 대화 차단하기 버튼 -->
                                 <div class="Modal-Bottom-Setting BanUser">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" data-icon="icon-no" viewBox="0 0 24 24" width="1em" height="1em" display="flex" role="img" class="h-5 w-5"><path d="M12 3.75c-4.55 0-8.25 3.69-8.25 8.25 0 1.92.66 3.68 1.75 5.08L17.09 5.5C15.68 4.4 13.92 3.75 12 3.75zm6.5 3.17L6.92 18.5c1.4 1.1 3.16 1.75 5.08 1.75 4.56 0 8.25-3.69 8.25-8.25 0-1.92-.65-3.68-1.75-5.08zM1.75 12C1.75 6.34 6.34 1.75 12 1.75S22.25 6.34 22.25 12 17.66 22.25 12 22.25 1.75 17.66 1.75 12z"></path></svg>
                                     <div class="Bottom-Setting-Text">
@@ -834,6 +845,43 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 별명 변경 모달 -->
+        <div class="Big-Modal ChangeAlias off">
+            <div class="Big-Modal-Container">
+                <!-- 모달 헤더 -->
+                <div class="Big-Modal-Header">
+                    <button class="Big-Modal-Button Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" data-icon="icon-arrow-left" viewBox="0 0 24 24" width="1em" height="1em" display="flex" role="img" class="text-[24px]"><path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"></path></svg>
+                    </button>
+                    <div class="Big-Modal-Text">
+                        <div class="Modal-HeaderText">별명 변경</div>
+                    </div>
+                    <!-- 저장 버튼 input이 비어있으면 disable -->
+                    <button class="Big-Modal-Button Save disabled" disabled>
+                        <div class="Save-Button-Text">저장</div>
+                    </button>
+                </div>
+                <!-- 별명 변경 부분 -->
+                <div class="ChangeAlias-Setting-Area">
+                    <!-- 알림 부분 -->
+                    <div class="ChangeAlias-Area-Container">
+                        <div class="ChangeAlias-Alert">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" data-icon="icon-information-circle" viewBox="0 0 24 24" width="1em" height="1em" display="flex" role="img" class="w-5 h-5 text-gray-600 flex-shrink-0"><path d="M13.5 8.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5S11.17 7 12 7s1.5.67 1.5 1.5zM13 17v-5h-2v5h2zm-1 5.25c5.66 0 10.25-4.59 10.25-10.25S17.66 1.75 12 1.75 1.75 6.34 1.75 12 6.34 22.25 12 22.25zM20.25 12c0 4.56-3.69 8.25-8.25 8.25S3.75 16.56 3.75 12 7.44 3.75 12 3.75s8.25 3.69 8.25 8.25z"></path></svg>
+                            <div class="Alert-Text">
+                                별명은 종단간 암호화되며 나만 볼 수 있습니다.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- input 부분 -->
+                    <div class="ChangeAlias-Input-Area">
+                        <div class="Input-Area-Header">별명</div>
+                        <div class="Input-Area">
+                            <input id="user-alias" type="text" placeholder="별명" value>
                         </div>
                     </div>
                 </div>
@@ -864,12 +912,12 @@
                         <button type="button" class="Set-Remove-Time Top">
                             <div class="Area-Content-Text">없음</div>
                             <!-- 선택하면 나타나는 svg -->
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" data-icon="icon-checkmark" viewBox="0 0 24 24" width="24" height="24" display="flex" role="img" class="text-primary"><path d="M9.64 18.952l-5.55-4.861 1.317-1.504 3.951 3.459 8.459-10.948L19.4 6.32 9.64 18.952z"></path></svg>
+                            <svg class="off" xmlns="http://www.w3.org/2000/svg" fill="currentColor" data-icon="icon-checkmark" viewBox="0 0 24 24" width="24" height="24" display="flex" role="img" class="text-primary"><path d="M9.64 18.952l-5.55-4.861 1.317-1.504 3.951 3.459 8.459-10.948L19.4 6.32 9.64 18.952z"></path></svg>
                         </button>
                         <button type="button" class="Set-Remove-Time">
                             <div class="Area-Content-Text">5분</div>
                             <!-- 선택하면 나타나는 svg -->
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" data-icon="icon-checkmark" viewBox="0 0 24 24" width="24" height="24" display="flex" role="img" class="text-primary"><path d="M9.64 18.952l-5.55-4.861 1.317-1.504 3.951 3.459 8.459-10.948L19.4 6.32 9.64 18.952z"></path></svg>
+                            <svg class="off" xmlns="http://www.w3.org/2000/svg" fill="currentColor" data-icon="icon-checkmark" viewBox="0 0 24 24" width="24" height="24" display="flex" role="img" class="text-primary"><path d="M9.64 18.952l-5.55-4.861 1.317-1.504 3.951 3.459 8.459-10.948L19.4 6.32 9.64 18.952z"></path></svg>
                         </button>
                         <button type="button" class="Set-Remove-Time">
                             <div class="Area-Content-Text">1 시간</div>

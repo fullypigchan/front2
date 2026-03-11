@@ -16,6 +16,8 @@ window.onload = () => {
     const searchExpertModal = document.querySelector(".Search-Modal");
     // 상대방 정보 모달
     const userInfoModal = document.querySelector(".Big-Modal.Info");
+    // 상대방 별명 변경 모달
+    const changeAliasModal = document.querySelector(".Big-Modal.ChangeAlias");
     // 사라진 메세지 설정 모달
     const removedMsgModal = document.querySelector(".Big-Modal.RemovedMsg");
     // 모든 대화 지우기 모달
@@ -31,7 +33,7 @@ window.onload = () => {
     // 채팅방 나가기 모달
     const leaveModal = document.querySelector(".Small-Modal.Leave");
     // 대화 차단 모달
-    const bnnUserModal = document.querySelector(".Small-Modal.Ban-User");
+    const banUserModal = document.querySelector(".Small-Modal.Ban-User");
 
     // 이모지 api -----------------------------------
     // 채팅 입력란 이모지 버튼
@@ -166,7 +168,6 @@ window.onload = () => {
     buttons.forEach((button) => {
         button.addEventListener("click", (e) => {
             const divName = button.classList[1];
-            console.log(divName);
             switch (divName) {
                 case "VideoCall":
                     alert("추후 업데이트 예정입니다.");
@@ -358,7 +359,10 @@ window.onload = () => {
 
     // 답변의 채팅누르면 해당 채팅으로 이동 후 애니메이션 이벤트
     replyCons.forEach((reply) => {
-        reply.addEventListener("click", () => {
+        const replyWrapper = reply.querySelector(".MyReply-Wrapper");
+        if (!replyWrapper) return;
+
+        replyWrapper.addEventListener("click", (e) => {
             const targetId = reply.dataset.replyTo;
             if (!targetId) return;
 
@@ -443,8 +447,7 @@ window.onload = () => {
     // 모달 이벤트 부분 -------------------------------------
     // 채팅방 회원 정보 누르면 모달 열기
     chatUser.addEventListener("click", (e) => {
-        modalBackDrop.classList.remove("off");
-        userInfoModal.classList.remove("off");
+        openModal(userInfoModal);
     });
 
     // 회원 정보 모달 닫기 버튼
@@ -452,24 +455,238 @@ window.onload = () => {
         ".Big-Modal-Button.Close",
     );
     userInfoClose.addEventListener("click", (e) => {
-        modalBackDrop.classList.add("off");
-        userInfoModal.classList.add("off");
+        closeModal(userInfoModal);
     });
 
     // 회원 정보 모달 버튼들
-    userInfoModal.addEventListener("click", (e) => {});
+    userInfoModal.addEventListener("click", (e) => {
+        const toggle = false;
+        const btn = e.target.closest("button");
+        const setting = e.target.closest(".Modal-Bottom-Setting");
+        const upperBtn = e.target.closest(".Modal-Upper-Button");
+        const menuBtns = userInfoModal.querySelectorAll(".Menu-Icon");
+
+        // 닫기, 별명 변경 버튼
+        if (btn?.classList.contains("Close")) return closeModal(userInfoModal);
+        if (btn?.classList.contains("Alias"))
+            return openModal(changeAliasModal);
+
+        // 상단 버튼
+        if (upperBtn) {
+            if (upperBtn.classList.contains("Call"))
+                return alert("추후 업데이트 예정입니다.");
+            if (upperBtn.classList.contains("Profile")) return; // 프로필 이동 로직
+            if (upperBtn.classList.contains("More")) {
+                userInfoModal
+                    .querySelector(".Extend-Menu-Wrapper")
+                    .classList.toggle("off");
+                return;
+            }
+        }
+
+        // 더보기 드롭다운 버튼
+        menuBtns.forEach((button) => {
+            button.addEventListener("click", (e) => {
+                const name = button.classList[1];
+                switch (name) {
+                    case "Mute":
+                        // 해당 대화 차단 로직
+
+                        // 성공하면 실행
+                        toggle = !toggle;
+                        const text = `
+                        ${
+                            toggle
+                                ? `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" data-icon="icon-notifications-stroke" viewBox="0 0 24 24" width="1em" height="1em" display="flex" role="img" class="h-5 w-5"><path d="M19.993 9.042C19.48 5.017 16.054 2 11.996 2s-7.49 3.021-7.999 7.051L2.866 18H7.1c.463 2.282 2.481 4 4.9 4s4.437-1.718 4.9-4h4.236l-1.143-8.958zM12 20c-1.306 0-2.417-.835-2.829-2h5.658c-.412 1.165-1.523 2-2.829 2zm-6.866-4l.847-6.698C6.364 6.272 8.941 4 11.996 4s5.627 2.268 6.013 5.295L18.864 16H5.134z"></path></svg>`
+                                : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" data-icon="icon-notifications-off" viewBox="0 0 24 24" width="1em" height="1em" display="flex" role="img" class="h-5 w-5"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.375 17C16.375 19.2091 14.5841 21 12.375 21C10.1659 21 8.375 19.2091 8.375 17"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.375 17H6.42522C5.21013 17 4.27578 15.9254 4.44462 14.7221L5.18254 9.46301C5.31208 8.25393 5.73464 7.14098 6.375 6.19173M9.375 3.65027C10.2917 3.23195 11.3086 3 12.375 3C16.0717 3 19.1736 5.78732 19.5675 9.46301L20.0536 14"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.375 3L21.375 21"></path></svg>`
+                        }
+                            <div class="Menu-Text">
+                            ${toggle ? "뮤트" : "언뮤트"}
+                            </div>
+                            `;
+                        btn.innerHTML = text;
+                        break;
+                    case "Delete":
+                        userInfoModal
+                            .querySelector(".Extend-Menu-Wrapper")
+                            .classList.add("off");
+                        openModal(leaveModal);
+                        break;
+                }
+            });
+        });
+
+        // 하단 설정 버튼
+        if (setting) {
+            const modalMap = {
+                RemovedMsg: removedMsgModal,
+                BanScreanShot: banScreanShotModal,
+                BanUser: banUserModal,
+            };
+            const key = Object.keys(modalMap).find((k) =>
+                setting.classList.contains(k),
+            );
+            if (key) return openModal(modalMap[key]);
+        }
+    });
+
+    // 별명 변경 모달 이벤트
+    const saveBtn = changeAliasModal.querySelector(".Big-Modal-Button.Save");
+    const inputWrapper = changeAliasModal.querySelector(".Input-Area");
+    const aliasInput = document.getElementById("user-alias");
+
+    // 값이 입력되면 스타일 변경
+    const tempBorder = inputWrapper.style.border;
+    aliasInput.addEventListener("focus", (e) => {
+        inputWrapper.style.border = "1px solid #1e9cf1";
+    });
+    aliasInput.addEventListener("blur", (e) => {
+        inputWrapper.style.border = tempBorder;
+    });
+    aliasInput.addEventListener("keyup", (e) => {
+        if (aliasInput.value !== "") {
+            saveBtn.disabled = false;
+            saveBtn.classList.remove("disabled");
+        } else {
+            saveBtn.disabled = true;
+            saveBtn.classList.add("disabled");
+        }
+    });
+
+    // 사라진 메세지 모달 이벤트
+    const setRemoveTimes = removedMsgModal.querySelectorAll(".Set-Remove-Time");
+    const removeAll = removedMsgModal.querySelector(".Remove-All-Button");
+    setRemoveTimes.forEach((setTime) => {
+        setTime.addEventListener("click", (e) => {
+            // 모든 svg 비활성화
+            setRemoveTimes.forEach((btn) =>
+                btn.querySelector("svg").classList.add("off"),
+            );
+
+            // 클릭한 버튼의 svg만 활성화
+            setTime.querySelector("svg").classList.remove("off");
+
+            // 선택한 시간 Info 모달 Setting-Arrow에 반영
+            const selectedTime =
+                setTime.querySelector(".Area-Content-Text").textContent;
+            userInfoModal.querySelector(
+                ".Modal-Bottom-Setting.RemovedMsg .Setting-Arrow",
+            ).textContent = selectedTime;
+
+            // 설정 변경 요청 로직 작성
+        });
+    });
+    removeAll.addEventListener("click", (e) => {
+        openModal(removeAllMsgModal);
+    });
+
+    // 스크린샷 차단하기 모달 이벤트
+    const toggleBtn = banScreanShotModal.querySelector(".Toggle-Button");
+    const toggleSpan = banScreanShotModal.querySelector(".Toggle-Switch");
+    toggleBtn.addEventListener("click", () => {
+        toggleBtn.classList.toggle("clicked");
+        toggleSpan.classList.toggle("moved");
+        const isActive = toggleBtn.classList.contains("clicked");
+
+        // Info 모달 Setting-Arrow에 반영
+        userInfoModal.querySelector(
+            ".Modal-Bottom-Setting.BanScreanShot .Setting-Arrow",
+        ).textContent = isActive ? "켜기" : "끄기";
+
+        // 설정 변경 요청 로직
+    });
+
+    // 저장 버튼 이벤트
+    saveBtn.addEventListener("click", (e) => {
+        if (saveBtn.disabled) return;
+        // 저장 로직
+    });
+    // ----------------------------------------------
+
+    // 작은 모달 클릭 이벤트 --------------------------
+
+    // 특정 채팅 지우기 모달 이벤트
+    const deleteChatBtn = deleteChatModal.querySelector(".Small-Button.Ban");
+    deleteChatBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        // 대화 삭제 요청 로직 작성
+        alert("추후 추가 예정");
+    });
+
+    // 대화 삭제 모달 이벤트
+    const leaveChatBtn = leaveModal.querySelector(".Small-Button.Ban");
+    leaveChatBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        // 대화 삭제 요청 로직 작성
+        alert("추후 추가 예정");
+    });
+
+    // 모든 대화 지우기 모달 이벤트
+    const removeAllMsgBtn =
+        removeAllMsgModal.querySelector(".Small-Button.Ban");
+    removeAllMsgBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        // 모든 대화 지우기 요청 로직 작성
+        alert("추후 추가 예정");
+    });
+
+    // 대화 차단 모달 이벤트
+    const banChatBtn = banUserModal.querySelector(".Small-Button.Ban");
+    banChatBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        // 대화 차단 요청 로직 작성
+        alert("추후 추가 예정");
+    });
+
+    // -----------------------------------------------
 
     // 모달 여닫기 이벤트 ---------------------
     // 모달 열기
     function openModal(modal) {
         modalBackDrop.classList.remove("off");
         modal.classList.remove("off");
+        if (modal.classList.contains("Big-Modal")) {
+            requestAnimationFrame(() => modal.classList.add("on"));
+        }
+        if (modal.classList.contains("Small-Modal")) {
+            modalBackDrop.style.zIndex = "60";
+            requestAnimationFrame(() => modal.classList.add("on"));
+        }
     }
 
     // 모달 닫기
     function closeModal(modal) {
-        modalBackDrop.classList.add("off");
-        modal.classList.add("off");
+        if (modal.classList.contains("Big-Modal")) {
+            modal.classList.remove("on");
+            // 애니메이션 끝난 후 off 처리
+            modal.addEventListener(
+                "transitionend",
+                () => {
+                    modal.classList.add("off");
+                    // 열린 Big-Modal이 없으면 백드롭도 닫기
+                    const anyOpen = document.querySelectorAll(".Big-Modal.on");
+                    if (anyOpen.length === 0) {
+                        modalBackDrop.classList.add("off");
+                    }
+                },
+                { once: true },
+            );
+        } else if (modal.classList.contains("Small-Modal")) {
+            console.log(modalBackDrop.style.zIndex);
+            if (modalBackDrop.style.zIndex == "60") {
+                modalBackDrop.classList.add("off");
+            } else {
+                modalBackDrop.style.zIndex = "";
+            }
+            modal.classList.add("off");
+        } else {
+            modalBackDrop.classList.add("off");
+            modal.classList.add("off");
+        }
     }
 
     // 백드롭 클릭 시 모든 모달 닫기
@@ -479,6 +696,20 @@ window.onload = () => {
         );
         modals.forEach((modal) => modal.classList.add("off"));
         modalBackDrop.classList.add("off");
+    });
+
+    // 모든 모달 뒤로가기 버튼 이벤트
+    const backBtns = document.querySelectorAll(".Big-Modal-Button.Close");
+    backBtns.forEach((back) => {
+        const currentModal = back.closest(".Big-Modal");
+        back.addEventListener("click", (e) => closeModal(currentModal));
+    });
+
+    // 모든 작은 모달 닫기 버튼 이벤트
+    const closeBtns = document.querySelectorAll(".Close-Button, .Cancel");
+    closeBtns.forEach((closeBtn) => {
+        const currentModal = closeBtn.closest(".Small-Modal");
+        closeBtn.addEventListener("click", (e) => closeModal(currentModal));
     });
 
     // 채팅에 이모지 div 추가하기

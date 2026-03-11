@@ -1,3 +1,4 @@
+/* 기본 리셋과 공통 토큰: 브라우저 기본 차이를 줄이고 전체 홈 화면이 같은 시각 언어를 쓰게 만든다. */
 *,
 *::before,
 *::after {
@@ -63,6 +64,7 @@ textarea {
     border: 0;
 }
 
+/* 3단 레이아웃 기본 골격: 좌측 내비게이션, 중앙 타임라인, 우측 보조 패널의 큰 프레임을 담당한다. */
 .pageLayout {
     display: flex;
     justify-content: center;
@@ -212,6 +214,7 @@ textarea {
     gap: 12px;
 }
 
+/* 좌측 `더 보기` 팝오버: 버튼 주변에 뜨는 오버레이, 메뉴 박스, 메뉴 아이템 톤을 정의한다. */
 .nav-more-layer {
     position: fixed;
     inset: 0;
@@ -1036,6 +1039,7 @@ a.menu-item:visited {
     transform: translateX(-50%);
 }
 
+/* 게시글 작성 모달 셸: 오버레이, 고정 위치, 서브뷰별 높이 확장처럼 모달 외곽 동작을 담당한다. */
 .composerSection,
 .postCard {
     border-bottom: 1px solid #eff3f4;
@@ -1173,6 +1177,8 @@ a.menu-item:visited {
 .tweet-modal__draft:hover {
     background-color: rgba(29, 155, 240, 0.08);
 }
+
+/* 작성 본문 배치: 아바타, 입력창, 첨부 미리보기, 메타 영역, 제출 버튼을 세로 흐름으로 정렬한다. */
 .composerForm {
     display: flex;
     gap: 12px;
@@ -2069,6 +2075,7 @@ a.menu-item:visited {
     pointer-events: none;
 }
 
+/* 첨부 미리보기 레이아웃: 게시글/댓글 모달에서 공용으로 쓰는 이미지 그리드와 파일 카드 톤을 정의한다. */
 .tweet-modal__input-wrap {
     min-width: 0;
     flex: 1;
@@ -2751,6 +2758,7 @@ a.menu-item:visited {
     pointer-events: none;
 }
 
+/* 이모지 피커 팝오버: 검색창, 카테고리 탭, 이모지 그리드를 모달 위 고정 레이어로 띄운다. */
 .tweet-modal__emoji-picker {
     position: fixed;
     left: 16px;
@@ -3305,6 +3313,7 @@ a.menu-item:visited {
     }
 }
 
+/* 위치 선택/사용자 태그/미디어 설명 편집 같은 서브뷰는 작성 모달 내부의 독립 화면처럼 보이도록 맞춘다. */
 .locationModalOverlay {
     position: fixed;
     inset: 0;
@@ -3833,6 +3842,7 @@ a.menu-item:visited {
     background: rgba(244, 33, 46, 0.1);
 }
 
+/* 피드 카드 본문: 작성자 정보, 텍스트, 미디어, 액션 바가 하나의 카드 안에서 자연스럽게 이어지도록 구성한다. */
 .postCard {
     display: flex;
     gap: 12px;
@@ -4723,6 +4733,7 @@ img.postMediaImage {
     font-weight: 700;
 }
 
+/* 반응형 분기점: 화면 폭에 따라 좌우 패널과 모달 폭을 단계적으로 조정한다. */
 @media (min-width: 500px) {
     .navigationSidebar,
     .sidebar-left {

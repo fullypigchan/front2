@@ -8,8 +8,10 @@
     </head>
     <body>
         <div class="pageLayout" id="mainPage">
+            <!-- 좌측 글로벌 내비게이션: 홈에서 가장 자주 쓰는 이동 링크와 빠른 작성 진입점, 계정 메뉴가 모여 있다. -->
             <aside class="sidebar-left" id="navigationSidebar">
                 <div class="sidebar-inner">
+                    <!-- 브랜드 로고: 좌측 상단에서 서비스 아이덴티티를 고정적으로 노출한다. -->
                     <div class="nav-logo">
                         <svg viewBox="0 0 24 24" class="logo-icon">
                             <path
@@ -196,6 +198,7 @@
                 </div>
             </aside>
 
+            <!-- 중앙 타임라인 패널: 탭 전환, 게시글 작성 모달, 실제 피드 카드가 이 영역을 기준으로 렌더링된다. -->
             <main class="timelinePanel" id="timelinePanel">
                 <nav
                     class="timelineTabs"
@@ -215,11 +218,13 @@
                     </button>
                 </nav>
 
+                <!-- 게시글 작성 모달 오버레이: 작성창이 뜰 때 배경 클릭을 막고 시각적으로 포커스를 중앙에 모은다. -->
                 <div
                     class="composerModalOverlay"
                     id="composerModalOverlay"
                     hidden
                 ></div>
+                <!-- 게시글 작성 모달 본체: 평소에는 숨겨져 있다가 좌측 `게시하기` 버튼으로만 열린다. -->
                 <section
                     class="composerSection"
                     id="composerSection"
@@ -229,6 +234,7 @@
                     aria-labelledby="composerModalTitle"
                     hidden
                 >
+                    <!-- 작성 모달 헤더: 닫기, 제목, 임시저장처럼 작성 흐름 전체에 영향을 주는 전역 액션을 둔다. -->
                     <div
                         class="composerModalHeader tweet-modal__header"
                         id="composerModalHeader"
@@ -268,6 +274,7 @@
                             임시저장
                         </button>
                     </div>
+                    <!-- 기본 작성 뷰: 실제 게시글 입력, 첨부, 태그, 위치, 제출이 모두 이 화면 안에서 이뤄진다. -->
                     <div
                         class="tweet-modal__compose-view"
                         id="composerComposeView"
@@ -277,7 +284,8 @@
                                 K
                             </div>
                             <div class="composerBody tweet-modal__input-wrap">
-                                <div class="composerAudience">
+                            <!-- 게시판/커뮤니티 선택 영역: 게시글이 어느 보드에 발행될지 정하고 hidden input과 동기화한다. -->
+                            <div class="composerAudience">
                                     <div class="composerAudienceRow">
                                         <button
                                             class="audienceButton"
@@ -480,7 +488,8 @@
                                     </div>
                                 </div>
 
-                                <div class="composerField" id="composerField">
+                            <!-- 본문 입력 영역: contenteditable 기반이라 서식, 이모지, 커서 복원 로직이 JS에서 함께 붙는다. -->
+                            <div class="composerField" id="composerField">
                                     <span class="hiddenText">게시물 본문</span>
                                     <div
                                         class="composerTextarea"
@@ -499,8 +508,9 @@
                                     />
                                 </div>
 
-                                <div
-                                    class="composerAttachmentPreview tweet-modal__attachment attachments"
+                            <!-- 첨부 미리보기 영역: 이미지/동영상/일반 파일을 올리면 동일 위치에서 즉시 결과를 확인한다. -->
+                            <div
+                                class="composerAttachmentPreview tweet-modal__attachment attachments"
                                     id="composerAttachmentPreview"
                                     data-attachment-preview
                                     hidden
@@ -561,7 +571,8 @@
                                     </div>
                                 </div>
 
-                                <div class="composerMeta" id="composerMeta">
+                            <!-- 메타 정보 영역: 위치, 태그 추가, 카테고리 선택처럼 본문 바깥의 부가 입력을 정리한다. -->
+                            <div class="composerMeta" id="composerMeta">
                                     <div
                                         class="composerMetaRow"
                                         id="composerMetaRow"
@@ -785,7 +796,8 @@
                                     </div>
                                 </div>
 
-                                <div class="composerFooter">
+                            <!-- 하단 작성 도구/제출 영역: 이모지, 미디어, 위치, 서식 버튼과 글자 수, 제출 버튼을 묶는다. -->
+                            <div class="composerFooter">
                                     <div
                                         class="toolGroup"
                                         id="composerToolGroup"
@@ -1514,6 +1526,7 @@
                     ></div>
                 </div>
 
+                <!-- 메인 피드 영역: 게시글 카드와 카드별 액션 메뉴, 공유/더보기 드롭다운이 모두 이 리스트를 기준으로 작동한다. -->
                 <section
                     class="feedSection"
                     id="feedSection"
@@ -3339,6 +3352,7 @@
                 </section>
             </main>
 
+            <!-- 우측 보조 패널: 검색, 트렌드, 추천 계정처럼 피드 밖의 탐색 보조 정보를 보여준다. -->
             <aside class="trendSidebar" id="trendSidebar">
                 <div class="trendPanel">
                     <form class="searchForm" id="searchForm">
@@ -3831,6 +3845,7 @@
                     </div>
                 </div>
 
+                <!-- 댓글 작성 모달의 위치 선택 서브뷰: 기본 작성 화면을 덮고 현재 선택 위치를 검색/확정/삭제한다. -->
                 <div class="tweet-modal__location-view" hidden>
                     <div class="tweet-modal__location-modal" role="dialog" aria-modal="true" aria-labelledby="location-modal-title">
                         <div class="tweet-modal__location-header">
@@ -3862,6 +3877,7 @@
                     </div>
                 </div>
 
+                <!-- 댓글 작성 모달의 사용자 태그 서브뷰: 이미지 첨부 시 사람 검색과 선택 칩 관리를 담당한다. -->
                 <div class="tweet-modal__tag-view" hidden>
                     <div class="tweet-modal__tag-modal" role="dialog" aria-modal="true" aria-labelledby="tag-modal-title">
                         <div class="tweet-modal__tag-header">
@@ -3890,6 +3906,7 @@
                     </div>
                 </div>
 
+                <!-- 댓글 작성 모달의 미디어 설명 편집 서브뷰: 첨부 이미지별 ALT 텍스트를 순회하며 수정한다. -->
                 <div class="tweet-modal__media-view" hidden>
                     <div class="tweet-modal__media-editor" role="dialog" aria-modal="true" aria-labelledby="media-editor-title">
                         <div class="tweet-modal__media-header">

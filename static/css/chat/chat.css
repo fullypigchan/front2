@@ -195,14 +195,225 @@ body {
     border: 1px solid #1e9cf1;
     background-color: white;
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: space-between;
     gap: 8px;
 }
 
 .Search-Conversation-Input {
+    width: 100%;
     border: none;
     outline: none;
     line-height: 20px;
+}
+
+/* 검색 결과 패널 */
+.Search-Conversation {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 0 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.Search-Conversation.off {
+    display: none;
+}
+
+/* 지우기 버튼 */
+.Search-Clear-Btn {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: #52636f;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0 4px;
+    white-space: nowrap;
+}
+.Search-Clear-Btn:hover {
+    color: #0f141a;
+}
+.Search-Clear-Btn.off {
+    display: none;
+}
+
+.Search-Conv-Section {
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px;
+    gap: 16px;
+}
+
+/* 검색값 없을 때 영역 */
+.Search-Conv-Empty {
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px;
+    gap: 16px;
+}
+
+.Search-Conv-Results {
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px;
+    gap: 12px;
+}
+
+.Search-Conv-Results.off {
+    display: none;
+}
+
+.Search-Conv-Label {
+    font-size: 17px;
+    font-weight: 700;
+    color: #0f141a;
+    line-height: 24px;
+}
+
+/* 2열 그리드 (검색값 없을 때) */
+.Search-Conv-Grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 12px;
+    padding-bottom: 24px;
+}
+
+.Search-Conv-Item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    text-align: center;
+    padding: 12px 8px;
+    border-radius: 12px;
+    transition: background-color 0.15s ease;
+}
+
+.Search-Conv-Item:hover {
+    background-color: #f0f4f5;
+}
+
+.Search-Conv-Item .Avatar-Image {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    min-height: 56px;
+    border-radius: 9999px;
+    overflow: hidden;
+    background-color: #e4eaec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Search-Conv-Avatar-Fallback {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    border-radius: 9999px;
+    background-color: #e0185e;
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.Search-Conv-Name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f141a;
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.Search-Conv-Handle {
+    font-size: 13px;
+    color: #52636f;
+    line-height: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+/* 리스트형 (검색값 있을 때) */
+.Search-Conv-List {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.Search-Conv-Row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f4f5;
+    cursor: pointer;
+}
+
+.Search-Conv-Row:last-child {
+    border-bottom: none;
+}
+
+.Search-Conv-Row:hover {
+    background-color: #f6f8f8;
+}
+
+/* 리스트형 아바타는 작게 */
+.Search-Conv-Row .Search-Conv-Avatar-Fallback {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.Search-Conv-Row-Info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 2px;
+    overflow: hidden;
+}
+
+.Search-Conv-Row-Upper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.Search-Conv-Row-Upper .Search-Conv-Name {
+    font-size: 15px;
+}
+
+.Search-Conv-Time {
+    font-size: 13px;
+    color: #52636f;
+    flex-shrink: 0;
+}
+
+.Search-Conv-Row-Preview {
+    font-size: 14px;
+    color: #52636f;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.Search-Conv-Preview-You {
+    color: #0f141a;
+    font-weight: 500;
 }
 
 .UserList-Wrapper {
@@ -429,7 +640,8 @@ body {
     height: 100%;
     flex-direction: column;
     align-items: center;
-    justify-content: center;   
+    justify-content: center;
+    border-left: 1px solid #e4eaec; 
     gap: 24px;
 }
 
@@ -534,6 +746,7 @@ body {
     right: 0;
     top: 0;
     z-index: 10;
+    background-color: rgba(255, 255, 255);
     align-items: center;
     justify-content: space-between;
     gap: 16px;
@@ -628,7 +841,7 @@ body {
 }
 
 .Each-Main-Content.has-reaction {
-    margin-bottom: 16px;
+    margin-bottom: 32px;
 }
 
 .UserProfile {
@@ -978,6 +1191,7 @@ body {
     bottom: 0px;
     left: 50%;
     isolation: isolate;
+    background-color: rgba(255, 255, 255, 0.8);
     z-index: 10;
     padding: 16px;
     transform: translate(-50%);
@@ -1209,6 +1423,13 @@ body {
     background-color: rgba(0, 0, 0, 0.8);
 }
 
+/* z-index 계층:
+   50   = 백드롭 (기본)
+   51   = Big-Modal / Search-Modal
+   53   = 백드롭 (Small-Modal 열릴 때 JS로 올림 → Big-Modal을 가림)
+   54   = Small-Modal (올라간 백드롭 위)
+*/
+
 .Search-Modal {
     display: grid;
     position: fixed;
@@ -1219,15 +1440,12 @@ body {
     padding: 24px;
     padding-bottom: 0px;
     gap: 16px;
+    transform: translate(-50%, -50%);
     border-radius: 0.75rem;
     border-width: 1px;
     border-color: #e4eaec;
     background-color: white;
-    z-index: 50;
-    transform: translate(-50%, -50%);
-    transition-duration: 200ms;
-    animation-duration: 200ms;
-    box-shadow: var(0 0 #0000, 0 0 #0000), var(0 0 #0000, 0 0 #0000), var(0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1));
+    z-index: 51; /* 백드롭(50) 위 */
 }
 
 .Search-Modal-Header {
@@ -1487,15 +1705,14 @@ body {
     border-width: 1px;
     border-color: #f0f4f5;
     background-color: #f6f8f8;
-    z-index: 50;
+    z-index: 51; /* 백드롭(50) 위 */
 
     pointer-events: auto;
 
+    visibility: hidden;
     opacity: 0;
     transform: translate(calc(-50% + 60px), -50%); /* 초기: 오른쪽 밖 */
     transition: transform 0.5s ease;
-    transition-duration: 200ms;
-    animation-duration: 200ms;
 }
 
 .Big-Modal.off {
@@ -1650,7 +1867,9 @@ body {
 }
 
 .UserName-Wrapper {
-    display: z;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .UserList-CheckIcon {
@@ -1713,6 +1932,10 @@ body {
 .Big-Modal-Button:hover {
     opacity: 1;
     background-color: #bacbd4;
+}
+
+.Big-Modal-Button.Save:hover {
+    background-color: #1a8cd8;
 }
 
 .Big-Modal-Button svg {
@@ -1818,6 +2041,21 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 12px;
+}
+
+/* More 버튼은 메뉴바의 기준점 */
+.Modal-Upper-Button.More {
+    position: relative;
+}
+
+/* 메뉴바 */
+.Extend-Menu-Wrapper {
+    position: absolute;
+    top: calc(100% + 4px); /* 버튼 텍스트 포함 전체 높이 바로 아래 */
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: max-content;
+    z-index: 50;
 }
 
 .Button-Content {
@@ -2132,9 +2370,10 @@ body {
 
 .Toggle-Button {
     display: inline-flex;
+    position: relative;
     padding: 0;
-    width: 40px;
-    height: 12px;
+    width: 44px;
+    height: 24px;
     flex-shrink: 0;
     border-radius: 9999px;
     align-items: center;
@@ -2148,17 +2387,19 @@ body {
     cursor: pointer;
 }
 
+/* span: 지름 20px, 버튼 height 24px → 상하 중앙 = (24-20)/2 = 2px */
+/* off 상태: 왼쪽 끝 left=2px / on 상태: 오른쪽 끝 left=calc(100% - 22px) */
 .Toggle-Switch {
     position: absolute;
-    right: 55px;
+    left: 2px;
     width: 20px;
     height: 20px;
     border-radius: 9999px;
     pointer-events: none;
     background-color: #f0f4f5;
     box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgba(30, 156, 241, 0.5) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.1) 0px 2px 4px -2px;
-    
-    transition: right 0.5s ease-in-out;
+
+    transition: left 0.25s ease-in-out;
 }
 
 .clicked {
@@ -2166,17 +2407,10 @@ body {
 }
 
 .moved {
-    right: 30px;
+    left: calc(100% - 22px); /* 버튼 오른쪽 끝: 44 - 20 - 2 = 22 */
 }
 
-/* 모달 메뉴바 */
-.Extend-Menu-Wrapper {
-    position: absolute;
-    left: 290px;
-    top: 120px;
-    min-width: max-content;
-    z-index: 50;
-}
+/* Extend-Menu-Wrapper 스타일은 .Modal-Upper-Button.More 블록에서 정의 */
 
 .Extend-Menu-Container {
     display: flex;
@@ -2271,7 +2505,7 @@ body {
     border-width: 1px;
     border-color: #f0f4f5;
     background-color: #f6f8f8;
-    z-index: 50;
+    z-index: 51; /* 백드롭(50) 위 */
 
     pointer-events: auto;
 
@@ -2290,14 +2524,14 @@ body {
     min-height: 238px;
     left: 50%;
     top: 50%;
+    transform: translate(-50%, -50%);
     padding: 24px;
     gap: 12px;
     border-radius: 0.75rem;
     border-width: 1px;
     border-color: #e4eaec;
     background-color: white;
-    z-index: 60;
-    transform: translate(-50%, -50%);
+    z-index: 54; /* 올라간 백드롭(53) 위 */
 }
 
 .Small-Header {
@@ -2385,10 +2619,16 @@ body {
 
 /* 채팅 추가 메뉴 */
 .Chat-Extend-Menu {
+    display: none;
     position: fixed;
     left: 0px;
     top: 0px;
     min-width: max-content;
+    z-index: 100;
+}
+
+.Chat-Extend-Menu.on {
+    display: block;
 }
 
 .Chat-Extend-Menu-Wrapper {
@@ -2515,4 +2755,242 @@ button[name="delete"] {
 
 .chat-pop-left {
   animation: slideLeft 0.5s ease;
+}
+
+
+/* ----------------- 반응형 ----------------- */
+
+/* 모바일 뒤로가기 버튼: 기본(데스크탑)에서는 숨김 */
+.ChatPage-Button.BackBtn {
+    display: none;
+}
+
+/* 헤더 프로필 이미지: 기본(데스크탑)에서는 숨김 */
+.Header-My-Profile {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .Chat-Wrapper {
+        padding: 0px;
+    }
+
+    /* 전체 컨테이너를 relative로 만들어 absolute 자식 기준점 확보 */
+    .Chat-Contents-Container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* 유저 목록: 전체 너비로, 채팅방이 열리면 JS에서 off 추가 */
+    .Chat-UserList-Wrapper {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        min-width: unset;
+        max-width: unset;
+        z-index: 1;
+        background-color: white;
+        transition: transform 0.3s ease;
+    }
+
+    /* 채팅방 시작 화면 (상담 시작 안내) */
+    .Chat-ChatContent {
+        position: absolute;
+        inset: 0;
+    }
+
+    /* 채팅방: 전체 화면을 덮도록 absolute */
+    .ChatPage-Layout {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        background-color: white;
+    }
+
+    /* 채팅방이 off일 때 숨기기 (off 클래스 재정의) */
+    .ChatPage-Layout.off {
+        display: none;
+    }
+
+    /* 유저 목록이 off일 때 숨기기 */
+    .Chat-UserList-Wrapper.off {
+        display: none;
+    }
+
+    /* 채팅방 헤더: 뒤로가기 버튼 노출 */
+    .ChatPage-Button.BackBtn {
+        display: inline-flex;
+    }
+
+    /* 헤더 프로필 이미지 모바일에서 표시 */
+    .Header-My-Profile {
+        display: flex;
+        align-items: center;
+    }
+
+    /* 푸터 너비를 화면에 맞게 */
+    .ChatPage-Footer {
+        width: 100%;
+        padding: 8px;
+        left: 0;
+        transform: none;
+        box-sizing: border-box;
+    }
+
+    /* 메시지 최대 너비 확대 */
+    .Chat-Message-Wrapper {
+        max-width: 85vw;
+    }
+
+    /* Big-Modal 전체 화면 */
+    .Big-Modal {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 0;
+        /* 슬라이드 방향도 보정 */
+        transform: translate(calc(-50% + 30px), -50%);
+    }
+
+    .Big-Modal.off {
+        transform: translate(calc(-50% + 30px), -50%);
+    }
+
+    .Big-Modal.on {
+        transform: translate(-50%, -50%);
+    }
+
+    /* Small-Modal 너비 */
+    .Small-Modal {
+        width: calc(100% - 32px);
+        max-width: 100%;
+    }
+
+    /* 전문가 검색 모달 너비 */
+    .Search-Modal {
+        width: calc(100% - 32px);
+        max-width: 100%;
+    }
+
+    /* 채팅 메뉴 익스텐드 메뉴 너비 */
+    .Chat-Extend-Menu {
+        max-width: calc(100vw - 16px);
+    }
+
+    .Chat-Extend-Menu.on {
+        display: block;
+    }
+
+    /* UserList-Header 패딩 보정 */
+    .UserList-Header-Upper {
+        padding: 8px 12px;
+    }
+
+    /* 채팅방 헤더 패딩 */
+    .ChatPage-Header {
+        padding: 8px 12px;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    /* 헤더 버튼 크기 축소 */
+    .ChatPage-Button {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+    }
+
+    /* 뒤로가기 버튼 크기 명시 */
+    .ChatPage-Button.BackBtn {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+    }
+
+    /* 채팅방 상단 유저 이름 폰트 */
+    .ChatPage-UserInfo .UserName-Text {
+        font-size: 14px;
+    }
+
+    /* 모달 상단 버튼 간격 */
+    .Modal-Upper-Contents {
+        gap: 24px;
+    }
+
+    /* 모달 상단 버튼 크기 축소 */
+    .Button-Content {
+        width: 52px;
+        height: 52px;
+        padding: 12px;
+    }
+
+    /* 유저 아바타 크기 축소 */
+    .Avatar-Image {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    /* 유저 목록 아이템 패딩 */
+    .EachUser-UserInfo {
+        padding-left: 12px;
+        padding-right: 12px;
+        gap: 12px;
+    }
+
+    /* 채팅 입력란 폰트 */
+    .Input-TextArea-Container textarea {
+        font-size: 14px;
+    }
+
+    /* 날짜 텍스트 */
+    .Date-Text {
+        font-size: 11px;
+    }
+
+    /* 메세지 폰트 */
+    .Message-Content {
+        font-size: 14px;
+    }
+
+    /* 답글 미리보기 폰트 */
+    .MyReply-Content {
+        font-size: 11px;
+    }
+
+    /* 채팅 메뉴 버튼 크기 */
+    .Chat-Extend-Menu-Container {
+        padding: 4px;
+    }
+
+    .Extend-Menu-Button {
+        padding: 8px 12px;
+    }
+
+    /* Small-Modal 헤더 폰트 */
+    .Small-Header h2 {
+        font-size: 19px;
+    }
+
+    /* 유저 목록 헤더 텍스트 */
+    .Header-Upper-Text {
+        font-size: 17px;
+    }
+
+    /* 이모지 버튼 크기 */
+    .Emoji-Button {
+        font-size: 1.2rem;
+    }
+
+    /* 채팅 하단 버튼들 */
+    .ChatPage-Button.AddImage,
+    .ChatPage-Button.AddEmote {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+    }
 }

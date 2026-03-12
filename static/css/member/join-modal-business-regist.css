@@ -1616,3 +1616,86 @@ button {
     min-width: 0px;
     text-align: inherit;
 }
+
+.addr-wrap {
+    gap: 0;
+}
+
+.addr-postcode-row {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 8px;
+}
+
+.addr-postcode-label {
+    flex: 1;
+    min-width: 0;
+}
+
+.addr-search-btn {
+    flex-shrink: 0;
+    align-self: center;
+    padding: 0 16px;
+    height: 52px;
+    background-color: rgb(15, 20, 25);
+    color: #fff;
+    border: none;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+}
+
+.addr-search-btn:hover {
+    opacity: 0.8;
+}
+
+#addr-main[readonly] {
+    color: rgb(83, 100, 113);
+}
+
+#postcode[readonly] {
+    color: rgb(83, 100, 113);
+}
+
+.addr-postcode-row {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 8px;
+}
+
+.addr-postcode-label {
+    flex: 1;
+    min-width: 0;
+}
+
+.addr-search-btn {
+    flex-shrink: 0;
+    align-self: center;
+    padding: 0 16px;
+    height: 52px;
+    background-color: rgb(15, 20, 25);
+    color: #fff;
+    border: none;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+}
+
+.addr-search-btn:hover {
+    opacity: 0.8;
+}
+
+#postcode[readonly],
+#addr-main[readonly] {
+    color: rgb(83, 100, 113);
+}

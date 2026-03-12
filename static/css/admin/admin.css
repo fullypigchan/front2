@@ -189,7 +189,7 @@
         font-weight: 700;
     }
 
-    /* 뉴스 등록 모듈 */
+    /* 뉴스 등록 */
     .nw-module {
         background: #fff;
         border: 1px solid #eff3f4;
@@ -248,7 +248,7 @@
     .page {
         display: none;
         max-width: 1100px;
-        width: 1100px;
+        width: 100%;
         margin: 0 auto;
     }
     .page.active { display: block; }
@@ -611,18 +611,18 @@
     /* 회원신고탭 */
     #page-report-member .div-th:nth-child(1) { width: 40px; max-width: 40px; }
     #page-report-member .div-th:nth-child(2) { width: 50px; max-width: 50px; }
-    #page-report-member .div-th:nth-child(3) { width: 70px; max-width: 70px; }
-    #page-report-member .div-th:nth-child(4) { width: 80px; max-width: 80px; }
-    #page-report-member .div-th:nth-child(5) { width: 160px; max-width: 160px; }
+    #page-report-member .div-th:nth-child(3) { width: 90px; max-width: 90px; }
+    #page-report-member .div-th:nth-child(4) { width: 140px; max-width: 140px; }
+    #page-report-member .div-th:nth-child(5) { width: 200px; max-width: 200px; }
     #page-report-member .div-th:nth-child(6) { width: 90px; max-width: 90px; }
     #page-report-member .div-th:nth-child(7) { width: 95px; max-width: 95px; }
 
     /* 글신고탭 */
     #page-report-post .div-th:nth-child(1) { width: 40px; max-width: 40px; }
     #page-report-post .div-th:nth-child(2) { width: 50px; max-width: 50px; }
-    #page-report-post .div-th:nth-child(3) { width: 70px; max-width: 70px; }
-    #page-report-post .div-th:nth-child(4) { width: 100px; max-width: 100px; }
-    #page-report-post .div-th:nth-child(5) { width: 120px; max-width: 120px; }
+    #page-report-post .div-th:nth-child(3) { width: 90px; max-width: 90px; }
+    #page-report-post .div-th:nth-child(4) { width: 140px; max-width: 140px; }
+    #page-report-post .div-th:nth-child(5) { width: 200px; max-width: 200px; }
     #page-report-post .div-th:nth-child(6) { width: 90px; max-width: 90px; }
     #page-report-post .div-th:nth-child(7) { width: 95px; max-width: 95px; }
 
@@ -690,7 +690,7 @@
     }
 
     /* 뉴스 등록 2단 레이아웃 */
-    #page-news-write { max-width: 1400px; width: 1400px; }
+    #page-news-write { max-width: 1400px; width: 100%; }
 
     .news-write-layout {
         display: grid;
@@ -1032,6 +1032,7 @@
     }
 
     .stats-data-value--sm { font-size: 20px; }
+    .stats-data-value--muted { font-size: 20px; color: #cfd9de; }
 
     .chart-area {
         height: 280px;
@@ -1046,5 +1047,53 @@
         max-height: 90vh;
         border-radius: 12px;
         object-fit: contain;
+        cursor: default;
+    }
+
+    /* 게시물 모달 동영상 썸네일 */
+    .post-attach-video {
+        padding: 2px 0;
+    }
+
+    .post-video-thumb {
+        width: 110px;
+        height: 72px;
+        background: #0f1419;
+        border-radius: 8px;
+        border: 1px solid #eff3f4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        cursor: pointer;
+        transition: opacity 0.15s;
+    }
+
+    .post-video-thumb:hover { opacity: 0.75; }
+
+    .post-video-icon {
+        font-size: 22px;
+        color: #fff;
+    }
+
+    .post-video-label {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.65);
+    }
+
+    /* 동영상 뷰어 */
+    #modalVideoViewer {
+        padding-left: 0;
+        background: rgba(0, 0, 0, 0.88);
+        z-index: 400;
+        cursor: zoom-out;
+    }
+
+    .video-viewer-player {
+        max-width: 90vw;
+        max-height: 85vh;
+        border-radius: 12px;
+        background: #000;
         cursor: default;
     }

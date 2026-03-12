@@ -1,3 +1,4 @@
+/* 기본 리셋과 공통 토큰: 브라우저 기본 차이를 줄이고 전체 홈 화면이 같은 시각 언어를 쓰게 만든다. */
 *,
 *::before,
 *::after {
@@ -15,6 +16,15 @@ body {
     background: #ffffff;
     color: #0f1419;
     line-height: 1.4;
+}
+
+:root {
+    --sidebar-card-bg: #f5f7f8;
+    --sidebar-card-border: #e3e8ec;
+    --sidebar-card-hover: #ebeff2;
+    --sidebar-link-color: #1d9bf0;
+    --sidebar-search-bg: #f5f7f8;
+    --sidebar-search-border: #dbe3e8;
 }
 
 [hidden] {
@@ -54,6 +64,7 @@ textarea {
     border: 0;
 }
 
+/* 3단 레이아웃 기본 골격: 좌측 내비게이션, 중앙 타임라인, 우측 보조 패널의 큰 프레임을 담당한다. */
 .pageLayout {
     display: flex;
     justify-content: center;
@@ -66,6 +77,10 @@ textarea {
 .sidebar-left,
 .trendSidebar {
     display: none;
+}
+
+.trendSidebar {
+    overflow-y: auto;
 }
 
 .navigationPanel,
@@ -189,8 +204,631 @@ textarea {
     font-weight: 700;
 }
 
+.nav-item[data-testid="AppTabBar_More_Menu"] {
+    border: 0;
+    background: none;
+    text-align: left;
+}
+
 .nav-item-premium {
     gap: 12px;
+}
+
+/* 좌측 `더 보기` 팝오버: 버튼 주변에 뜨는 오버레이, 메뉴 박스, 메뉴 아이템 톤을 정의한다. */
+.nav-more-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 1300;
+}
+
+.nav-more-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+}
+
+.nav-more-popover {
+    position: fixed;
+    width: min(318px, calc(100vw - 32px));
+    z-index: 1;
+}
+
+.nav-more-dropdown {
+    width: 100%;
+}
+
+.nav-more-menu {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: min(562px, calc(100vh - 32px));
+    overflow: hidden auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow:
+        rgba(101, 119, 134, 0.2) 0 0 15px 0,
+        rgba(101, 119, 134, 0.15) 0 0 3px 1px;
+    padding: 8px 0;
+}
+
+.nav-more-item {
+    display: flex;
+    align-items: stretch;
+    min-height: 50px;
+}
+
+.nav-more-item:hover {
+    background: rgba(15, 20, 25, 0.04);
+}
+
+.nav-more-itemInner {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    width: 100%;
+    padding: 14px 20px;
+}
+
+.nav-more-itemIcon {
+    width: 22px;
+    height: 22px;
+    fill: #0f1419;
+    color: #0f1419;
+    flex-shrink: 0;
+}
+
+.nav-more-itemLabel {
+    color: #0f1419;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22px;
+}
+
+.nav-item.isOpen {
+    background: #eff3f4;
+}
+
+.modal-open {
+    overflow: hidden;
+}
+
+.dropdown-menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow:
+        rgba(101, 119, 134, 0.2) 0 0 15px 0,
+        rgba(101, 119, 134, 0.15) 0 0 3px 1px;
+    overflow: hidden;
+    max-width: 400px;
+    width: max-content;
+    pointer-events: auto;
+}
+
+.dropdown-inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 11px 14px;
+    border: none;
+    outline: none;
+    color: #0f1419;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: transparent;
+    transition: background-color 0.1s ease;
+}
+
+.menu-item:hover,
+.menu-item:focus,
+.menu-item:active {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.notification-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 88px;
+    transform: translateX(-50%);
+    z-index: 1200;
+    padding: 12px 20px;
+    border-radius: 999px;
+    background: #1d9bf0;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(15, 20, 25, 0.2);
+    animation: notification-toast-in 0.15s ease-out;
+}
+
+@keyframes notification-toast-in {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.notification-dialog {
+    position: fixed;
+    inset: 0;
+    z-index: 1300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-dialog__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 20, 25, 0.45);
+}
+
+.notification-dialog__card {
+    position: relative;
+    z-index: 1;
+    width: min(600px, calc(100vw - 32px));
+    max-height: calc(100vh - 48px);
+    overflow: auto;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow:
+        rgba(101, 119, 134, 0.2) 0 0 15px 0,
+        rgba(101, 119, 134, 0.15) 0 0 3px 1px;
+}
+
+.notification-dialog__card--small {
+    width: min(320px, calc(100vw - 32px));
+    padding: 32px;
+}
+
+.notification-dialog__card--report {
+    width: min(600px, calc(100vw - 32px));
+}
+
+.notification-dialog__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 8px 16px;
+    border-bottom: 1px solid #eff3f4;
+}
+
+.notification-dialog__icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: #0f1419;
+    cursor: pointer;
+}
+
+.notification-dialog__icon-btn:hover {
+    background: rgba(15, 20, 25, 0.08);
+}
+
+.notification-dialog__icon-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.notification-dialog__title {
+    margin: 0;
+    color: #0f1419;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.notification-dialog__danger,
+.notification-dialog__secondary {
+    border: none;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.notification-dialog__body {
+    padding: 20px 0 0;
+}
+
+.notification-dialog__description,
+.notification-dialog__help {
+    margin: 0;
+    color: #536471;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.notification-dialog__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.notification-dialog__danger {
+    width: 100%;
+    padding: 12px 16px;
+    background: #f4212e;
+    color: #ffffff;
+}
+
+.notification-dialog__secondary {
+    width: 100%;
+    padding: 12px 16px;
+    background: #ffffff;
+    color: #0f1419;
+    border: 1px solid #cfd9de;
+}
+
+.notification-dialog__question {
+    margin: 0;
+    padding: 0 16px 16px;
+    color: #0f1419;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.notification-report__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid #eff3f4;
+}
+
+.notification-report__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-bottom: 1px solid #eff3f4;
+    background: #ffffff;
+    color: #0f1419;
+    font-size: 15px;
+    text-align: left;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.notification-report__item:hover {
+    background: rgba(15, 20, 25, 0.04);
+}
+
+.notification-report__item svg {
+    width: 18px;
+    height: 18px;
+    fill: #536471;
+    flex-shrink: 0;
+}
+
+a.menu-item,
+a.menu-item:visited {
+    color: #0f1419;
+}
+
+.menu-item__icon {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    width: fit-content;
+    flex-shrink: 0;
+}
+
+.menu-item__icon svg {
+    width: 18.75px;
+    height: 18.75px;
+    fill: currentColor;
+    color: #0f1419;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.menu-item__label {
+    display: inline-flex;
+    align-items: center;
+    color: #0f1419;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    white-space: nowrap;
+}
+
+.share-menu-item {
+    justify-content: flex-start;
+    gap: 12px;
+}
+
+.share-menu-item__icon {
+    display: inline-flex;
+    width: fit-content;
+}
+
+.share-menu-item__icon svg {
+    width: 18.75px;
+    height: 18.75px;
+    fill: currentColor;
+    color: #0f1419;
+}
+
+.layers-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.layers-dropdown-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.layers-dropdown-inner {
+    position: relative;
+    pointer-events: auto;
+}
+
+.share-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 84px;
+    transform: translateX(-50%);
+    z-index: 1300;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: #0f1419;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 8px 24px rgba(15, 20, 25, 0.2);
+}
+
+.share-sheet {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.share-sheet__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.share-sheet__card {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    width: min(600px, calc(100vw - 32px));
+    max-height: min(650px, calc(100vh - 32px));
+    min-height: 400px;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow:
+        rgba(101, 119, 134, 0.2) 0 0 15px 0,
+        rgba(101, 119, 134, 0.15) 0 0 3px 1px;
+}
+
+.share-sheet__card--bookmark {
+    min-height: 320px;
+}
+
+.share-sheet__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eff3f4;
+}
+
+.share-sheet__icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: #0f1419;
+    cursor: pointer;
+}
+
+.share-sheet__icon-btn:hover {
+    background: rgba(15, 20, 25, 0.08);
+}
+
+.share-sheet__icon-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.share-sheet__title {
+    margin: 0;
+    flex: 1;
+    color: #0f1419;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.share-sheet__header-spacer {
+    width: 36px;
+    height: 36px;
+}
+
+.share-sheet__search {
+    padding: 12px 16px;
+    border-bottom: 1px solid #eff3f4;
+}
+
+.share-sheet__search-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #cfd9de;
+    border-radius: 999px;
+    outline: none;
+    font: inherit;
+}
+
+.share-sheet__list {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.share-sheet__user,
+.share-sheet__folder,
+.share-sheet__create-folder {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: none;
+    background: #ffffff;
+    color: #0f1419;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+}
+
+.share-sheet__user,
+.share-sheet__folder {
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #eff3f4;
+}
+
+.share-sheet__user:hover,
+.share-sheet__folder:hover,
+.share-sheet__create-folder:hover {
+    background: rgba(15, 20, 25, 0.04);
+}
+
+.share-sheet__user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.share-sheet__user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.share-sheet__user-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.share-sheet__user-name {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.share-sheet__user-handle {
+    color: #536471;
+    font-size: 14px;
+}
+
+.share-sheet__create-folder {
+    padding: 16px;
+    color: #1d9bf0;
+    font-size: 15px;
+    font-weight: 700;
+    border-bottom: 1px solid #eff3f4;
+}
+
+.share-sheet__folder-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #1d9bf0;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.share-sheet__folder-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+}
+
+.share-sheet__folder-name {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.share-sheet__folder-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    color: transparent;
+}
+
+.share-sheet__folder-check--active {
+    color: #1d9bf0;
+}
+
+.share-sheet__folder-check svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.share-sheet__empty {
+    padding: 24px 16px;
+    color: #536471;
+    font-size: 15px;
+    text-align: center;
 }
 
 .nav-chip {
@@ -222,9 +860,14 @@ textarea {
     background: #272c30;
 }
 
+.accountMenuWrap {
+    position: relative;
+    margin-top: auto;
+    overflow: visible;
+}
+
 .accountCard,
 .profile-card {
-    margin-top: auto;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -235,6 +878,10 @@ textarea {
 .accountCard:hover,
 .profile-card:hover {
     background: #eff3f4;
+}
+
+.profile-card {
+    cursor: pointer;
 }
 
 .profile-more {
@@ -292,6 +939,57 @@ textarea {
     font-size: 13px;
 }
 
+.account-menu-popup[hidden] {
+    display: none;
+}
+
+.account-menu-popup {
+    position: fixed;
+    z-index: 1200;
+    width: min(216px, calc(100vw - 32px));
+    padding: 6px;
+    border: 1px solid rgba(207, 217, 222, 0.7);
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 14px 36px rgba(15, 20, 25, 0.18);
+}
+
+.account-menu-popup::after {
+    content: "";
+    position: absolute;
+    right: 26px;
+    bottom: -7px;
+    width: 14px;
+    height: 14px;
+    border-right: 1px solid rgba(207, 217, 222, 0.7);
+    border-bottom: 1px solid rgba(207, 217, 222, 0.7);
+    background: #ffffff;
+    transform: rotate(45deg);
+}
+
+.account-menu-logout {
+    display: block;
+    width: 100%;
+    padding: 10px 7px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #0f1419;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.25;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    white-space: nowrap;
+}
+
+.account-menu-logout:hover {
+    color: #f4212e;
+    background: rgba(244, 33, 46, 0.08);
+}
+
 .timelinePanel {
     width: 100%;
     max-width: 600px;
@@ -341,103 +1039,13 @@ textarea {
     transform: translateX(-50%);
 }
 
+/* 게시글 작성 모달 셸: 오버레이, 고정 위치, 서브뷰별 높이 확장처럼 모달 외곽 동작을 담당한다. */
 .composerSection,
 .postCard {
     border-bottom: 1px solid #eff3f4;
 }
 
-.composerModalOverlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1100;
-    background: rgba(15, 20, 25, 0.56);
-}
-
-.composerSection.isModalOpen {
-    position: fixed;
-    top: 28px;
-    left: 50%;
-    z-index: 1110;
-    width: min(680px, calc(100vw - 32px));
-    max-height: calc(100vh - 56px);
-    overflow-y: auto;
-    border: 0;
-    border-radius: 24px;
-    background: #ffffff;
-    box-shadow: 0 24px 80px rgba(15, 20, 25, 0.28);
-    transform: translateX(-50%);
-}
-
-.composerModalHeader,
-.tweet-modal__header {
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 12px 4px;
-}
-
-.composerSection.isModalOpen .composerModalHeader {
-    display: flex;
-}
-
-.composerModalClose,
-.tweet-modal__close {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    border: 0;
-    border-radius: 50%;
-    background: transparent;
-    color: #0f1419;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.composerModalClose:hover,
-.tweet-modal__close:hover {
-    background-color: rgba(15, 20, 25, 0.1);
-}
-
-.composerModalClose svg,
-.tweet-modal__close svg {
-    fill: currentColor;
-}
-
-.composerModalTitle,
-.tweet-modal__title {
-    margin: 0;
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-}
-
-.composerModalGhost,
-.tweet-modal__draft {
-    min-height: 32px;
-    margin-left: auto;
-    padding: 6px 8px;
-    border: 0;
-    background: transparent;
-    color: #1d9bf0;
-    font-size: 15px;
-    font-weight: 700;
-    border-radius: 9999px;
-    cursor: pointer;
-    font-family: inherit;
-}
-
-.composerModalGhost:hover,
-.tweet-modal__draft:hover {
-    background-color: rgba(29, 155, 240, 0.08);
-}
-
-<<<<<<< Updated upstream
-=======
+/* Modal mode reuses the same composer and only changes its layout. */
 .composerModalOverlay {
     position: fixed;
     inset: 0;
@@ -468,6 +1076,24 @@ textarea {
     overflow: hidden;
 }
 
+.composerSection.isModalOpen.isLocationViewOpen {
+    height: min(90vh, calc(100vh - 56px));
+    max-height: min(90vh, calc(100vh - 56px));
+    overflow: hidden;
+}
+
+.composerSection.isModalOpen.isMediaViewOpen {
+    height: min(90vh, calc(100vh - 56px));
+    max-height: min(90vh, calc(100vh - 56px));
+    overflow: hidden;
+}
+
+.composerSection.isModalOpen.isDraftViewOpen {
+    height: min(90vh, calc(100vh - 56px));
+    max-height: min(90vh, calc(100vh - 56px));
+    overflow: hidden;
+}
+
 .composerModalHeader,
 .tweet-modal__header {
     display: none;
@@ -481,6 +1107,18 @@ textarea {
 }
 
 .composerSection.isModalOpen.isTagViewOpen .composerModalHeader {
+    display: none;
+}
+
+.composerSection.isModalOpen.isLocationViewOpen .composerModalHeader {
+    display: none;
+}
+
+.composerSection.isModalOpen.isMediaViewOpen .composerModalHeader {
+    display: none;
+}
+
+.composerSection.isModalOpen.isDraftViewOpen .composerModalHeader {
     display: none;
 }
 
@@ -540,20 +1178,282 @@ textarea {
     background-color: rgba(29, 155, 240, 0.08);
 }
 
->>>>>>> Stashed changes
+/* 작성 본문 배치: 아바타, 입력창, 첨부 미리보기, 메타 영역, 제출 버튼을 세로 흐름으로 정렬한다. */
 .composerForm {
     display: flex;
     gap: 12px;
     padding: 12px 16px 16px;
 }
 
+.tweet-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 32px 16px;
+    background: rgba(91, 112, 131, 0.4);
+}
+
+.tweet-modal-overlay[hidden] {
+    display: none;
+}
+
+[data-reply-modal] .tweet-modal {
+    width: min(100%, 600px);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+}
+
+[data-reply-modal] .tweet-modal__header {
+    display: flex;
+}
+
+[data-reply-modal] .tweet-modal:has(.tweet-modal__draft-view:not([hidden]))
+    .tweet-modal__header,
+[data-reply-modal] .tweet-modal:has(.tweet-modal__location-view:not([hidden]))
+    .tweet-modal__header,
+[data-reply-modal] .tweet-modal:has(.tweet-modal__media-view:not([hidden]))
+    .tweet-modal__header,
+[data-reply-modal] .tweet-modal:has(.tweet-modal__tag-view:not([hidden]))
+    .tweet-modal__header {
+    display: none;
+}
+
+.tweet-modal:has(.tweet-modal__draft-view:not([hidden])),
+.tweet-modal:has(.tweet-modal__location-view:not([hidden])),
+.tweet-modal:has(.tweet-modal__media-view:not([hidden])),
+.tweet-modal:has(.tweet-modal__tag-view:not([hidden])) {
+    height: 90vh;
+}
+
+[data-reply-modal] .tweet-modal__progress {
+    height: 3px;
+    background: #eff3f4;
+}
+
+[data-reply-modal] .tweet-modal__progress-bar {
+    height: 100%;
+    width: 0;
+    background: #1d9bf0;
+    transition: width 0.2s linear;
+}
+
+[data-reply-modal] .tweet-modal__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 16px;
+}
+
+[data-reply-modal] .tweet-modal__context-button {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    margin: 2px 0 8px 48px;
+    border: 0;
+    background: transparent;
+    color: #536471;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.tweet-modal__source-tweet {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #eff3f4;
+}
+
+[data-reply-modal] .tweet-modal__source-avatar,
+[data-reply-modal] .tweet-modal__avatar-image {
+    width: 36px;
+    height: 36px;
+    border-radius: 9999px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #eff3f4;
+}
+
+[data-reply-modal] .tweet-modal__source-body {
+    min-width: 0;
+    flex: 1;
+}
+
+[data-reply-modal] .tweet-modal__source-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 4px;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+[data-reply-modal] .tweet-modal__source-name {
+    color: #0f1419;
+    font-weight: 700;
+}
+
+[data-reply-modal] .tweet-modal__source-handle,
+[data-reply-modal] .tweet-modal__source-time {
+    color: #536471;
+}
+
+[data-reply-modal] .tweet-modal__source-text {
+    margin: 0;
+    color: #0f1419;
+    font-size: 15px;
+    line-height: 20px;
+    word-break: break-word;
+}
+
+[data-reply-modal] .tweet-modal__composer {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-height: 116px;
+    padding: 6px 0 12px;
+}
+
+[data-reply-modal] .tweet-modal__editor {
+    width: 100%;
+    min-height: 88px;
+    padding-top: 2px;
+    outline: none;
+    color: #0f1419;
+    font-size: 20px;
+    line-height: 1.5;
+    word-break: break-word;
+    white-space: pre-wrap;
+    font-family: inherit;
+}
+
+[data-reply-modal] .tweet-modal__editor:empty::before {
+    content: attr(data-placeholder);
+    display: block;
+    color: #536471;
+    pointer-events: none;
+}
+
+[data-reply-modal] .tweet-modal__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 6px 16px 12px;
+}
+
+[data-reply-modal] .tweet-modal__footer-meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eff3f4;
+}
+
+.tweet-modal__footer-meta-slot {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 0;
+}
+
+.tweet-modal__location-display {
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    min-height: 22px;
+    min-width: 22px;
+    padding: 0;
+    border-radius: 9999px;
+    background: transparent;
+    color: #1d9bf0;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 18px;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+    box-shadow: none;
+    outline: none;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.tweet-modal__location-display-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 22px;
+    padding: 0 11px;
+    color: inherit;
+}
+
+.tweet-modal__location-display-icon {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+.tweet-modal__location-display-text-wrap,
+.tweet-modal__location-display-text-outer {
+    display: inline-flex;
+    align-items: center;
+}
+
+.tweet-modal__location-display-text-outer,
+.tweet-modal__location-display-text-inner {
+    color: inherit;
+    font: inherit;
+    line-height: inherit;
+}
+
+.tweet-modal__location-display[hidden] {
+    display: none;
+}
+
+.tweet-modal__location-display:hover,
+.tweet-modal__location-display:focus,
+.tweet-modal__location-display:focus-visible,
+.tweet-modal__location-display:active {
+    background: rgba(29, 155, 240, 0.1);
+    box-shadow: none;
+    outline: none;
+}
+
+[data-reply-modal] .tweet-modal__footer-bottom {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+/* Each composer subview owns its own scroll area inside the shared card. */
 .tweet-modal__compose-view[hidden],
-.tweet-modal__tag-view[hidden] {
+.tweet-modal__draft-view[hidden],
+.tweet-modal__tag-view[hidden],
+.tweet-modal__location-view[hidden],
+.tweet-modal__media-view[hidden] {
     display: none;
 }
 
 .tweet-modal__compose-view,
-.tweet-modal__tag-view {
+.tweet-modal__draft-view,
+.tweet-modal__tag-view,
+.tweet-modal__location-view,
+.tweet-modal__media-view {
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -564,6 +1464,358 @@ textarea {
 .composerBody {
     flex: 1;
     min-width: 0;
+}
+
+.draft-panel__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 53px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #eff3f4;
+}
+
+.draft-panel__back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: #0f1419;
+    fill: currentColor;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.draft-panel__back:hover {
+    background-color: rgba(15, 20, 25, 0.1);
+}
+
+.draft-panel__title {
+    flex: 1;
+    color: #0f1419;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22px;
+}
+
+.draft-panel__action {
+    min-width: 64px;
+    height: 32px;
+    border: none;
+    border-radius: 9999px;
+    background: transparent;
+    color: #0f1419;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, opacity 0.2s;
+}
+
+.draft-panel__action:hover:not([disabled]) {
+    background-color: rgba(15, 20, 25, 0.08);
+}
+
+.draft-panel__action[disabled] {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.draft-panel__action--done {
+    background: #0f1419;
+    color: #ffffff;
+}
+
+.draft-panel__action--done:hover {
+    background: #272c30;
+}
+
+.draft-panel__tablist {
+    display: flex;
+    justify-content: center;
+    min-height: 52px;
+    border-bottom: 1px solid #eff3f4;
+}
+
+.draft-panel__tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 16px;
+    color: #536471;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.draft-panel__tab--active {
+    color: #0f1419;
+    font-weight: 700;
+}
+
+.draft-panel__tab--single {
+    flex: 0 1 auto;
+    min-width: 112px;
+}
+
+.draft-panel__content {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.draft-panel__list {
+    display: flex;
+    flex-direction: column;
+}
+
+.draft-panel__item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: flex-start;
+    width: 100%;
+    padding: 14px 16px;
+    border: none;
+    border-bottom: 1px solid #eff3f4;
+    background: #ffffff;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.2s;
+}
+
+.draft-panel__item:hover {
+    background: rgba(15, 20, 25, 0.03);
+}
+
+.draft-panel__item--selectable {
+    grid-template-columns: auto auto 1fr;
+}
+
+.draft-panel__item--selected {
+    background: rgba(29, 155, 240, 0.08);
+}
+
+.draft-panel__checkbox {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-top: 10px;
+    border: 2px solid #cfd9de;
+    border-radius: 50%;
+    color: transparent;
+    transition: all 0.2s;
+}
+
+.draft-panel__checkbox svg {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+}
+
+.draft-panel__checkbox--checked {
+    border-color: #1d9bf0;
+    background: #1d9bf0;
+    color: #ffffff;
+}
+
+.draft-panel__avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #cfe8fc;
+    color: #1d9bf0;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.draft-panel__item-body {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.draft-panel__meta {
+    color: #536471;
+    font-size: 13px;
+    line-height: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.draft-panel__text {
+    color: #0f1419;
+    font-size: 15px;
+    line-height: 20px;
+    word-break: break-word;
+}
+
+.draft-panel__date {
+    color: #536471;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.draft-panel__empty[hidden],
+.draft-panel__footer[hidden],
+.draft-panel__confirm-overlay[hidden] {
+    display: none;
+}
+
+.draft-panel__empty {
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 40px 29px 0;
+}
+
+.draft-panel__empty-title {
+    margin-bottom: 7px;
+    color: #0f1419;
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 32px;
+}
+
+.draft-panel__empty-body {
+    color: #536471;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.draft-panel__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 16px;
+    border-top: 1px solid #eff3f4;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
+}
+
+.draft-panel__footer-link,
+.draft-panel__footer-delete {
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: color 0.2s, opacity 0.2s;
+}
+
+.draft-panel__footer-link {
+    color: #1d9bf0;
+}
+
+.draft-panel__footer-link:hover {
+    color: #1a8cd8;
+}
+
+.draft-panel__footer-delete {
+    color: #8b98a5;
+}
+
+.draft-panel__footer-delete:enabled {
+    color: #f4212e;
+}
+
+.draft-panel__footer-delete:enabled:hover {
+    color: #dc1f2c;
+}
+
+.draft-panel__footer-delete:disabled {
+    cursor: default;
+}
+
+.draft-panel__confirm-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.draft-panel__confirm-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.42);
+}
+
+.draft-panel__confirm-card {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 320px);
+    padding: 32px;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 20, 25, 0.18);
+}
+
+.draft-panel__confirm-title {
+    margin: 0 0 8px;
+    color: #0f1419;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 24px;
+}
+
+.draft-panel__confirm-desc {
+    margin: 0 0 24px;
+    color: #536471;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.draft-panel__confirm-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.draft-panel__confirm-primary,
+.draft-panel__confirm-secondary {
+    min-height: 52px;
+    border-radius: 9999px;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.draft-panel__confirm-primary {
+    border: none;
+    background: #f4212e;
+    color: #ffffff;
+}
+
+.draft-panel__confirm-primary:hover {
+    background: #dc1f2c;
+}
+
+.draft-panel__confirm-secondary {
+    border: 1px solid #cfd9de;
+    background: #ffffff;
+    color: #0f1419;
+}
+
+.draft-panel__confirm-secondary:hover {
+    background: #f7f9f9;
 }
 
 .composerAudience {
@@ -581,17 +1833,34 @@ textarea {
     display: block;
 }
 
+.composerAudienceRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
+.composerAudienceTagDock {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+}
+
 .audienceButton,
 .audienceNotice {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    min-height: 20px;
+    min-height: 30px;
     padding: 0 12px;
     border: 1px solid #cfd9de;
     border-radius: 9999px;
     color: #1d9bf0;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
 }
 
@@ -610,16 +1879,22 @@ textarea {
     transform: rotate(45deg) translateY(-1px);
 }
 
+/* The board menu is a small dropdown attached to the audience button. */
 .boardMenu {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    z-index: 40;
-    width: min(240px, calc(100vw - 48px));
-    overflow: hidden;
-    border-radius: 24px;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1300;
+    width: min(320px, calc(100vw - 32px));
+    max-height: min(520px, calc(100vh - 32px));
+    overflow: hidden auto;
+    border-radius: 16px;
     background: #fff;
-    box-shadow: 0 18px 48px rgba(15, 20, 25, 0.22);
+    box-shadow:
+        rgba(101, 119, 134, 0.2) 0 0 15px 0,
+        rgba(101, 119, 134, 0.15) 0 0 3px 1px;
+    scrollbar-width: thin;
+    overscroll-behavior: contain;
 }
 
 .boardMenuHeader {
@@ -779,7 +2054,7 @@ textarea {
 
 .composerTextarea {
     width: 100%;
-    min-height: 40px;
+    min-height: 150px;
     border: 0;
     outline: 0;
     background: transparent;
@@ -791,7 +2066,7 @@ textarea {
 }
 
 .composerSection.isExpanded .composerTextarea {
-    min-height: 50px;
+    min-height: 150px;
 }
 
 .composerTextarea:empty::before {
@@ -800,11 +2075,27 @@ textarea {
     pointer-events: none;
 }
 
+/* 첨부 미리보기 레이아웃: 게시글/댓글 모달에서 공용으로 쓰는 이미지 그리드와 파일 카드 톤을 정의한다. */
+.tweet-modal__input-wrap {
+    min-width: 0;
+    flex: 1;
+    padding-top: 2px;
+}
+
+.tweet-modal__attachment {
+    margin-top: 12px;
+}
+
+.tweet-modal__attachment[hidden] {
+    display: none;
+}
+
 .composerAttachmentPreview {
     padding: 12px 0 0;
 }
 
-.composerAttachmentList {
+.composerAttachmentList,
+.media-grid-wrapper {
     position: relative;
     width: 100%;
     border-radius: 16px;
@@ -952,6 +2243,51 @@ textarea {
     word-break: break-word;
 }
 
+.media-actions-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+    padding: 0 4px;
+}
+
+.media-action-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: none;
+    padding: 0;
+    background: transparent;
+    color: rgb(83, 100, 113);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    font-family: inherit;
+}
+
+.media-action-link:hover {
+    color: rgb(29, 155, 240);
+}
+
+.media-action-link svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    flex-shrink: 0;
+}
+
+.tweet-modal__attachment-meta-btn[hidden] {
+    display: none;
+}
+
+.media-action-link span {
+    white-space: nowrap;
+}
+
 .media-btn-row {
     position: absolute;
     bottom: 8px;
@@ -999,41 +2335,253 @@ textarea {
     border-radius: 9999px;
     cursor: pointer;
     color: #ffffff;
-    font-size: 18px;
+    background-color: rgba(15, 20, 25, 0.75);
+    backdrop-filter: blur(4px);
+    transition: background-color 0.2s ease;
+    z-index: 10;
+}
+
+.media-btn-delete:hover {
+    background-color: rgba(15, 20, 25, 0.9);
+}
+
+.media-btn-delete svg {
+    width: 18px;
+    height: 18px;
+    fill: #ffffff;
+    color: #ffffff;
 }
 
 .composerMeta {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 6px;
     padding-bottom: 12px;
     border-bottom: 1px solid #eff3f4;
 }
 
+.composerMetaRow {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+}
+
 .replyAudience {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     padding-bottom: 0;
     border-bottom: 0;
 }
 
-.composerLocation {
+.composerTagLabel {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    align-self: flex-start;
+    padding: 0;
+    border: 0;
+    background: transparent;
     color: #1d9bf0;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
-    white-space: nowrap;
+    cursor: pointer;
 }
 
-.composerLocation::before {
-    content: "●";
-    font-size: 12px;
-    line-height: 1;
+.composerTagLabel:hover {
+    text-decoration: underline;
+}
+
+.composerCategoryBanner {
+    width: 100%;
+}
+
+.composerTagEditor,
+.tag-input {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 44px;
+    padding: 8px 12px;
+    border-radius: 16px;
+    background: #ffffff;
+}
+
+.composerTagEditor {
+    width: clamp(180px, 44%, 248px);
+    max-width: 100%;
+    min-height: 27px;
+    padding: 0 10px;
+    border: 1px solid transparent;
+    background: #f7f9f9;
+    box-shadow: inset 0 0 0 1px rgba(15, 20, 25, 0.04);
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.composerTagEditor:focus-within {
+    border-color: rgba(29, 155, 240, 0.45);
+    background: #ffffff;
+    box-shadow:
+        0 0 0 4px rgba(29, 155, 240, 0.12),
+        inset 0 0 0 1px rgba(29, 155, 240, 0.16);
+}
+
+.composerTagField {
+    min-width: 50px;
+    flex: 1 1 auto;
+    min-height: 25px;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #0f1419;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+}
+
+.composerTagField::placeholder {
+    color: #536471;
+}
+
+.tagDiv {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 12px;
+    border-radius: 9999px;
+    background: rgba(29, 155, 240, 0.12);
+    color: #1d9bf0;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
 }
 
 .composerSection:not(.isExpanded) .composerMeta {
     justify-content: flex-start;
+}
+
+.category-banner {
+    padding-bottom: 0;
+}
+
+.category-banner-title {
+    padding: 12px 16px 8px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.category-scroll-wrap {
+    position: relative;
+    overflow: hidden;
+}
+
+.category-scroll {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 0 0px 9px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.category-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.cat-chip {
+    flex-shrink: 0;
+    padding: 6px 16px;
+    border: 1px solid #cfd9de;
+    border-radius: 9999px;
+    background: #fff;
+    color: #0f1419;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.15s;
+}
+
+.cat-chip.has-subs {
+    padding-right: 16px;
+}
+
+.cat-chip:hover {
+    background: #f7f9f9;
+    border-color: #b0bec5;
+}
+
+.cat-chip.active {
+    border-color: #1d9bf0;
+    background: #1d9bf0;
+    color: #fff;
+    font-weight: 700;
+}
+
+.cat-chip.parent-highlight {
+    border-color: #1d9bf0;
+    background: #1d9bf0;
+    color: #fff;
+    font-weight: 700;
+}
+
+.cat-chip.sub-active {
+    border-color: #1d9bf0;
+    background: #1d9bf0;
+    color: #fff;
+    font-weight: 700;
+}
+
+.cat-back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border: 1px solid #cfd9de;
+    border-radius: 50%;
+    background: #fff;
+    transition: background 0.15s;
+}
+
+.cat-back-btn:hover {
+    background: #f7f9f9;
+}
+
+.cat-back-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: #0f1419;
+}
+
+.category-scroll-arrow {
+    position: absolute;
+    top: 0;
+    bottom: 12px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    border: none;
+    color: #0f1419;
+}
+
+.category-scroll-left {
+    left: 0;
+    background: linear-gradient(to right, #fff 60%, transparent);
+}
+
+.category-scroll-right {
+    right: 0;
+    background: linear-gradient(to left, #fff 60%, transparent);
 }
 
 .composerFooter {
@@ -1210,12 +2758,11 @@ textarea {
     pointer-events: none;
 }
 
+/* 이모지 피커 팝오버: 검색창, 카테고리 탭, 이모지 그리드를 모달 위 고정 레이어로 띄운다. */
 .tweet-modal__emoji-picker {
-    position: absolute;
-    left: 0;
-    right: auto;
-    bottom: calc(100% + 8px);
-    top: auto;
+    position: fixed;
+    left: 16px;
+    top: 16px;
     width: min(565px, calc(100vw - 32px));
     max-width: min(565px, calc(100vw - 32px));
     max-height: 560px;
@@ -1393,6 +2940,380 @@ textarea {
     line-height: 20px;
 }
 
+.tweet-modal__location-view {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+}
+
+.tweet-modal__location-modal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tweet-modal__location-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 48px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+}
+
+.tweet-modal__location-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-left: -4px;
+    border: none;
+    border-radius: 9999px;
+    background: transparent;
+    color: #0f1419;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.tweet-modal__location-close:hover {
+    background: rgba(15, 20, 25, 0.08);
+}
+
+.tweet-modal__location-close svg {
+    fill: currentColor;
+}
+
+.tweet-modal__location-title {
+    margin: 0;
+    color: #0f1419;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 24px;
+}
+
+.tweet-modal__location-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.tweet-modal__location-action {
+    min-height: 38px;
+    min-width: 38px;
+    padding: 0 18px;
+    border: 1px solid transparent;
+    border-radius: 9999px;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 38px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.2s, color 0.2s, opacity 0.2s;
+}
+
+.tweet-modal__location-action--ghost {
+    min-width: auto;
+    min-height: auto;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #0f1419;
+    line-height: 1.2;
+}
+
+.tweet-modal__location-action--solid {
+    background: #0f1419;
+    color: #ffffff;
+}
+
+.tweet-modal__location-action--solid:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.tweet-modal__location-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 16px 8px;
+    padding: 0 14px;
+    border: 1px solid #cfd9de;
+    border-radius: 9999px;
+    min-height: 44px;
+}
+
+.tweet-modal__location-search-icon {
+    flex-shrink: 0;
+    color: #536471;
+    fill: currentColor;
+}
+
+.tweet-modal__location-search-input {
+    width: 100%;
+    min-height: 36px;
+    border: none;
+    outline: none;
+    color: #0f1419;
+    font-size: 13px;
+    line-height: 14px;
+    font-family: inherit;
+    caret-color: #1d9bf0;
+}
+
+.tweet-modal__location-search-input::placeholder {
+    color: #536471;
+}
+
+.tweet-modal__location-list {
+    overflow-y: auto;
+    padding-bottom: 12px;
+}
+
+.tweet-modal__location-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    padding: 11px 14px;
+    border: 0;
+    background: transparent;
+    color: #0f1419;
+    text-align: left;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 20px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.tweet-modal__location-item-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    margin-left: 18px;
+    color: #1d9bf0;
+    flex-shrink: 0;
+}
+
+.tweet-modal__location-item-check svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.tweet-modal__location-empty {
+    margin: 0;
+    padding: 18px 14px 8px;
+    color: #536471;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.tweet-modal__media-view {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+}
+
+.tweet-modal__media-editor {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+}
+
+.tweet-modal__media-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 56px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+}
+
+.tweet-modal__media-title {
+    margin: 0;
+    color: #0f1419;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22px;
+}
+
+.tweet-modal__media-header-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tweet-modal__media-header-btn {
+    min-height: 32px;
+    padding: 0 14px;
+    border: 1px solid #cfd9de;
+    border-radius: 9999px;
+    background: #ffffff;
+    color: #0f1419;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 32px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.tweet-modal__media-header-btn[disabled] {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.tweet-modal__media-header-btn--ghost {
+    width: 32px;
+    min-width: 32px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+.tweet-modal__media-header-btn--ghost svg {
+    fill: currentColor;
+}
+
+.tweet-modal__media-header-btn--solid {
+    border-color: transparent;
+    background: #0f1419;
+    color: #ffffff;
+}
+
+.tweet-modal__media-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.tweet-modal__media-panel {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+}
+
+.tweet-modal__media-panel--active {
+    display: flex;
+}
+
+.tweet-modal__media-alt-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f7f9f9;
+}
+
+.tweet-modal__media-preview-image--alt {
+    max-width: 100%;
+    max-height: 320px;
+    object-fit: contain;
+    background: #000000;
+}
+
+.tweet-modal__media-alt-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid #cfd9de;
+    border-radius: 16px;
+}
+
+.tweet-modal__media-alt-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.tweet-modal__media-alt-label {
+    color: #0f1419;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.tweet-modal__media-alt-count {
+    color: #536471;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.tweet-modal__media-alt-input {
+    min-height: 160px;
+    border: 0;
+    outline: none;
+    resize: vertical;
+    color: #0f1419;
+    font-size: 15px;
+    line-height: 22px;
+    font-family: inherit;
+}
+
+.tweet-modal__submit {
+    min-width: 74px;
+    padding: 8px 16px;
+    border: 0;
+    border-radius: 9999px;
+    background: #0f1419;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.tweet-modal__submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+    .tweet-modal-overlay {
+        padding: 0;
+        background: #ffffff;
+    }
+
+    [data-reply-modal] .tweet-modal {
+        width: 100%;
+        max-height: 100vh;
+        min-height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    [data-reply-modal] .tweet-modal__header,
+    [data-reply-modal] .tweet-modal__body,
+    [data-reply-modal] .tweet-modal__footer {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
+
+/* 위치 선택/사용자 태그/미디어 설명 편집 같은 서브뷰는 작성 모달 내부의 독립 화면처럼 보이도록 맞춘다. */
 .locationModalOverlay {
     position: fixed;
     inset: 0;
@@ -1921,6 +3842,7 @@ textarea {
     background: rgba(244, 33, 46, 0.1);
 }
 
+/* 피드 카드 본문: 작성자 정보, 텍스트, 미디어, 액션 바가 하나의 카드 안에서 자연스럽게 이어지도록 구성한다. */
 .postCard {
     display: flex;
     gap: 12px;
@@ -1941,6 +3863,7 @@ textarea {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+    position: relative;
 }
 
 .postIdentity {
@@ -2004,24 +3927,85 @@ textarea {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     padding: 0;
-    border: 0;
-    border-radius: 999px;
-    background: transparent;
+    border: none;
+    border-radius: 50%;
+    background: none;
     color: #536471;
     cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 .postMoreButton:hover {
-    background: rgba(29, 155, 240, 0.12);
+    background-color: rgba(29, 155, 240, 0.1);
     color: #1d9bf0;
 }
 
 .postMoreIcon {
     width: 18px;
     height: 18px;
+    fill: currentColor;
+}
+
+.post-more-menu[hidden] {
+    display: none;
+}
+
+.post-more-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow:
+        rgba(101, 119, 134, 0.2) 0px 0px 15px 0px,
+        rgba(101, 119, 134, 0.15) 0px 0px 3px 1px;
+    overflow: hidden;
+    max-width: 400px;
+    width: max-content;
+    pointer-events: auto;
+}
+
+.post-more-menu__item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 11px 14px;
+    border: none;
+    background-color: transparent;
+    color: rgb(15, 20, 25);
+    text-align: left;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    text-decoration: none;
+    outline: none;
+    box-sizing: border-box;
+    transition: background-color 0.1s ease;
+}
+
+.post-more-menu__item:hover,
+.post-more-menu__item:focus {
+    background-color: rgba(0, 0, 0, 0.03);
+    outline: none;
+}
+
+.post-more-menu__item:active {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.post-more-menu__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
     fill: currentColor;
 }
 
@@ -2079,7 +4063,7 @@ textarea {
 }
 
 img.postMediaImage {
-    cursor: zoom-in;
+    cursor: pointer;
 }
 
 .postMediaVideo {
@@ -2218,14 +4202,40 @@ img.postMediaImage {
 }
 
 .trendPanel {
-    width: 380px;
-    padding: 8px 24px;
+    width: 100%;
+    max-width: 380px;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    height: 147vh;
+    max-height: 150vh;
+    padding: 12px 16px 36px;
     display: grid;
-    gap: 10px
+    gap: 16px;
+    align-self: flex-start;
+    background: #ffffff;
+}
+
+.trendPanel::-webkit-scrollbar {
+    display: none;
+}
+
+.trendPanel::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: rgba(83, 100, 113, 0.35);
 }
 
 .searchForm {
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    padding: 4px 0 12px;
+    background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #ffffff 82%,
+        rgba(255, 255, 255, 0) 100%
+    );
 }
 
 .search-icon {
@@ -2240,15 +4250,14 @@ img.postMediaImage {
     gap: 12px;
     padding: 12px 16px;
     border-radius: 9999px;
-    background: #eff3f4;
-    border: 1px solid transparent;
+    border: 1px solid var(--sidebar-search-border);
     max-height: 40px;
 }
 
 .searchForm.isFocused .searchField {
     background: #ffffff;
-    border-color: #1d9bf0;
-    box-shadow: 0 0 0 1px #1d9bf0;
+    border-color: var(--sidebar-link-color);
+    box-shadow: 0 0 0 1px var(--sidebar-link-color);
 }
 
 .searchIcon {
@@ -2258,7 +4267,7 @@ img.postMediaImage {
 }
 
 .searchForm.isFocused .searchIcon {
-    color: #1d9bf0;
+    color: var(--sidebar-link-color);
 }
 
 .searchInput {
@@ -2268,7 +4277,7 @@ img.postMediaImage {
     background: transparent;
     color: #0f1419;
     font-size: 15px;
-    caret-color: rgb(29, 155, 240);
+    caret-color: var(--sidebar-link-color);
 }
 
 .searchInput::placeholder {
@@ -2377,15 +4386,28 @@ img.postMediaImage {
     font-size: 15px;
 }
 
-.suggestionCard {
-    overflow: hidden;
-    border-radius: 16px;
-    background: #f7f9f9;
+.sidebarCard {
+    border: 1px solid var(--sidebar-card-border);
+    border-radius: 24px;
+    box-shadow: 0 1px 2px rgba(15, 20, 25, 0.04);
+}
+
+.sidebarMoreLink {
+    display: block;
+    padding: 14px 20px 16px;
+    color: var(--sidebar-link-color);
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.sidebarMoreLink:hover {
+    background: var(--sidebar-card-hover);
 }
 
 .suggestionTitle {
     margin: 0;
-    padding: 12px 16px;
+    padding: 16px 20px 10px;
     font-size: 20px;
     font-weight: 800;
 }
@@ -2394,11 +4416,15 @@ img.postMediaImage {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 16px;
+    padding: 13px 20px;
 }
 
 .suggestionItem:hover {
-    background: #eff3f4;
+    background: var(--sidebar-card-hover);
+}
+
+.suggestionItem + .suggestionItem {
+    border-top: 1px solid #e8eef1;
 }
 
 .suggestionProfile {
@@ -2420,24 +4446,126 @@ img.postMediaImage {
 
 .suggestionLink {
     display: block;
-    padding: 12px 16px;
-    color: #1d9bf0;
-    font-size: 15px;
 }
 
 .suggestionLink:hover {
-    background: #eff3f4;
+    background: var(--sidebar-card-hover);
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;    
+}
+
+.exchangeRateFeedCard {
+    height: 300px;
+    overflow-y: auto;
+}
+
+.exchangeRateFeedCard::-webkit-scrollbar {
+    display: none;
+}
+
+.exchangeRateFeedHeader {
+    padding: 16px 20px 12px;
+}
+
+.exchangeRateFeedTitle {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.exchangeRateFeedSubtitle {
+    margin: 4px 0 0;
+    color: #536471;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.exchangeRateFeedContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.exchangeRateFeedState {
+    margin: 0;
+    padding: 16px 20px;
+    color: #536471;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.exchangeRateRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 20px;
+}
+
+.exchangeRateRow + .exchangeRateRow {
+    border-top: 1px solid #e8eef1;
+}
+
+.exchangeRateRow:hover {
+    background: var(--sidebar-card-hover);
+}
+
+.exchangeRateMain {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.exchangeRateCurrencyLine {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.exchangeRateCurrency {
+    color: #0f1419;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 20px;
+}
+
+.exchangeRateCurrencyName,
+.exchangeRateMeta {
+    color: #536471;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.exchangeRateValueWrap {
+    flex-shrink: 0;
+    text-align: right;
+}
+
+.exchangeRateValue {
+    color: #0f1419;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 20px;
+    font-variant-numeric: tabular-nums;
+}
+
+.exchangeRateFeedLink {
+    display: block;
+}
+
+.exchangeRateFeedLink:hover {
+    background: var(--sidebar-card-hover);
 }
 
 .newsFeedCard {
     overflow: hidden;
-    border-radius: 16px;
-    background: #f7f9f9;
 }
 
 .newsFeedTitle {
     margin: 0;
-    padding: 12px 16px;
+    padding: 16px 20px 10px;
     font-size: 20px;
     font-weight: 800;
 }
@@ -2448,15 +4576,15 @@ img.postMediaImage {
 }
 
 .newsFeedItem {
-    padding: 14px 16px;
+    padding: 14px 20px;
 }
 
 .newsFeedItem:hover {
-    background: #eff3f4;
+    background: var(--sidebar-card-hover);
 }
 
 .newsFeedItem + .newsFeedItem {
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid #e8eef1;
 }
 
 .newsFeedContent {
@@ -2482,13 +4610,10 @@ img.postMediaImage {
 
 .newsFeedLink {
     display: block;
-    padding: 12px 16px;
-    color: #1d9bf0;
-    font-size: 15px;
 }
 
 .newsFeedLink:hover {
-    background: #eff3f4;
+    background: var(--sidebar-card-hover);
 }
 
 .footerSection {
@@ -2608,6 +4733,7 @@ img.postMediaImage {
     font-weight: 700;
 }
 
+/* 반응형 분기점: 화면 폭에 따라 좌우 패널과 모달 폭을 단계적으로 조정한다. */
 @media (min-width: 500px) {
     .navigationSidebar,
     .sidebar-left {
@@ -2671,6 +4797,10 @@ img.postMediaImage {
 
     .nav-list .nav-item span {
         display: inline;
+    }
+
+    .nav-more-popover {
+        width: 250px;
     }
 
     .post-btn {

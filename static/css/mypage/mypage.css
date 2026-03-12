@@ -20,7 +20,7 @@ body {
   width: 100%;
   gap: 20px;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 .Primary-Column {
@@ -43,7 +43,7 @@ body {
   flex-direction: column;
   align-items: stretch;
   position: relative;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 .Header-Sticky {
@@ -249,6 +249,7 @@ body {
   flex-direction: row;
   align-items: flex-end;
   padding-top: 12px;
+  gap: 2px;
 }
 .Profile-Edit-Btn {
   display: flex;
@@ -257,7 +258,6 @@ body {
   height: 36px;
   min-height: 36px;
   min-width: 36px;
-  padding: 0 16px;
   margin-bottom: 12px;
   background-color: transparent;
   border: 1px solid rgb(207, 217, 222);
@@ -265,15 +265,30 @@ body {
   cursor: pointer;
   color: rgb(15, 20, 26);
   text-decoration: none;
-}
-.Profile-Edit-Btn:hover {
-  background-color: rgba(15, 20, 26, 0.05);
-}
-.Profile-Edit-Btn-Text {
+
   font-size: 15px;
   font-weight: 700;
   line-height: 20px;
   white-space: nowrap;
+}
+.Profile-Edit-Btn.Connect {
+    background-color: #0f1419;
+    color: white;
+}
+.Profile-Edit-Btn.Edit, .Profile-Edit-Btn.Connect, .Profile-Edit-Btn.Connecting {
+    padding: 0px 16px;
+}
+.Profile-Edit-Btn svg {
+    width: 20px;
+    height: 20px;
+}
+.Edit:hover, .Request:hover, .More:hover {
+  background-color: rgba(15, 20, 26, 0.05);
+}
+.Profile-Edit-Btn.Connecting:hover {
+    border: 1px solid red;
+    background-color: rgba(255, 0, 0, 0.2);
+    color: red;
 }
 .Profile-Name-Block {
   display: flex;
@@ -286,12 +301,23 @@ body {
   flex-direction: row;
   align-items: center;
   flex: 0 1 auto;
+  gap: 4px;
 }
 .Profile-Display-Name {
   font-size: 20px;
   font-weight: 700;
   line-height: 24px;
   color: rgb(15, 20, 25);
+}
+.Profile-Display-Badge {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.Profile-Display-Badge svg {
+    width: 16px;
+    height: 16px;
 }
 .Profile-Handle-Row {
   display: flex;
@@ -454,6 +480,8 @@ body {
   background-color: rgb(29, 155, 240);
 }
 
+
+
 .Profile-Content {
   display: flex;
   flex-direction: column;
@@ -461,6 +489,30 @@ body {
   flex: 0 0 auto;
   min-height: 0;
 }
+.Profile-Content-Header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e9eef2;
+}
+.Content-Header-Text {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 15px;
+    color: #536471;
+}
+
+.Content-Header-Button {
+    padding: 5px 20px;
+    border-radius: 9999px;
+    font-size: 15px;
+    font-weight: 700;
+    background-color: #0f1419;
+    color: white;
+}
+
 .Profile-Content-List {
   display: flex;
   flex-direction: column;
@@ -485,7 +537,7 @@ body {
   flex-direction: column;
   flex: 0 0 auto;
   align-items: stretch;
-  width: 290px;
+  width: 340px;
   margin-right: 10px;
   position: relative;
 }
@@ -494,180 +546,173 @@ body {
   flex-direction: column;
   align-items: stretch;
   padding-top: 66px;
+  gap: 20px;
 }
 .Sidebar-Search-Fixed {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  width: 290px;
-  height: 53px;
-  padding: 0;
-  background-color: rgb(255, 255, 255);
-  z-index: 2;
-  margin-bottom: 12px;
-}
-.Sidebar-Search-Wrap {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  height: 42px;
-  background-color: rgb(239, 243, 244);
-  border: 2px solid transparent;
-  border-radius: 9999px;
-  padding: 0 16px;
-  transition: border-color 0.2s;
-}
-.Sidebar-Search-Wrap:focus-within {
-  background-color: rgb(255, 255, 255);
-  border-color: rgb(29, 155, 240);
-}
-.Sidebar-Search-Form {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-.Sidebar-Search-Icon-Wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  margin-right: 12px;
-  color: rgb(83, 100, 113);
-  flex-shrink: 0;
-}
-.Sidebar-Search-Icon-Svg {
-  width: 18.75px;
-  height: 18.75px;
-  fill: currentColor;
-}
-.Sidebar-Search-Input {
-  display: block;
-  flex: 1 1 auto;
-  height: 40px;
-  min-height: 40px;
-  padding: 0 4px;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 20px;
-  color: rgb(15, 20, 25);
-}
-.Sidebar-Search-Input::placeholder {
-  color: rgb(83, 100, 113);
-}
-.Sidebar-Card {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  flex: 0 0 auto;
-  width: 290px;
-  background-color: rgb(255, 255, 255);
-  border: 1px solid rgb(239, 243, 244);
-  border-radius: 16px;
-  margin-bottom: 16px;
-  overflow: hidden;
-}
-.Sidebar-Card-Header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 12px 16px;
-}
-.Sidebar-Card-Title {
-  font-size: 20px;
-  font-weight: 800;
-  line-height: 24px;
-  color: rgb(15, 20, 26);
-}
-.Sidebar-Card-More {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 12px 16px;
-}
-.Sidebar-Card-More-Link {
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 20px;
-  color: rgb(29, 155, 240);
-  text-decoration: none;
-}
-.Sidebar-Card-More-Link:hover {
-  text-decoration: underline;
-}
-.Sidebar-User-Cell {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 8px 16px;
-  cursor: pointer;
-}
-.Sidebar-User-Cell:hover {
-  background-color: rgba(0, 0, 0, 0.03);
-}
-.Sidebar-User-Avatar-Link {
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 auto;
-  width: 44px;
-  height: 44px;
-  margin-right: 12px;
-  text-decoration: none;
-}
-.Sidebar-User-Avatar-Circle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  overflow: hidden;
-  background-color: rgb(207, 217, 222);
-}
-.Sidebar-User-Avatar-Img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-.Sidebar-User-Info {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow: hidden;
-}
-.Sidebar-User-Name {
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 20px;
-  color: rgb(15, 20, 25);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.Sidebar-User-Handle {
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 20px;
-  color: rgb(83, 100, 113);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.Sidebar-Follow-Btn {
-  display: flex;
 }
 
-/* 게시글 하나 css */
+.Sidebar-Search-Wrap {
+    display: grid;
+    position: sticky;
+    width: 100%;
+    max-width: 380px;
+    box-sizing: border-box;
+    top: 0px;
+    align-items: flex-start;
+    background-color: white;
+}
+
+.Sidebar-Search-Form {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    border: 1px solid #536471;
+    border-radius: 9999px;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 30;
+    padding: 8px 12px;
+    background-color: white;
+}
+
+.SearchBox-Reset-Button {
+    position: absolute;
+    right: 11px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.Sidebar-Search-Icon-Wrap {
+    display: flex;
+    justify-content: center;
+    padding-left: 5px;
+}
+
+.Sidebar-Search-Icon-Wrap svg {
+    width: 20px;
+    height: 20px;
+}
+
+
+.Sidebar-Search-Input {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0px 5px;
+    outline: none;
+    border: none;
+}
+
+.Sidebar-Card {
+    width: 100%;
+    align-items: stretch;
+    border: 1px solid #e9eef2;
+    border-radius: 24px;
+}
+
+.Sidebar-Card-Header {
+    padding: 16px 20px 10px;
+}
+
+.Sidebar-Card-Title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 22px;
+    color: #0f1419;
+}
+
+.Sidebar-User-Cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 20px;
+}
+
+.Sidebar-User-Avatar-Link {
+    display: flex;
+    align-items: center;
+}
+
+.Sidebar-User-Avatar-Circle {
+    display: flex;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 9999px;
+    background-color: #cfe8fc;
+}
+
+.Sidebar-User-Avatar-Img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.Sidebar-User-Info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.Sidebar-User-Name {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    color: #0f1419;
+}
+
+.Sidebar-User-Handle {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #536471;
+}
+
+.Sidebar-Follow-Btn {
+    width: auto;
+    padding: 8px 15px;
+    background-color: white;
+    border-radius: 9999px;
+    color: #0f1419;
+}
+
+.Sidebar-Follow-Btn:hover {
+    border: 1px solid red;
+    background-color: rgba(255, 0, 0, 0.4);
+    color: red;
+}
+
+.Sidebar-Follow-Btn-Text {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.Sidebar-Card-More {
+    padding: 20px;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+}
+
+.Sidebar-Card-More-Link {
+    color: #1d9bf0;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.Sidebar-Card-More:hover {
+    background-color: #e9eef2;
+}
+
+.Sidebar-Request-List {
+
+}
+
+/* 게시글 관련 css */
 .Post-Card {
     display: flex;
     gap: 12px;
@@ -760,7 +805,6 @@ body {
     fill: currentColor;
 }
 
-
 .Post-Text {
     margin: 8px 0 12px;
     font-size: 15px;
@@ -799,6 +843,7 @@ body {
     color: #1d9bf0;
 }
 
+/* 좋아요 */
 .Post-Action-Btn.Like:hover {
     background-color: rgba(249, 24, 128, 0.1);
     color: #f91880;
@@ -808,6 +853,7 @@ body {
     color: #f91880;
 }
 
+/* 북마크 */
 .Post-Action-Btn.Bookmark:hover {
     background-color: rgba(29, 155, 240, 0.1);
     color: #1d9bf0;
@@ -834,6 +880,356 @@ body {
     align-items: center;
     gap: 4px;
     margin-left: auto;
+}
+
+.Post-Media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #d7efff 0%, #f3f9ff 100%);
+    color: #1d9bf0;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.Post-Media--Ad {
+    padding: 0;
+    overflow: hidden;
+    background: #e9eef2;
+}
+
+.Post-Media-Grid {
+    display: grid;
+    gap: 2px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #e9eef2;
+}
+
+/* 2장: 좌우 균등 */
+.Post-Media-Grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* 3장: 좌측 크게 + 우측 2장 */
+.Post-Media-Grid--3 {
+    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+.Post-Media-Grid--3 img:first-child {
+    grid-row: 1 / span 2;
+    min-height: 320px;
+}
+
+/* 4장: 2x2 */
+.Post-Media-Grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+.Post-Media-Image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+img.Post-Media-Image {
+    cursor: zoom-in;
+}
+
+.Post-Media-Video {
+    display: block;
+    max-height: 508px;
+    height: 100%;
+    object-fit: cover;
+}
+
+.Post-Media-Aspect-Ratio {
+    width: 100%;
+    padding-bottom: 50%;   /* 기본 2:1 비율 */
+    position: relative;
+}
+
+.Post-Media-Aspect-Ratio--Single {
+    padding-bottom: 56.25%; /* 16:9 비율 */
+}
+
+.Post-Media-Absolute-Layer {
+    position: absolute;
+    inset: 0;
+}
+
+.Post-Media-Row {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.Post-Media-Col {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0%;
+    height: 100%;
+    gap: 2px;
+}
+
+.Post-Media-Col:not(:last-child) {
+    margin-right: 2px;
+}
+
+.Post-Media-Cell {
+    position: relative;
+    flex: 1 1 0%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+/* 1장 단독 */
+.Post-Media-Cell--Single {
+    border-radius: 16px;
+    height: 100%;
+}
+
+/* 2장 */
+.Post-Media-Cell--Left       { border-radius: 16px 4px 4px 16px; }
+.Post-Media-Cell--Right      { border-radius: 4px 16px 16px 4px; }
+
+/* 3장 */
+.Post-Media-Cell--Left-Tall  { border-radius: 16px 4px 4px 16px; }
+.Post-Media-Cell--Right-Top  { border-radius: 4px 16px 4px 4px; }
+.Post-Media-Cell--Right-Bottom { border-radius: 4px 4px 16px 4px; }
+
+/* 4장 */
+.Post-Media-Cell--Top-Left   { border-radius: 16px 4px 4px 4px; }
+.Post-Media-Cell--Top-Right  { border-radius: 4px 16px 4px 4px; }
+.Post-Media-Cell--Bottom-Left  { border-radius: 4px 4px 4px 16px; }
+.Post-Media-Cell--Bottom-Right { border-radius: 4px 4px 16px 4px; }
+
+.Post-Media-Cell-Inner {
+    position: absolute;
+    inset: 0;
+}
+
+.Post-Media-Img-Container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* 배경 블러 처리용 (썸네일 배경) */
+.Post-Media-Bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(1);
+}
+
+.Post-Media-Img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+
+.Post-Media-Btn-Row {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 10;
+}
+
+.Post-Media-Btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    border-radius: 9999px;
+    padding: 4px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    color: #ffffff;
+    background-color: rgba(15, 20, 25, 0.75);
+    backdrop-filter: blur(4px);
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.Post-Media-Btn:hover {
+    background-color: rgba(15, 20, 25, 0.9);
+}
+
+/* 삭제 버튼 (우측 상단) */
+.Post-Media-Btn-Delete {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 9999px;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 18px;
+    background-color: rgba(15, 20, 25, 0.75);
+    backdrop-filter: blur(4px);
+}
+
+.Post-Attachment-File {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 80px;
+    padding: 16px 20px;
+    border-radius: 16px;
+    background: #eff3f4;
+    color: #0f1419;
+    margin-bottom: 12px;
+}
+
+.Post-Attachment-File svg {
+    flex-shrink: 0;
+    fill: #536471;
+}
+
+.Post-Attachment-File-Name {
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 700;
+    word-break: break-word;
+}
+
+.Post-Media-Preview-Overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.88);
+}
+
+.Post-Media-Preview-Dialog {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: min(92vw, 1200px);
+    max-height: 92vh;
+}
+
+.Post-Media-Preview-Image {
+    display: block;
+    max-width: 100%;
+    max-height: 92vh;
+    border-radius: 20px;
+    object-fit: contain;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+}
+
+.Post-Media-Preview-Close {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(15, 20, 25, 0.82);
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.Post-Media-Preview-Close:hover {
+    background: #272c30;
+}
+
+.Post-Media-Preview-Close-Icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+/* 상품 표시 css */
+.Post-Title {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.Post-Category {
+    color: #536471;
+    font-size: 13px;
+}
+
+.Post-Product-Info {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    gap: 5px;
+}
+
+.Post-Product-Image {
+    width: 100px;
+    height: 100px;
+    border-radius: 0.75rem;
+    border: 0.5px solid #eff3f4;
+}
+
+.Post-Product-Image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.Post-Product-Detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.Product-Detail-Wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.Detail-Value {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+/* 모달 css */
+.Modal-BackDrop {
+    position: fixed;
+    inset: 0px;
+    z-index: 50;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 /* 토글용 css */

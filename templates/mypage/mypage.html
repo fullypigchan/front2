@@ -10,320 +10,1166 @@
     <script src="../../static/js/mypage/event.js"></script>
 </head>
 <body>
-<div class="Page-Layout">
-  <!-- ===================== 가운데 메인 컬럼 ===================== -->
-  <div class="Primary-Column">
-    <div class="Primary-Column-Inner">
-      <!-- ====== 상단 고정 헤더 ====== -->
-      <div class="Header-Sticky">
-        <div class="Header-Row">
-          <!-- 뒤로가기 버튼 -->
-          <div class="Header-Back-Wrap">
-            <button class="Header-Back-Btn" data-testid="app-bar-back">
-              <svg viewBox="0 0 24 24" class="Header-Back-Icon">
-                <path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"></path>
-              </svg>
-            </button>
-          </div>
-          <!-- 제목 영역 (이름 + 게시물수) -->
-          <div class="Header-Title-Container">
-            <div class="Header-Name-Row">
-              <span class="Header-Name-Text">JeongSIk Lee</span>
-            </div>
-            <div class="Header-Post-Count">
-                <!-- 게시물 수 받아오기 -->
-              <span class="Header-Post-Count-Text">0 게시물</span>
-            </div>
-          </div>
-          <!-- 검색 버튼 -->
-          <div class="Header-Actions-Area">
-            <button class="Header-Search-Btn">
-              <svg viewBox="0 0 24 24" class="Header-Search-Icon">
-                <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-        
-      </div>
-      <!-- ====== 프로필 섹션 ====== -->
-      <div class="Profile-Section">
-        <!-- 커버 배너 -->
-        <div class="Profile-Banner"></div>
-        <!-- 아바타 + 수정버튼 Row -->
-        <div class="Profile-Avatar-Row">
-          <div class="Profile-Avatar-Container" data-testid="UserAvatar-Container-JeongSIkLe247">
-            <div class="Profile-Avatar-Img-Wrap">
-              <div class="Profile-Avatar-Circle">
-                <img src="" alt="프로필 이미지" class="Profile-Avatar-Img" />
-              </div>
-            </div>
-          </div>
-          <div class="Profile-Edit-Wrap">
-            <a href="/settings/profile" class="Profile-Edit-Btn" data-testid="editProfileButton">
-              <span class="Profile-Edit-Btn-Text">프로필 수정</span>
-            </a>
-          </div>
-        </div>
-        <!-- 이름 + 핸들 -->
-        <div class="Profile-Name-Block" data-testid="UserName">
-          <div class="Profile-Display-Name-Row">
-            <span class="Profile-Display-Name">JeongSIk Lee</span>
-          </div>
-          <div class="Profile-Handle-Row">
-            <span class="Profile-Handle-Text">@JeongSIkLe247</span>
-          </div>
-        </div>
-        <!-- 소개글 -->
-        <div class="Profile-Description" data-testid="UserDescription">
-          <span class="Profile-Description-Text">ㅁㄴㅇㅁㄴㅇㅁㄴㅇ</span>
-        </div>
-        <!-- 메타 정보 (가입일 등) -->
-        <div class="Profile-Meta" data-testid="UserProfileHeader_Items">
-          <a href="/JeongSIkLe247" class="Profile-Join-Date" data-testid="UserJoinDate">
-            가입일: 2026년 3월
-          </a>
-        </div>
-        <!-- 팔로우 카운트 -->
-        <div class="Profile-Follow-Row">
-          <a href="/JeongSIkLe247/following" class="Profile-Follow-Link">
-            <span class="Profile-Follow-Count">4</span>
-            <span class="Profile-Follow-Label">팔로우 중</span>
-          </a>
-          <a href="/JeongSIkLe247/followers" class="Profile-Follow-Link">
-            <span class="Profile-Follow-Count">4</span>
-            <span class="Profile-Follow-Label">팔로워</span>
-          </a>
-        </div>
-      </div>
-      <!-- /Profile-Section -->
-      <!-- ====== 탭 네비게이션 ====== -->
-      <nav class="Profile-Nav">
-        <div class="Profile-Nav-Scroll">
-          <div role="tablist" class="Profile-Tab-List">
-            <!-- 탭 아이템 (선택됨) -->
-            <div class="Profile-Tab-Item Posts">
-              <div class="Profile-Tab-Item-Inner">
-                <div class="Profile-Tab-Content-Row">
-                  <span class="Profile-Tab-Text selected">게시물</span>
-                  <div class="Profile-Tab-Indicator"></div>
+    <div class="Page-Layout">
+        <!-- ===================== 가운데 메인 컬럼 ===================== -->
+        <div class="Primary-Column">
+            <div class="Primary-Column-Inner">
+            <!-- ====== 상단 고정 헤더 ====== -->
+            <div class="Header-Sticky">
+                <div class="Header-Row">
+                <!-- 뒤로가기 버튼 -->
+                <div class="Header-Back-Wrap">
+                    <button class="Header-Back-Btn" data-testid="app-bar-back">
+                    <svg viewBox="0 0 24 24" class="Header-Back-Icon">
+                        <path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"></path>
+                    </svg>
+                    </button>
                 </div>
-              </div>
-            </div>
-            <!-- 탭 아이템 (비선택) -->
-            <div class="Profile-Tab-Item Replies">
-              <div class="Profile-Tab-Item-Inner">
-                <div class="Profile-Tab-Content-Row">
-                  <span class="Profile-Tab-Text">답글</span>
-                  <div class="Profile-Tab-Indicator off"></div>
+                <!-- 제목 영역 (이름 + 게시물수) -->
+                <div class="Header-Title-Container">
+                    <div class="Header-Name-Row">
+                    <span class="Header-Name-Text">JeongSIk Lee</span>
+                    </div>
+                    <div class="Header-Post-Count">
+                        <!-- 게시물 수 받아오기 -->
+                    <span class="Header-Post-Count-Text">0 게시물</span>
+                    </div>
                 </div>
-              </div>
-            </div>
-            <div class="Profile-Tab-Item MyItems">
-              <div class="Profile-Tab-Item-Inner">
-                <div class="Profile-Tab-Content-Row">
-                  <span class="Profile-Tab-Text">내 상품</span>
-                  <div class="Profile-Tab-Indicator off"></div>
+                <!-- 검색 버튼 -->
+                <div class="Header-Actions-Area">
+                    <button class="Header-Search-Btn">
+                    <svg viewBox="0 0 24 24" class="Header-Search-Icon">
+                        <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+                    </svg>
+                    </button>
                 </div>
-              </div>
-            </div>
-            <div class="Profile-Tab-Item Likes">
-              <div class="Profile-Tab-Item-Inner">
-                <div class="Profile-Tab-Content-Row">
-                  <span class="Profile-Tab-Text">좋아요</span>
-                  <div class="Profile-Tab-Indicator off"></div>
                 </div>
-              </div>
+                
             </div>
-            <div class="Profile-Tab-Item Members">
-              <div class="Profile-Tab-Item-Inner">
-                <div class="Profile-Tab-Content-Row">
-                  <span class="Profile-Tab-Text">구성원</span>
-                  <div class="Profile-Tab-Indicator off"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-      <!-- /Profile-Nav -->
-      <!-- 게시글 작성 부분 -->
-
-      <!-- ====== 본문 콘텐츠 (게시물 없음 안내) ====== -->
-      <section class="Profile-Content">
-        <div class="Profile-Content-List">
-            <!-- js로 뿌려야하는 게시물 하나 -->
-            <!--  -->
-            <article class="Post-Card" id="postCard102" data-post-id="102">
-                <div class="Post-Avatar">
-                    <!-- img 넣어줘야 함 -->
-                </div>
-                <div class="Post-Body">
-                    <header class="Post-Header">
-                        <div class="Post-Identity">
-                            <strong class="Post-Name">무역 뉴스</strong>
-                            <span class="Post-Handle">@TradeNewsKR</span>
-                            <span class="Post-Time">5시간</span>
-                        </div>
-                        <button class="Post-More-Button" type="button" aria-label="게시물 더 보기">
-                            <svg viewBox="0 0 24 24" aria-hidden="true" class="Post-More-Icon">
-                                <g>
-                                    <path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path>
-                                </g>
-                            </svg>
-                        </button>
-                    </header>
-                    <p class="Post-Text">
-                        아시아 주요 항만 운임이 다시 상승세를 보이고
-                        있습니다. 공급망 일정 확인이 필요합니다.
-                    </p>
-                    <footer class="Post-Metrics">
-                        <div class="Post-Action-Bar">
-                            <!-- 답글 -->
-                            <button type="button" class="Post-Action-Btn" aria-label="답글 8">
-                                <svg viewBox="0 0 24 24" aria-hidden="true" class="Post-Action-Icon">
-                                    <g>
-                                        <path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"></path>
-                                    </g>
-                                </svg>
-                                <span class="Post-Action-Count">8</span>
-                            </button>
-                            <!-- 좋아요 -->
-                            <button type="button" class="Post-Action-Btn Like" aria-label="마음 79">
-                                <svg viewBox="0 0 24 24" aria-hidden="true" class="Post-Action-Icon">
-                                    <g>
-                                        <path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"></path>
-                                    </g>
-                                </svg>
-                                <span class="Post-Action-Count">79</span>
-                            </button>
-                            <!-- 조회수 -->
-                            <button type="button" class="Post-Action-Btn" aria-label="조회수 9">
-                                <svg viewBox="0 0 24 24" aria-hidden="true" class="Post-Action-Icon">
-                                    <g>
-                                        <path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"></path>
-                                    </g>
-                                </svg>
-                                <span class="Post-Action-Count">9</span>
-                            </button>
-                            <!-- 우측 버튼 묶음 -->
-                            <div class="Post-Action-Right">
-                                <!-- 북마크 -->
-                                <button type="button" class="Post-Action-Btn Bookmark" aria-label="북마크">
-                                    <svg viewBox="0 0 24 24" aria-hidden="true" class="Post-Action-Icon">
-                                        <g>
-                                            <path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"></path>
-                                        </g>
-                                    </svg>
-                                </button>
-                                <!-- 공유 -->
-                                <button type="button" class="Post-Action-Btn Share" aria-label="게시물 공유하기">
-                                    <svg viewBox="0 0 24 24" aria-hidden="true" class="Post-Action-Icon">
-                                        <g>
-                                            <path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"></path>
-                                        </g>
-                                    </svg>
-                                </button>
+            <!-- ====== 프로필 섹션 ====== -->
+            <div class="Profile-Section">
+                <!-- 커버 배너 -->
+                <div class="Profile-Banner"></div>
+                <!-- 아바타 + 수정버튼 Row -->
+                <div class="Profile-Avatar-Row">
+                    <div class="Profile-Avatar-Container" data-testid="UserAvatar-Container-JeongSIkLe247">
+                        <div class="Profile-Avatar-Img-Wrap">
+                            <div class="Profile-Avatar-Circle">
+                                <img src="" alt="프로필 이미지" class="Profile-Avatar-Img" />
                             </div>
                         </div>
-                    </footer>
-                </div>
-            </article>
-            <!--  -->
+                    </div>
+                    <!--  -->
+                    <div class="Profile-Edit-Wrap">
+                        <!-- 타인이면 활성화 -->
+                        <button class="Profile-Edit-Btn More" title="더보기">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-z80fyv r-19wmn03" style="color: rgb(15, 20, 25);"><g><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path></g></svg>
+                        </button>
+                        <button class="Profile-Edit-Btn Request" title="견적요청">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-z80fyv r-19wmn03" style="color: rgb(15, 20, 25);"><g><path d="M1.998 5.5c0-1.381 1.119-2.5 2.5-2.5h15c1.381 0 2.5 1.119 2.5 2.5v13c0 1.381-1.119 2.5-2.5 2.5h-15c-1.381 0-2.5-1.119-2.5-2.5v-13zm2.5-.5c-.276 0-.5.224-.5.5v2.764l8 3.638 8-3.636V5.5c0-.276-.224-.5-.5-.5h-15zm15.5 5.463l-8 3.636-8-3.638V18.5c0 .276.224.5.5.5h15c.276 0 .5-.224.5-.5v-8.037z"></path></g></svg>
+                        </button>
+                        <!-- 팔로우 상태에 따라 표시 -->
+                        <button class="Profile-Edit-Btn Connect">Connect</button>
+                        <button class="Profile-Edit-Btn Connecting">Connecting</button>
 
-            <!-- 게시글이 없으면 표시 -->
-          <div class="Profile-Empty-State off">
-            <span class="Profile-Empty-Title">아직 게시글이 없습니다.</span>
-          </div>
+                        <!-- 본인이면 활성화 -->
+                        <button class="Profile-Edit-Btn Edit">프로필 수정</button>
+                    </div>
+                </div>
+                <!-- 이름 + 핸들 -->
+                <div class="Profile-Name-Block" data-testid="UserName">
+                    <div class="Profile-Display-Name-Row">
+                        <span class="Profile-Display-Name">JeongSIk Lee</span>
+                        <!-- 구독 + 전문가 뱃지 -->
+                        <div class="Profile-Display-Badge">
+                            <svg fill="#1d9bf0" viewBox="0 0 22 22" aria-label="인증된 계정" role="img" class="r-4qtqp9 r-yyyyoo r-1xvli5t r-bnwqim r-lrvibr r-m6rgpd r-1cvl2hr r-f9ja8p r-og9te1 r-3t4u6i" data-testid="icon-verified"><g><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"></path></g></svg>
+                            <svg fill="#cac670" viewBox="0 0 22 22" aria-label="인증된 계정" role="img" class="r-4qtqp9 r-yyyyoo r-1xvli5t r-bnwqim r-lrvibr r-m6rgpd r-1cvl2hr r-f9ja8p r-og9te1 r-3t4u6i" data-testid="icon-verified"><g><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"></path></g></svg>
+                            <svg fill="purple" viewBox="0 0 22 22" aria-label="인증된 계정" role="img" class="r-4qtqp9 r-yyyyoo r-1xvli5t r-bnwqim r-lrvibr r-m6rgpd r-1cvl2hr r-f9ja8p r-og9te1 r-3t4u6i" data-testid="icon-verified"><g><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"></path></g></svg>
+                        </div>
+                    </div>
+                    <div class="Profile-Handle-Row">
+                        <span class="Profile-Handle-Text">@JeongSIkLe247</span>
+                    </div>
+                </div>
+                <!-- 소개글 -->
+                <div class="Profile-Description" data-testid="UserDescription">
+                    <span class="Profile-Description-Text">ㅁㄴㅇㅁㄴㅇㅁㄴㅇ</span>
+                </div>
+                <!-- 메타 정보 (가입일 등) -->
+                <div class="Profile-Meta" data-testid="UserProfileHeader_Items">
+                    <a href="" class="Profile-Join-Date" data-testid="UserJoinDate">
+                        가입일: 2026년 3월
+                    </a>
+                </div>
+                <!-- 팔로우 카운트 -->
+                <div class="Profile-Follow-Row">
+                    <a href="" class="Profile-Follow-Link">
+                        <span class="Profile-Follow-Count">4</span>
+                        <span class="Profile-Follow-Label">팔로우 중</span>
+                    </a>
+                    <a href="" class="Profile-Follow-Link">
+                        <span class="Profile-Follow-Count">4</span>
+                        <span class="Profile-Follow-Label">팔로워</span>
+                    </a>
+                </div>
+            </div>
+            <!-- /Profile-Section -->
+            <!-- ====== 탭 네비게이션 ====== -->
+            <nav class="Profile-Nav">
+                <div class="Profile-Nav-Scroll">
+                <div role="tablist" class="Profile-Tab-List">
+                    <!-- 탭 아이템 (선택됨) -->
+                    <div class="Profile-Tab-Item Posts">
+                    <div class="Profile-Tab-Item-Inner">
+                        <div class="Profile-Tab-Content-Row">
+                        <span class="Profile-Tab-Text selected">게시물</span>
+                        <div class="Profile-Tab-Indicator"></div>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- 탭 아이템 (비선택) -->
+                    <div class="Profile-Tab-Item Replies">
+                    <div class="Profile-Tab-Item-Inner">
+                        <div class="Profile-Tab-Content-Row">
+                        <span class="Profile-Tab-Text">답글</span>
+                        <div class="Profile-Tab-Indicator off"></div>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- 회원이 등록한 상품 -->
+                    <div class="Profile-Tab-Item MyProducts">
+                    <div class="Profile-Tab-Item-Inner">
+                        <div class="Profile-Tab-Content-Row">
+                        <!-- 다른 유저면 '상품', 본인이면 '내 상품' -->
+                        <span class="Profile-Tab-Text">내 상품</span>
+                        <div class="Profile-Tab-Indicator off"></div>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- 좋아요 본인이면 표시, 타인이면 비표시 -->
+                    <div class="Profile-Tab-Item Likes">
+                    <div class="Profile-Tab-Item-Inner">
+                        <div class="Profile-Tab-Content-Row">
+                        <span class="Profile-Tab-Text">좋아요</span>
+                        <div class="Profile-Tab-Indicator off"></div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </nav>
+            <!-- /Profile-Nav -->
+            
+
+                <!-- 게시글 목록 div -->
+                <div class="Profile-Content Posts off">
+                    <div class="Profile-Content-List">
+
+                        <!-- 텍스트 게시글 -->
+                        <article class="Post-Card" data-type="text">
+                            <div class="Post-Avatar">텍</div>
+                            <div class="Post-Body">
+                                <header class="Post-Header">
+                                    <div class="Post-Identity">
+                                        <strong class="Post-Name">텍스트유저</strong>
+                                        <span class="Post-Handle">@textonly</span>
+                                        <span class="Post-Time">1시간</span>
+                                    </div>
+                                    <button class="Post-More-Button" type="button" aria-label="더 보기">
+                                        <svg viewBox="0 0 24 24" class="Post-More-Icon" aria-hidden="true"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                                    </button>
+                                </header>
+                                <p class="Post-Text">텍스트만 있는 게시글입니다. 이미지나 동영상 없이 글만 포함된 유형입니다.</p>
+                                <footer class="Post-Metrics">
+                                    <div class="Post-Action-Bar">
+                                        <button class="Post-Action-Btn" aria-label="답글 3"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span class="Post-Action-Count">3</span></button>
+                                        <button class="Post-Action-Btn Like" aria-label="좋아요 17"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">17</span></button>
+                                        <button class="Post-Action-Btn" aria-label="조회수 204"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">204</span></button>
+                                        <div class="Post-Action-Right">
+                                            <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                            <button class="Post-Action-Btn Share" aria-label="공유"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </div>
+                            </article>
+
+                            <!-- 이미지 첨부 개수에 따른 article -->
+                            <!-- ----------------------------- -->
+                            <!-- 이미지 1장 게시물 -->
+                            <article class="Post-Card" data-type="image-1">
+                                <div class="Post-Avatar">사</div>
+                                <div class="Post-Body">
+                                    <header class="Post-Header">
+                                        <div class="Post-Identity">
+                                            <strong class="Post-Name">사진작가</strong>
+                                            <span class="Post-Handle">@photouser</span>
+                                            <span class="Post-Time">2시간</span>
+                                        </div>
+                                        <button class="Post-More-Button" type="button" aria-label="더 보기">
+                                            <svg viewBox="0 0 24 24" class="Post-More-Icon" aria-hidden="true"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                                        </button>
+                                    </header>
+                                    <p class="Post-Text">오늘 찍은 풍경 사진입니다.</p>
+
+                                    <div class="Post-Media-Grid">
+                                        <div class="Post-Media-Aspect-Ratio--Single" style="position:relative;">
+                                            <div class="Post-Media-Absolute-Layer">
+                                                <div class="Post-Media-Cell Post-Media-Cell--Single">
+                                                    <div class="Post-Media-Cell-Inner">
+                                                        <div class="Post-Media-Img-Container">
+                                                            <div class="Post-Media-Bg" style="background-image: url('https://picsum.photos/seed/img1/600/338');"></div>
+                                                            <img src="https://picsum.photos/seed/img1/600/338" alt="게시글 이미지" class="Post-Media-Img" draggable="false">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <footer class="Post-Metrics">
+                                        <div class="Post-Action-Bar">
+                                            <button class="Post-Action-Btn" aria-label="답글 8"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span class="Post-Action-Count">8</span></button>
+                                            <button class="Post-Action-Btn Like" aria-label="좋아요 43"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">43</span></button>
+                                            <button class="Post-Action-Btn" aria-label="조회수 512"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">512</span></button>
+                                            <div class="Post-Action-Right">
+                                                <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                                <button class="Post-Action-Btn Share" aria-label="공유"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </article>
+
+
+                            <!-- 이미지 2장 게시물 -->
+                            <article class="Post-Card" data-type="image-2">
+                                <div class="Post-Avatar">여</div>
+                                <div class="Post-Body">
+                                    <header class="Post-Header">
+                                        <div class="Post-Identity">
+                                            <strong class="Post-Name">여행블로거</strong>
+                                            <span class="Post-Handle">@traveler</span>
+                                            <span class="Post-Time">3시간</span>
+                                        </div>
+                                        <button class="Post-More-Button" type="button" aria-label="더 보기">
+                                            <svg viewBox="0 0 24 24" class="Post-More-Icon" aria-hidden="true"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                                        </button>
+                                    </header>
+                                    <p class="Post-Text">오늘 방문한 두 곳을 소개합니다.</p>
+
+                                    <div class="Post-Media-Grid Post-Media-Grid--2">
+                                        <div class="Post-Media-Aspect-Ratio" style="position:relative;">
+                                            <div class="Post-Media-Absolute-Layer">
+                                                <div class="Post-Media-Row">
+                                                    <div class="Post-Media-Col">
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Left">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img2a/400/400" alt="이미지 1" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="Post-Media-Col">
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Right">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img2b/400/400" alt="이미지 2" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <footer class="Post-Metrics">
+                                        <div class="Post-Action-Bar">
+                                            <button class="Post-Action-Btn" aria-label="답글 5"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span class="Post-Action-Count">5</span></button>
+                                            <button class="Post-Action-Btn Like" aria-label="좋아요 28"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">28</span></button>
+                                            <button class="Post-Action-Btn" aria-label="조회수 330"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">330</span></button>
+                                            <div class="Post-Action-Right">
+                                                <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                                <button class="Post-Action-Btn Share" aria-label="공유"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </article>
+
+
+                            <!-- 이미지 3장 게시글 -->
+                            <article class="Post-Card" data-type="image-3">
+                                <div class="Post-Avatar">현</div>
+                                <div class="Post-Body">
+                                    <header class="Post-Header">
+                                        <div class="Post-Identity">
+                                            <strong class="Post-Name">현장기자</strong>
+                                            <span class="Post-Handle">@reporter</span>
+                                            <span class="Post-Time">4시간</span>
+                                        </div>
+                                        <button class="Post-More-Button" type="button" aria-label="더 보기">
+                                            <svg viewBox="0 0 24 24" class="Post-More-Icon" aria-hidden="true"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                                        </button>
+                                    </header>
+                                    <p class="Post-Text">현장 사진 3장을 공유합니다.</p>
+
+                                    <div class="Post-Media-Grid Post-Media-Grid--3">
+                                        <div class="Post-Media-Aspect-Ratio" style="position:relative;">
+                                            <div class="Post-Media-Absolute-Layer">
+                                                <div class="Post-Media-Row">
+                                                    <div class="Post-Media-Col">
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Left-Tall">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img3a/400/600" alt="이미지 1" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="Post-Media-Col">
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Right-Top">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img3b/400/300" alt="이미지 2" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Right-Bottom">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img3c/400/300" alt="이미지 3" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <footer class="Post-Metrics">
+                                        <div class="Post-Action-Bar">
+                                            <button class="Post-Action-Btn" aria-label="답글 12"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span class="Post-Action-Count">12</span></button>
+                                            <button class="Post-Action-Btn Like" aria-label="좋아요 67"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">67</span></button>
+                                            <button class="Post-Action-Btn" aria-label="조회수 890"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">890</span></button>
+                                            <div class="Post-Action-Right">
+                                                <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                                <button class="Post-Action-Btn Share" aria-label="공유"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </article>
+
+
+                            <!-- 이미지 4장 게시글 -->
+                            <article class="Post-Card" data-type="image-4">
+                                <div class="Post-Avatar">이</div>
+                                <div class="Post-Body">
+                                    <header class="Post-Header">
+                                        <div class="Post-Identity">
+                                            <strong class="Post-Name">이벤트팀</strong>
+                                            <span class="Post-Handle">@eventteam</span>
+                                            <span class="Post-Time">5시간</span>
+                                        </div>
+                                        <button class="Post-More-Button" type="button" aria-label="더 보기">
+                                            <svg viewBox="0 0 24 24" class="Post-More-Icon" aria-hidden="true"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                                        </button>
+                                    </header>
+                                    <p class="Post-Text">이벤트 현장 사진 4컷입니다.</p>
+
+                                    <div class="Post-Media-Grid Post-Media-Grid--4">
+                                        <div class="Post-Media-Aspect-Ratio" style="position:relative;">
+                                            <div class="Post-Media-Absolute-Layer">
+                                                <div class="Post-Media-Row">
+                                                    <div class="Post-Media-Col">
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Top-Left">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img4a/400/400" alt="이미지 1" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Bottom-Left">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img4c/400/400" alt="이미지 3" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="Post-Media-Col">
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Top-Right">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img4b/400/400" alt="이미지 2" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Bottom-Right">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img4d/400/400" alt="이미지 4" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <footer class="Post-Metrics">
+                                        <div class="Post-Action-Bar">
+                                            <button class="Post-Action-Btn" aria-label="답글 9"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span class="Post-Action-Count">9</span></button>
+                                            <button class="Post-Action-Btn Like" aria-label="좋아요 112"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">112</span></button>
+                                            <button class="Post-Action-Btn" aria-label="조회수 1.4K"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">1.4K</span></button>
+                                            <div class="Post-Action-Right">
+                                                <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                                <button class="Post-Action-Btn Share" aria-label="공유"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </article>
+                            <!-- ----------------------------- -->
+
+
+                            <!-- 동영상 첨부 게시글 -->
+                            <article class="Post-Card" data-type="video">
+                                <div class="Post-Avatar">방</div>
+                                <div class="Post-Body">
+                                    <header class="Post-Header">
+                                        <div class="Post-Identity">
+                                            <strong class="Post-Name">방송국</strong>
+                                            <span class="Post-Handle">@broadcast</span>
+                                            <span class="Post-Time">6시간</span>
+                                        </div>
+                                        <button class="Post-More-Button" type="button" aria-label="더 보기">
+                                            <svg viewBox="0 0 24 24" class="Post-More-Icon" aria-hidden="true"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                                        </button>
+                                    </header>
+                                    <p class="Post-Text">현장 영상을 공유합니다.</p>
+
+                                    <!-- 동영상 -->
+                                    <div class="Post-Media-Grid" style="position:relative; border-radius:16px; overflow:hidden; margin-bottom:12px;">
+                                        <video class="Post-Media-Video" controls style="width:100%; border-radius:16px; display:block;">
+                                            <source src="" type="video/mp4">
+                                            브라우저가 video 태그를 지원하지 않습니다.
+                                        </video>
+                                        <div class="Post-Media-Btn-Row">
+                                            <button class="Post-Media-Btn" type="button">🔇 음소거 해제</button>
+                                        </div>
+                                    </div>
+
+                                    <footer class="Post-Metrics">
+                                        <div class="Post-Action-Bar">
+                                            <button class="Post-Action-Btn" aria-label="답글 21"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span class="Post-Action-Count">21</span></button>
+                                            <button class="Post-Action-Btn Like" aria-label="좋아요 83"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">83</span></button>
+                                            <button class="Post-Action-Btn" aria-label="조회수 2.1K"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">2.1K</span></button>
+                                            <div class="Post-Action-Right">
+                                                <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                                <button class="Post-Action-Btn Share" aria-label="공유"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </article>
+
+
+                            <!-- 파일 첨부 게시글 -->
+                            <article class="Post-Card" data-type="file">
+                                <div class="Post-Avatar">문</div>
+                                <div class="Post-Body">
+                                    <header class="Post-Header">
+                                        <div class="Post-Identity">
+                                            <strong class="Post-Name">문서공유</strong>
+                                            <span class="Post-Handle">@docshare</span>
+                                            <span class="Post-Time">어제</span>
+                                        </div>
+                                        <button class="Post-More-Button" type="button" aria-label="더 보기">
+                                            <svg viewBox="0 0 24 24" class="Post-More-Icon" aria-hidden="true"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                                        </button>
+                                    </header>
+                                    <p class="Post-Text">Q3 보고서를 첨부합니다. 검토 후 피드백 부탁드립니다.</p>
+
+                                    <!-- 파일 첨부 -->
+                                    <div class="Post-Attachment-File">
+                                        <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+                                            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+                                        </svg>
+                                        <span class="Post-Attachment-File-Name">Q3_report_2025.pdf</span>
+                                    </div>
+
+                                    <footer class="Post-Metrics">
+                                        <div class="Post-Action-Bar">
+                                            <button class="Post-Action-Btn" aria-label="답글 2"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span class="Post-Action-Count">2</span></button>
+                                            <button class="Post-Action-Btn Like" aria-label="좋아요 9"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">9</span></button>
+                                            <button class="Post-Action-Btn" aria-label="조회수 76"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">76</span></button>
+                                            <div class="Post-Action-Right">
+                                                <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                                <button class="Post-Action-Btn Share" aria-label="공유"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </article>
+
+
+                            <!-- 미디어 프리뷰 오버레이 div -->
+                            <div class="Post-Media-Preview-Overlay" style="display:none;" role="dialog" aria-modal="true" aria-label="이미지 전체화면">
+                                <div class="Post-Media-Preview-Dialog">
+                                    <img src="" alt="" class="Post-Media-Preview-Image">
+                                    <button class="Post-Media-Preview-Close" type="button" aria-label="닫기">
+                                        <svg viewBox="0 0 24 24" class="Post-Media-Preview-Close-Icon" aria-hidden="true">
+                                            <path d="M10.59 12L4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+                <!-- 답글 목록 div -->
+                <div class="Profile-Content Replies off">
+                    <div class="Profile-Content-List">
+                        답글 목록
+                    </div>
+                </div>
+
+                <!-- 내 상품 목록 div -->
+                <div class="Profile-Content MyProducts off">
+                    <!-- 상품 등록 헤더 부분 -->
+                    <div class="Profile-Content-Header">
+                        <div class="Content-Header-Text">
+                            더 좋은 상품으로 다른 사업자분들과 연결되세요.
+                        </div>
+                        <button class="Content-Header-Button">
+                            상품 등록
+                        </button>
+                    </div>
+
+                    <!-- 등록된 상품 목록 -->
+                    <div class="Profile-Content-List">
+                        <!-- 상품 하나 -->
+                        <!--  -->
+                        <article class="Post-Card" data-type="image-1">
+                            <div class="Post-Body">
+                                <header class="Post-Header">
+                                    <div class="Post-Identity">
+                                        <strong class="Post-Title">상품 이름</strong>
+                                        <span class="Post-Category">상품 번호</span>
+                                    </div>
+                                    <div class="Post-Identity">
+                                        <span class="Post-Time">2시간</span>
+                                        <button class="Post-More-Button" type="button">
+                                            <svg class="Post-More-Icon" viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi"><g><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path></g></svg>
+                                        </button>
+                                    </div>
+                                </header>
+                                
+                                <div class="Post-Product-Info">
+                                    <div class="Post-Product-Image">
+                                        <img src="../../static/image/main/global-gates-logo.png" alt="">
+                                    </div>
+                                    <div class="Post-Product-Detail">
+                                        <span name="category" class="Detail-Value">상품 카테고리</span>
+                                        <span name="stock" class="Detail-Value">상품 수량</span>
+                                        <span name="" class="Detail-Value">상품 가격</span>
+                                        <span name="category" class="Detail-Value">등등</span>
+                                    </div>
+                                </div>
+                                <p class="Post-Text">상품 상세 설명 란</p>
+                                
+                                <footer class="Post-Metrics">
+                                    <div class="Post-Action-Bar">
+                                        <button class="Post-Action-Btn Like" aria-label="좋아요 43"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">43</span></button>
+                                        <button class="Post-Action-Btn" aria-label="조회수 512"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">512</span></button>
+                                        <div class="Post-Action-Right">
+                                            <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </div>
+                        </article>
+                        <!--  -->
+                        <!--  -->
+                        <article class="Post-Card" data-type="image-1">
+                            <div class="Post-Body">
+                                <header class="Post-Header">
+                                    <div class="Post-Identity">
+                                        <strong class="Post-Title">상품 이름</strong>
+                                        <span class="Post-Category">상품 번호</span>
+                                    </div>
+                                    <div class="Post-Identity">
+                                        <span class="Post-Time">2시간</span>
+                                        <button class="Post-More-Button" type="button">
+                                            <svg class="Post-More-Icon" viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi"><g><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path></g></svg>
+                                        </button>
+                                    </div>
+                                </header>
+                                
+                                <div class="Post-Product-Info">
+                                    <div class="Post-Product-Image">
+                                        <img src="../../static/image/main/global-gates-logo.png" alt="">
+                                    </div>
+                                    <div class="Post-Product-Detail">
+                                        <span name="category" class="Detail-Value">상품 카테고리</span>
+                                        <span name="stock" class="Detail-Value">상품 수량</span>
+                                        <span name="" class="Detail-Value">상품 가격</span>
+                                        <span name="category" class="Detail-Value">등등</span>
+                                    </div>
+                                </div>
+                                <p class="Post-Text">상품 상세 설명 란</p>
+                                
+                                <footer class="Post-Metrics">
+                                    <div class="Post-Action-Bar">
+                                        <button class="Post-Action-Btn Like" aria-label="좋아요 43"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">43</span></button>
+                                        <button class="Post-Action-Btn" aria-label="조회수 512"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">512</span></button>
+                                        <div class="Post-Action-Right">
+                                            <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </div>
+                        </article>
+                        <!--  -->
+                        <!--  -->
+                        <article class="Post-Card" data-type="image-1">
+                            <div class="Post-Body">
+                                <header class="Post-Header">
+                                    <div class="Post-Identity">
+                                        <strong class="Post-Title">상품 이름</strong>
+                                        <span class="Post-Category">상품 번호</span>
+                                    </div>
+                                    <div class="Post-Identity">
+                                        <span class="Post-Time">2시간</span>
+                                        <button class="Post-More-Button" type="button">
+                                            <svg class="Post-More-Icon" viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi"><g><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path></g></svg>
+                                        </button>
+                                    </div>
+                                </header>
+                                
+                                <div class="Post-Product-Info">
+                                    <div class="Post-Product-Image">
+                                        <img src="../../static/image/main/global-gates-logo.png" alt="">
+                                    </div>
+                                    <div class="Post-Product-Detail">
+                                        <span name="category" class="Detail-Value">상품 카테고리</span>
+                                        <span name="stock" class="Detail-Value">상품 수량</span>
+                                        <span name="" class="Detail-Value">상품 가격</span>
+                                        <span name="category" class="Detail-Value">등등</span>
+                                    </div>
+                                </div>
+                                <p class="Post-Text">상품 상세 설명 란</p>
+                                
+                                <footer class="Post-Metrics">
+                                    <div class="Post-Action-Bar">
+                                        <button class="Post-Action-Btn Like" aria-label="좋아요 43"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">43</span></button>
+                                        <button class="Post-Action-Btn" aria-label="조회수 512"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">512</span></button>
+                                        <div class="Post-Action-Right">
+                                            <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </div>
+                        </article>
+                        <!--  -->
+                        <!--  -->
+                        <article class="Post-Card" data-type="image-1">
+                            <div class="Post-Body">
+                                <header class="Post-Header">
+                                    <div class="Post-Identity">
+                                        <strong class="Post-Title">상품 이름</strong>
+                                        <span class="Post-Category">상품 번호</span>
+                                    </div>
+                                    <div class="Post-Identity">
+                                        <span class="Post-Time">2시간</span>
+                                        <button class="Post-More-Button" type="button">
+                                            <svg class="Post-More-Icon" viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi"><g><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path></g></svg>
+                                        </button>
+                                    </div>
+                                </header>
+                                
+                                <div class="Post-Product-Info">
+                                    <div class="Post-Product-Image">
+                                        <img src="../../static/image/main/global-gates-logo.png" alt="">
+                                    </div>
+                                    <div class="Post-Product-Detail">
+                                        <span name="category" class="Detail-Value">상품 카테고리</span>
+                                        <span name="stock" class="Detail-Value">상품 수량</span>
+                                        <span name="" class="Detail-Value">상품 가격</span>
+                                        <span name="category" class="Detail-Value">등등</span>
+                                    </div>
+                                </div>
+                                <p class="Post-Text">상품 상세 설명 란</p>
+                                
+                                <footer class="Post-Metrics">
+                                    <div class="Post-Action-Bar">
+                                        <button class="Post-Action-Btn Like" aria-label="좋아요 43"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">43</span></button>
+                                        <button class="Post-Action-Btn" aria-label="조회수 512"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">512</span></button>
+                                        <div class="Post-Action-Right">
+                                            <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </div>
+                        </article>
+                        <!--  -->
+                    </div>
+                </div>
+
+                <!-- 좋아요 한 게시글 목록 div -->
+                <div class="Profile-Content Likes">
+                    <div class="Profile-Content-List">
+                        <!-- 텍스트 게시글 -->
+                        <article class="Post-Card" data-type="text">
+                            <div class="Post-Avatar">텍</div>
+                            <div class="Post-Body">
+                                <header class="Post-Header">
+                                    <div class="Post-Identity">
+                                        <strong class="Post-Name">텍스트유저</strong>
+                                        <span class="Post-Handle">@textonly</span>
+                                        <span class="Post-Time">1시간</span>
+                                    </div>
+                                    <button class="Post-More-Button" type="button" aria-label="더 보기">
+                                        <svg viewBox="0 0 24 24" class="Post-More-Icon" aria-hidden="true"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                                    </button>
+                                </header>
+                                <p class="Post-Text">텍스트만 있는 게시글입니다. 이미지나 동영상 없이 글만 포함된 유형입니다.</p>
+                                <footer class="Post-Metrics">
+                                    <div class="Post-Action-Bar">
+                                        <button class="Post-Action-Btn" aria-label="답글 3"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span class="Post-Action-Count">3</span></button>
+                                        <button class="Post-Action-Btn Like" aria-label="좋아요 17"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">17</span></button>
+                                        <button class="Post-Action-Btn" aria-label="조회수 204"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">204</span></button>
+                                        <div class="Post-Action-Right">
+                                            <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                            <button class="Post-Action-Btn Share" aria-label="공유"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </div>
+                            </article>
+
+                            <!-- 이미지 첨부 개수에 따른 article -->
+                            <!-- ----------------------------- -->
+                            <!-- 이미지 1장 게시물 -->
+                            <article class="Post-Card" data-type="image-1">
+                                <div class="Post-Avatar">사</div>
+                                <div class="Post-Body">
+                                    <header class="Post-Header">
+                                        <div class="Post-Identity">
+                                            <strong class="Post-Name">사진작가</strong>
+                                            <span class="Post-Handle">@photouser</span>
+                                            <span class="Post-Time">2시간</span>
+                                        </div>
+                                        <button class="Post-More-Button" type="button" aria-label="더 보기">
+                                            <svg viewBox="0 0 24 24" class="Post-More-Icon" aria-hidden="true"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                                        </button>
+                                    </header>
+                                    <p class="Post-Text">오늘 찍은 풍경 사진입니다.</p>
+
+                                    <div class="Post-Media-Grid">
+                                        <div class="Post-Media-Aspect-Ratio--Single" style="position:relative;">
+                                            <div class="Post-Media-Absolute-Layer">
+                                                <div class="Post-Media-Cell Post-Media-Cell--Single">
+                                                    <div class="Post-Media-Cell-Inner">
+                                                        <div class="Post-Media-Img-Container">
+                                                            <div class="Post-Media-Bg" style="background-image: url('https://picsum.photos/seed/img1/600/338');"></div>
+                                                            <img src="https://picsum.photos/seed/img1/600/338" alt="게시글 이미지" class="Post-Media-Img" draggable="false">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <footer class="Post-Metrics">
+                                        <div class="Post-Action-Bar">
+                                            <button class="Post-Action-Btn" aria-label="답글 8"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span class="Post-Action-Count">8</span></button>
+                                            <button class="Post-Action-Btn Like" aria-label="좋아요 43"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">43</span></button>
+                                            <button class="Post-Action-Btn" aria-label="조회수 512"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">512</span></button>
+                                            <div class="Post-Action-Right">
+                                                <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                                <button class="Post-Action-Btn Share" aria-label="공유"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </article>
+
+
+                            <!-- 이미지 2장 게시물 -->
+                            <article class="Post-Card" data-type="image-2">
+                                <div class="Post-Avatar">여</div>
+                                <div class="Post-Body">
+                                    <header class="Post-Header">
+                                        <div class="Post-Identity">
+                                            <strong class="Post-Name">여행블로거</strong>
+                                            <span class="Post-Handle">@traveler</span>
+                                            <span class="Post-Time">3시간</span>
+                                        </div>
+                                        <button class="Post-More-Button" type="button" aria-label="더 보기">
+                                            <svg viewBox="0 0 24 24" class="Post-More-Icon" aria-hidden="true"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                                        </button>
+                                    </header>
+                                    <p class="Post-Text">오늘 방문한 두 곳을 소개합니다.</p>
+
+                                    <div class="Post-Media-Grid Post-Media-Grid--2">
+                                        <div class="Post-Media-Aspect-Ratio" style="position:relative;">
+                                            <div class="Post-Media-Absolute-Layer">
+                                                <div class="Post-Media-Row">
+                                                    <div class="Post-Media-Col">
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Left">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img2a/400/400" alt="이미지 1" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="Post-Media-Col">
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Right">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img2b/400/400" alt="이미지 2" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <footer class="Post-Metrics">
+                                        <div class="Post-Action-Bar">
+                                            <button class="Post-Action-Btn" aria-label="답글 5"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span class="Post-Action-Count">5</span></button>
+                                            <button class="Post-Action-Btn Like" aria-label="좋아요 28"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">28</span></button>
+                                            <button class="Post-Action-Btn" aria-label="조회수 330"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">330</span></button>
+                                            <div class="Post-Action-Right">
+                                                <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                                <button class="Post-Action-Btn Share" aria-label="공유"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </article>
+
+
+                            <!-- 이미지 3장 게시글 -->
+                            <article class="Post-Card" data-type="image-3">
+                                <div class="Post-Avatar">현</div>
+                                <div class="Post-Body">
+                                    <header class="Post-Header">
+                                        <div class="Post-Identity">
+                                            <strong class="Post-Name">현장기자</strong>
+                                            <span class="Post-Handle">@reporter</span>
+                                            <span class="Post-Time">4시간</span>
+                                        </div>
+                                        <button class="Post-More-Button" type="button" aria-label="더 보기">
+                                            <svg viewBox="0 0 24 24" class="Post-More-Icon" aria-hidden="true"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                                        </button>
+                                    </header>
+                                    <p class="Post-Text">현장 사진 3장을 공유합니다.</p>
+
+                                    <div class="Post-Media-Grid Post-Media-Grid--3">
+                                        <div class="Post-Media-Aspect-Ratio" style="position:relative;">
+                                            <div class="Post-Media-Absolute-Layer">
+                                                <div class="Post-Media-Row">
+                                                    <div class="Post-Media-Col">
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Left-Tall">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img3a/400/600" alt="이미지 1" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="Post-Media-Col">
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Right-Top">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img3b/400/300" alt="이미지 2" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Right-Bottom">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img3c/400/300" alt="이미지 3" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <footer class="Post-Metrics">
+                                        <div class="Post-Action-Bar">
+                                            <button class="Post-Action-Btn" aria-label="답글 12"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span class="Post-Action-Count">12</span></button>
+                                            <button class="Post-Action-Btn Like" aria-label="좋아요 67"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">67</span></button>
+                                            <button class="Post-Action-Btn" aria-label="조회수 890"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">890</span></button>
+                                            <div class="Post-Action-Right">
+                                                <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                                <button class="Post-Action-Btn Share" aria-label="공유"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </article>
+
+
+                            <!-- 이미지 4장 게시글 -->
+                            <article class="Post-Card" data-type="image-4">
+                                <div class="Post-Avatar">이</div>
+                                <div class="Post-Body">
+                                    <header class="Post-Header">
+                                        <div class="Post-Identity">
+                                            <strong class="Post-Name">이벤트팀</strong>
+                                            <span class="Post-Handle">@eventteam</span>
+                                            <span class="Post-Time">5시간</span>
+                                        </div>
+                                        <button class="Post-More-Button" type="button" aria-label="더 보기">
+                                            <svg viewBox="0 0 24 24" class="Post-More-Icon" aria-hidden="true"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                                        </button>
+                                    </header>
+                                    <p class="Post-Text">이벤트 현장 사진 4컷입니다.</p>
+
+                                    <div class="Post-Media-Grid Post-Media-Grid--4">
+                                        <div class="Post-Media-Aspect-Ratio" style="position:relative;">
+                                            <div class="Post-Media-Absolute-Layer">
+                                                <div class="Post-Media-Row">
+                                                    <div class="Post-Media-Col">
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Top-Left">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img4a/400/400" alt="이미지 1" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Bottom-Left">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img4c/400/400" alt="이미지 3" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="Post-Media-Col">
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Top-Right">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img4b/400/400" alt="이미지 2" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="Post-Media-Cell Post-Media-Cell--Bottom-Right">
+                                                            <div class="Post-Media-Cell-Inner">
+                                                                <div class="Post-Media-Img-Container">
+                                                                    <img src="https://picsum.photos/seed/img4d/400/400" alt="이미지 4" class="Post-Media-Img" draggable="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <footer class="Post-Metrics">
+                                        <div class="Post-Action-Bar">
+                                            <button class="Post-Action-Btn" aria-label="답글 9"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span class="Post-Action-Count">9</span></button>
+                                            <button class="Post-Action-Btn Like" aria-label="좋아요 112"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">112</span></button>
+                                            <button class="Post-Action-Btn" aria-label="조회수 1.4K"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">1.4K</span></button>
+                                            <div class="Post-Action-Right">
+                                                <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                                <button class="Post-Action-Btn Share" aria-label="공유"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </article>
+                            <!-- ----------------------------- -->
+
+
+                            <!-- 동영상 첨부 게시글 -->
+                            <article class="Post-Card" data-type="video">
+                                <div class="Post-Avatar">방</div>
+                                <div class="Post-Body">
+                                    <header class="Post-Header">
+                                        <div class="Post-Identity">
+                                            <strong class="Post-Name">방송국</strong>
+                                            <span class="Post-Handle">@broadcast</span>
+                                            <span class="Post-Time">6시간</span>
+                                        </div>
+                                        <button class="Post-More-Button" type="button" aria-label="더 보기">
+                                            <svg viewBox="0 0 24 24" class="Post-More-Icon" aria-hidden="true"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                                        </button>
+                                    </header>
+                                    <p class="Post-Text">현장 영상을 공유합니다.</p>
+
+                                    <!-- 동영상 -->
+                                    <div class="Post-Media-Grid" style="position:relative; border-radius:16px; overflow:hidden; margin-bottom:12px;">
+                                        <video class="Post-Media-Video" controls style="width:100%; border-radius:16px; display:block;">
+                                            <source src="" type="video/mp4">
+                                            브라우저가 video 태그를 지원하지 않습니다.
+                                        </video>
+                                        <div class="Post-Media-Btn-Row">
+                                            <button class="Post-Media-Btn" type="button">🔇 음소거 해제</button>
+                                        </div>
+                                    </div>
+
+                                    <footer class="Post-Metrics">
+                                        <div class="Post-Action-Bar">
+                                            <button class="Post-Action-Btn" aria-label="답글 21"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span class="Post-Action-Count">21</span></button>
+                                            <button class="Post-Action-Btn Like" aria-label="좋아요 83"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">83</span></button>
+                                            <button class="Post-Action-Btn" aria-label="조회수 2.1K"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">2.1K</span></button>
+                                            <div class="Post-Action-Right">
+                                                <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                                <button class="Post-Action-Btn Share" aria-label="공유"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </article>
+
+
+                            <!-- 파일 첨부 게시글 -->
+                            <article class="Post-Card" data-type="file">
+                                <div class="Post-Avatar">문</div>
+                                <div class="Post-Body">
+                                    <header class="Post-Header">
+                                        <div class="Post-Identity">
+                                            <strong class="Post-Name">문서공유</strong>
+                                            <span class="Post-Handle">@docshare</span>
+                                            <span class="Post-Time">어제</span>
+                                        </div>
+                                        <button class="Post-More-Button" type="button" aria-label="더 보기">
+                                            <svg viewBox="0 0 24 24" class="Post-More-Icon" aria-hidden="true"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                                        </button>
+                                    </header>
+                                    <p class="Post-Text">Q3 보고서를 첨부합니다. 검토 후 피드백 부탁드립니다.</p>
+
+                                    <!-- 파일 첨부 -->
+                                    <div class="Post-Attachment-File">
+                                        <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+                                            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+                                        </svg>
+                                        <span class="Post-Attachment-File-Name">Q3_report_2025.pdf</span>
+                                    </div>
+
+                                    <footer class="Post-Metrics">
+                                        <div class="Post-Action-Bar">
+                                            <button class="Post-Action-Btn" aria-label="답글 2"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span class="Post-Action-Count">2</span></button>
+                                            <button class="Post-Action-Btn Like" aria-label="좋아요 9"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg><span class="Post-Action-Count">9</span></button>
+                                            <button class="Post-Action-Btn" aria-label="조회수 76"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span class="Post-Action-Count">76</span></button>
+                                            <div class="Post-Action-Right">
+                                                <button class="Post-Action-Btn Bookmark" aria-label="북마크"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></button>
+                                                <button class="Post-Action-Btn Share" aria-label="공유"><svg viewBox="0 0 24 24" class="Post-Action-Icon" aria-hidden="true"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </article>
+
+
+                            <!-- 미디어 프리뷰 오버레이 div -->
+                            <div class="Post-Media-Preview-Overlay" style="display:none;" role="dialog" aria-modal="true" aria-label="이미지 전체화면">
+                                <div class="Post-Media-Preview-Dialog">
+                                    <img src="" alt="" class="Post-Media-Preview-Image">
+                                    <button class="Post-Media-Preview-Close" type="button" aria-label="닫기">
+                                        <svg viewBox="0 0 24 24" class="Post-Media-Preview-Close-Icon" aria-hidden="true">
+                                            <path d="M10.59 12L4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 게시글이 없으면 표시 -->
+                <div class="Profile-Empty-State off">
+                    <span class="Profile-Empty-Title">아직 게시글이 없습니다.</span>
+                </div>
+            </div>
+            <!-- /Primary-Column -->
+
+            <!-- ===================== 오른쪽 사이드바 ===================== -->
+            <div class="Sidebar-Column">
+                <div class="Sidebar-Inner">
+                <!-- 검색창 (fixed) -->
+                    
+                    <!-- ====== 추천 팔로우 카드 ====== -->
+                    <div class="Sidebar-Card">
+                        <div class="Sidebar-Card-Header">
+                            <span class="Sidebar-Card-Title">내가 팔로우한 사업자들</span>
+                        </div>
+                        <!-- 추천 유저 아이템 -->
+                        <div class="Sidebar-User-Cell" data-testid="UserCell">
+                            <a href="" class="Sidebar-User-Avatar-Link">
+                                <div class="Sidebar-User-Avatar-Circle">
+                                    <img src="" class="Sidebar-User-Avatar-Img" />
+                                </div>
+                            </a>
+                            <div class="Sidebar-User-Info">
+                                <span class="Sidebar-User-Name">이재명</span>
+                                <span class="Sidebar-User-Handle">@Jaemyung_Lee</span>
+                            </div>
+                            <button class="Sidebar-Follow-Btn">
+                                <span class="Sidebar-Follow-Btn-Text">Connecting</span>
+                            </button>
+                        </div>
+                        <div class="Sidebar-User-Cell" data-testid="UserCell">
+                            <a href="" class="Sidebar-User-Avatar-Link">
+                                <div class="Sidebar-User-Avatar-Circle">
+                                    <img src=""  class="Sidebar-User-Avatar-Img" />
+                                </div>
+                            </a>
+                            <div class="Sidebar-User-Info">
+                                <span class="Sidebar-User-Name">살림하는 도로로</span>
+                                <span class="Sidebar-User-Handle">@Happy48791</span>
+                            </div>
+                            <button class="Sidebar-Follow-Btn">
+                                <span class="Sidebar-Follow-Btn-Text">Connecting</span>
+                            </button>
+                        </div>
+                        <div class="Sidebar-Card-More">
+                            <a href="" class="Sidebar-Card-More-Link">더 보기</a>
+                        </div>
+                    </div>
+                    <!-- 내 견적 요청 목록 사이드바 -->
+                    <div class="Sidebar-Card">
+                        <div class="Sidebar-Card-Header">
+                            <span class="Sidebar-Card-Title">내 견적 요청 목록</span>
+                        </div>
+
+                        <div class="Sidebar-Request-List">
+
+                        </div>
+                        
+                        <div class="Sidebar-Card-More">
+                            <a href="" class="Sidebar-Card-More-Link">더 보기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Sidebar-Column -->
+            </div>
+            <!-- /Page-Layout -->
         </div>
-      </section>
+
+        <!-- 모달 백드롭 -->
+        <div class="Modal-BackDrop off" style="pointer-events: auto;"></div>
+        <!-- 상품 등록 모달 -->
+        <div class="Product-Write-Modal">
+
     </div>
-  </div>
-  <!-- /Primary-Column -->
-  <!-- ===================== 오른쪽 사이드바 ===================== -->
-  <div class="Sidebar-Column" data-testid="sidebarColumn">
-    <div class="Sidebar-Inner">
-      <!-- 검색창 (fixed) -->
-      <div class="Sidebar-Search-Fixed">
-        <div class="Sidebar-Search-Wrap">
-          <form class="Sidebar-Search-Form" action="/search" method="GET">
-            <div class="Sidebar-Search-Icon-Wrap">
-              
-            </div>
-            <input
-              type="text"
-              class="Sidebar-Search-Input"
-              data-testid="SearchBox_Search_Input"
-              placeholder="검색"
-            />
-          </form>
-        </div>
-      </div>
-      <!-- ====== 추천 팔로우 카드 ====== -->
-      <div class="Sidebar-Card">
-        <div class="Sidebar-Card-Header">
-          <span class="Sidebar-Card-Title">내가 팔로우한 사업자들</span>
-        </div>
-        <!-- 추천 유저 아이템 -->
-        <div class="Sidebar-User-Cell" data-testid="UserCell">
-          <a href="/Jaemyung_Lee" class="Sidebar-User-Avatar-Link">
-            <div class="Sidebar-User-Avatar-Circle">
-              <img src="" alt="이재명" class="Sidebar-User-Avatar-Img" />
-            </div>
-          </a>
-          <div class="Sidebar-User-Info">
-            <span class="Sidebar-User-Name">이재명</span>
-            <span class="Sidebar-User-Handle">@Jaemyung_Lee</span>
-          </div>
-          <button class="Sidebar-Follow-Btn">
-            <span class="Sidebar-Follow-Btn-Text">팔로우</span>
-          </button>
-        </div>
-        <div class="Sidebar-User-Cell" data-testid="UserCell">
-          <a href="/Happy48791" class="Sidebar-User-Avatar-Link">
-            <div class="Sidebar-User-Avatar-Circle">
-              <img src="" alt="살림하는 도로로" class="Sidebar-User-Avatar-Img" />
-            </div>
-          </a>
-          <div class="Sidebar-User-Info">
-            <span class="Sidebar-User-Name">살림하는 도로로</span>
-            <span class="Sidebar-User-Handle">@Happy48791</span>
-          </div>
-          <button class="Sidebar-Follow-Btn">
-            <span class="Sidebar-Follow-Btn-Text">팔로우</span>
-          </button>
-        </div>
-        <div class="Sidebar-Card-More">
-          <a href="/i/connect_people" class="Sidebar-Card-More-Link">더 보기</a>
-        </div>
-      </div>
-      <!-- ====== 트렌드 카드 ====== -->
-      <div class="Sidebar-Card">
-        <div class="Sidebar-Card-Header">
-          <span class="Sidebar-Card-Title">내 견적 요청 목록</span>
-        </div>
-        <!-- 트렌드 아이템 -->
-        <div class="Sidebar-Trend-Item">
-          <div class="Sidebar-Trend-Item-Content">
-            <div class="Sidebar-Trend-Meta">
-              <span class="Sidebar-Trend-Category">대한민국에서 트렌드 중</span>
-            </div>
-            <span class="Sidebar-Trend-Name">이회송 탈퇴</span>
-          </div>
-          <button class="Sidebar-Trend-More-Btn" aria-label="더 보기">
-            <svg viewBox="0 0 24 24" class="Sidebar-Trend-More-Icon">
-              <path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path>
-            </svg>
-          </button>
-        </div>
-        <div class="Sidebar-Card-More">
-          <a href="/explore" class="Sidebar-Card-More-Link">더 보기</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- /Sidebar-Column -->
-</div>
-<!-- /Page-Layout -->
 </body>
 </html>

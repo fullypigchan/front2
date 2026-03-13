@@ -6,10 +6,10 @@ window.onload = function () {
     const notifTabs = document.querySelectorAll(".notif-tab");
     // 하단 네비게이션 바 (스크롤 시 숨김/표시)
     const bottombarSlide = document.querySelector(".bottombar-slide");
-    // 드롭다운/모달이 렌더링되는 레이어 루트 요소
+    // HTML의 <div id="layers">. 공유/더보기 드롭다운을 여기 append 하고 닫을 때 remove 한다.
     const layersRoot = document.getElementById("layers");
 
-    // 답글 모달의 오버레이 배경
+    // HTML에 미리 선언된 [data-reply-modal] 오버레이. open/close 시 hidden만 토글하며 재사용한다.
     const replyModalOverlay = document.querySelector("[data-reply-modal]");
     // 답글 모달 내부에서 단일 요소를 선택하는 헬퍼
     const q = (sel) => replyModalOverlay?.querySelector(sel);
@@ -62,7 +62,7 @@ window.onload = function () {
     const replyAttachmentPreview = q("[data-attachment-preview]");
     // 첨부파일 미디어 렌더링 영역
     const replyAttachmentMedia = q("[data-attachment-media]");
-    // 답글 작성 메인 뷰
+    // 답글 모달 기본 작성 화면 (.tweet-modal__compose-view)
     const composeView = q(".tweet-modal__compose-view");
     // 위치 태그 버튼
     const replyGeoButton = q("[data-testid='geoButton']");
@@ -72,7 +72,7 @@ window.onload = function () {
     const replyLocationDisplayButton = q("[data-location-display]");
     // 선택된 위치 이름 텍스트
     const replyLocationName = q("[data-location-name]");
-    // 위치 선택 패널 뷰
+    // 위치 선택 서브뷰 (.tweet-modal__location-view)
     const replyLocationView = q(".tweet-modal__location-view");
     // 위치 패널의 닫기 버튼
     const replyLocationCloseButton = q(".tweet-modal__location-close");
@@ -88,7 +88,7 @@ window.onload = function () {
     const replyUserTagTrigger = q("[data-user-tag-trigger]");
     // 사용자 태그 라벨 텍스트
     const replyUserTagLabel = q("[data-user-tag-label]");
-    // 사용자 태그 패널 뷰
+    // 사용자 태그 서브뷰 (.tweet-modal__tag-view)
     const replyTagView = q(".tweet-modal__tag-view");
     // 태그 패널의 뒤로가기 버튼
     const replyTagCloseButton = q("[data-testid='tag-back']");
@@ -106,7 +106,7 @@ window.onload = function () {
     const replyMediaAltTrigger = q("[data-media-alt-trigger]");
     // 미디어 대체 텍스트 라벨
     const replyMediaAltLabel = q("[data-media-alt-label]");
-    // 미디어 편집 패널 뷰
+    // 미디어 ALT 편집 서브뷰 (.tweet-modal__media-view)
     const replyMediaView = q(".tweet-modal__media-view");
     // 미디어 편집 패널의 뒤로가기 버튼
     const replyMediaBackButton = q("[data-testid='media-back']");
@@ -132,6 +132,7 @@ window.onload = function () {
     let activeShareModal = null, activeShareToast = null, activeMoreDropdown = null, activeMoreButton = null;
     // 알림 모달/토스트, 저장된 답글 텍스트 선택 영역
     let activeNotificationModal = null, activeNotificationToast = null, savedReplySelection = null;
+    let savedReplySelectionOffsets = null;
     // 답글 서식(굵게/기울임) 상태, 활성 이모지 카테고리
     let pendingReplyFormats = new Set(), activeEmojiCategory = "recent";
     // 확정된 위치, 임시 선택 위치
@@ -144,6 +145,11 @@ window.onload = function () {
     let attachedReplyFiles = [], attachedReplyFileUrls = [];
     // 편집 중인 첨부파일 인덱스, 태그 검색 결과, 캐시된 위치명 목록
     let pendingAttachmentEditIndex = null, currentTagResults = [], cachedLocationNames = [];
+    // 외부 EmojiButton 라이브러리 인스턴스
+    let replyEmojiLibraryPicker = null;
+    // 이모지 삽입 후 picker가 닫힐 때 에디터 caret 복원이 필요한지 여부
+    let shouldRestoreReplyEditorAfterEmojiInsert = false;
+    let isInsertingReplyEmoji = false;
     // 사용자별 팔로우 상태를 저장하는 Map
     const notificationFollowState = new Map();
     // 최대 첨부 이미지 수, 미디어 ALT 텍스트 최대 길이
@@ -197,11 +203,6 @@ window.onload = function () {
         return String(value).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c] ?? c));
     }
 
-    // 지정 범위 내 이모지를 Twemoji SVG로 변환한다
-    function parseTwemoji(scope) {
-        if (scope && window.twemoji) window.twemoji.parse(scope, { folder: "svg", ext: ".svg" });
-    }
-
     // 로컬스토리지에서 최근 사용 이모지 목록을 가져온다
     function getRecentEmojis() {
         try { const s = window.localStorage.getItem(emojiRecentsKey); const p = s ? JSON.parse(s) : []; return Array.isArray(p) ? p : []; } catch { return []; }
@@ -252,7 +253,6 @@ window.onload = function () {
             tab.setAttribute("aria-selected", String(active));
             if (meta) tab.innerHTML = meta.icon;
         });
-        parseTwemoji(replyEmojiPicker);
     }
 
     // 이모지 피커의 콘텐츠 영역을 렌더링한다 (검색/카테고리별)
@@ -265,17 +265,14 @@ window.onload = function () {
                 return entries.length === 0 ? "" : buildEmojiSection(emojiCategoryMeta[cat].sectionTitle, entries.map((e) => e.emoji));
             }).join("");
             replyEmojiContent.innerHTML = sections || buildEmojiSection("검색 결과", [], { emptyText: "일치하는 이모티콘이 없습니다." });
-            parseTwemoji(replyEmojiContent);
             return;
         }
         if (activeEmojiCategory === "recent") {
             const recent = getRecentEmojis();
             replyEmojiContent.innerHTML = buildEmojiSection("최근", recent, { clearable: recent.length > 0, emptyText: "최근 사용한 이모티콘이 없습니다." }) + buildEmojiSection(emojiCategoryMeta.smileys.sectionTitle, getEmojiEntriesForCategory("smileys").map((e) => e.emoji));
-            parseTwemoji(replyEmojiContent);
             return;
         }
         replyEmojiContent.innerHTML = buildEmojiSection(emojiCategoryMeta[activeEmojiCategory].sectionTitle, getEmojiEntriesForCategory(activeEmojiCategory).map((e) => e.emoji));
-        parseTwemoji(replyEmojiContent);
     }
 
     // 이모지 피커 전체를 렌더링한다 (탭 + 콘텐츠)
@@ -519,7 +516,7 @@ window.onload = function () {
         }).join("");
     }
 
-    // 위치 선택 패널을 열고 검색 입력에 포커스한다
+    // 기존 HTML 서브뷰 전환: .tweet-modal__compose-view 를 숨기고 .tweet-modal__location-view 를 보여준다.
     function openLocationPanel() {
         if (!composeView || !replyLocationView) return;
         closeEmojiPicker();
@@ -531,7 +528,7 @@ window.onload = function () {
         window.requestAnimationFrame(() => { replyLocationSearchInput?.focus(); });
     }
 
-    // 위치 패널을 닫고 변경 사항을 되돌린다
+    // 기존 HTML 서브뷰 전환: .tweet-modal__location-view 를 숨기고 .tweet-modal__compose-view 로 복귀한다.
     function closeLocationPanel({ restoreFocus = true } = {}) {
         if (!composeView || !replyLocationView || replyLocationView.hidden) return;
         replyLocationView.hidden = true;
@@ -606,7 +603,7 @@ window.onload = function () {
         replyAttachmentMedia.innerHTML = `<div class="media-aspect-ratio media-aspect-ratio--single"></div><div class="media-absolute-layer"><div class="media-cell media-cell--single"><div class="media-cell-inner"><div class="media-img-container" aria-label="미디어" role="group"><video class="tweet-modal__attachment-video" controls preload="metadata"><source src="${fileUrl}" type="${file.type}"></video></div><div class="media-btn-row"><button type="button" class="media-btn" data-attachment-edit-index="0"><span>수정</span></button></div><button type="button" class="media-btn-delete" aria-label="미디어 삭제하기" data-attachment-remove-index="0"><svg viewBox="0 0 24 24" aria-hidden="true"><g><path d="M10.59 12L4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z"></path></g></svg></button></div></div></div>`;
     }
 
-    // 첨부파일 유형에 따라 적절한 미리보기를 렌더링한다
+    // HTML의 [data-attachment-preview] / [data-attachment-media] 내부를 갱신한다. 별도 모달을 추가하지 않는다.
     function renderReplyAttachment() {
         if (!replyAttachmentPreview || !replyAttachmentMedia) return;
         if (attachedReplyFiles.length === 0) { replyAttachmentMedia.innerHTML = ""; replyAttachmentPreview.hidden = true; resetTaggedUsers(); syncReplyMediaEditsToAttachments(); return; }
@@ -627,6 +624,7 @@ window.onload = function () {
         fn.className = "tweet-modal__attachment-file-name";
         fn.textContent = attachedReplyFiles[0]?.name ?? "";
         fg.appendChild(fpath); fi.appendChild(fg); fp.appendChild(fi); fp.appendChild(fn);
+        // 일반 파일은 HTML의 [data-attachment-media] 안에 파일 카드 한 장을 직접 추가한다.
         replyAttachmentMedia.appendChild(fp);
     }
 
@@ -690,20 +688,130 @@ window.onload = function () {
 
     // 에디터의 현재 텍스트 선택 영역을 저장한다
     function saveReplySelection() {
-        if (!replyEditor) return;
+        if (!replyEditor || isInsertingReplyEmoji) return;
         const sel = window.getSelection();
         if (!sel || sel.rangeCount === 0) return;
         const range = sel.getRangeAt(0);
-        if (replyEditor.contains(range.commonAncestorContainer)) savedReplySelection = range.cloneRange();
+        if (!replyEditor.contains(range.commonAncestorContainer)) return;
+        savedReplySelection = range.cloneRange();
+        savedReplySelectionOffsets = getReplySelectionOffsets(range);
+    }
+
+    // 현재 range를 replyEditor 내부 텍스트 기준 offset으로 변환한다
+    function getReplySelectionOffsets(range) {
+        if (!replyEditor) return null;
+        const pre = range.cloneRange();
+        pre.selectNodeContents(replyEditor);
+        pre.setEnd(range.startContainer, range.startOffset);
+        const start = pre.toString().length;
+        return { start, end: start + range.toString().length };
+    }
+
+    // 저장된 텍스트 offset을 실제 DOM 위치로 변환한다
+    function resolveReplySelectionPosition(targetOffset) {
+        if (!replyEditor) return null;
+        const walker = document.createTreeWalker(replyEditor, NodeFilter.SHOW_TEXT);
+        let node = walker.nextNode();
+        let remaining = Math.max(0, targetOffset);
+        let lastTextNode = null;
+
+        while (node) {
+            lastTextNode = node;
+            const length = node.textContent?.length ?? 0;
+            if (remaining <= length) {
+                return { node, offset: remaining };
+            }
+            remaining -= length;
+            node = walker.nextNode();
+        }
+
+        if (lastTextNode) {
+            return { node: lastTextNode, offset: lastTextNode.textContent?.length ?? 0 };
+        }
+
+        return { node: replyEditor, offset: replyEditor.childNodes.length };
+    }
+
+    // 저장된 offset으로 range를 다시 구성한다
+    function buildReplySelectionRangeFromOffsets(offsets) {
+        if (!replyEditor || !offsets) return null;
+        const startPos = resolveReplySelectionPosition(offsets.start);
+        const endPos = resolveReplySelectionPosition(offsets.end);
+        if (!startPos || !endPos) return null;
+
+        const range = document.createRange();
+        range.setStart(startPos.node, startPos.offset);
+        range.setEnd(endPos.node, endPos.offset);
+        return range;
     }
 
     // 저장된 텍스트 선택 영역을 복원한다
     function restoreReplySelection() {
-        if (!replyEditor || !savedReplySelection) return false;
+        if (!replyEditor) return false;
         const sel = window.getSelection();
         if (!sel) return false;
-        sel.removeAllRanges(); sel.addRange(savedReplySelection);
+        const range = buildReplySelectionRangeFromOffsets(savedReplySelectionOffsets) ?? savedReplySelection;
+        if (!range) return false;
+        sel.removeAllRanges(); sel.addRange(range);
         return true;
+    }
+
+    // 외부 EmojiButton 라이브러리가 준비되었는지 확인한다
+    function hasEmojiButtonLibrary() {
+        return typeof window.EmojiButton === "function";
+    }
+
+    // 이모지 삽입 직후 picker 닫힘으로 잃어버린 포커스를 다시 에디터에 돌리고 caret를 복원한다
+    function restoreReplyEditorAfterEmojiInsert() {
+        if (!shouldRestoreReplyEditorAfterEmojiInsert || !replyEditor || replyModalOverlay?.hidden) return;
+        shouldRestoreReplyEditorAfterEmojiInsert = false;
+        window.requestAnimationFrame(() => {
+            isInsertingReplyEmoji = true;
+            replyEditor.focus();
+            isInsertingReplyEmoji = false;
+            restoreReplySelection();
+            saveReplySelection();
+            syncReplyFormatButtons();
+        });
+    }
+
+    // HTML의 기존 data-testid="emojiButton" 에 외부 EmojiButton 라이브러리를 연결한다.
+    // 라이브러리를 쓰지 못하면 HTML에 남겨둔 .tweet-modal__emoji-picker fallback 마크업을 그대로 사용한다.
+    function ensureReplyEmojiLibraryPicker() {
+        if (!replyEmojiButton || !replyEditor || !hasEmojiButtonLibrary()) return null;
+        if (replyEmojiLibraryPicker) return replyEmojiLibraryPicker;
+
+        replyEmojiLibraryPicker = new window.EmojiButton({
+            position: "bottom-start",
+            // 모달 뒤로 들어가지 않도록 picker를 body 대신 현재 답글 모달 레이어에 붙인다.
+            rootElement: replyModalOverlay ?? undefined,
+            // Notification 답글 모달보다 위에서 클릭 가능하도록 z-index를 높게 준다.
+            zIndex: 1400,
+        });
+
+        replyEmojiLibraryPicker.on("emoji", (selection) => {
+            const emoji = typeof selection === "string" ? selection : selection?.emoji;
+            if (!emoji) return;
+            shouldRestoreReplyEditorAfterEmojiInsert = true;
+            insertReplyEmoji(emoji);
+            closeEmojiPicker();
+            restoreReplyEditorAfterEmojiInsert();
+        });
+
+        replyEmojiLibraryPicker.on("hidden", () => {
+            replyEmojiButton?.setAttribute("aria-expanded", "false");
+            if (shouldRestoreReplyEditorAfterEmojiInsert) {
+                restoreReplyEditorAfterEmojiInsert();
+                return;
+            }
+            saveReplySelection();
+        });
+
+        if (replyEmojiPicker) {
+            replyEmojiPicker.hidden = true;
+        }
+
+        return replyEmojiLibraryPicker;
     }
 
     // 선택된 텍스트에 서식(굵게/기울임)을 적용한다
@@ -734,9 +842,20 @@ window.onload = function () {
 
     // 이모지 피커를 닫는다
     function closeEmojiPicker() {
+        const libraryPicker = replyEmojiLibraryPicker;
+        if (libraryPicker) {
+            if (libraryPicker.pickerVisible) {
+                libraryPicker.hidePicker();
+            }
+            replyEmojiButton?.setAttribute("aria-expanded", "false");
+            restoreReplyEditorAfterEmojiInsert();
+            return;
+        }
+
         if (!replyEmojiPicker || !replyEmojiButton) return;
         replyEmojiPicker.hidden = true;
         replyEmojiButton.setAttribute("aria-expanded", "false");
+        restoreReplyEditorAfterEmojiInsert();
     }
 
     // 이모지 피커의 위치를 버튼 기준으로 계산하여 업데이트한다
@@ -755,16 +874,36 @@ window.onload = function () {
 
     // 이모지 피커를 열고 위치를 계산한다
     function openEmojiPicker() {
+        const libraryPicker = ensureReplyEmojiLibraryPicker();
+        if (libraryPicker && replyEmojiButton) {
+            saveReplySelection();
+            replyEmojiButton.setAttribute("aria-expanded", "true");
+            libraryPicker.showPicker(replyEmojiButton);
+            return;
+        }
+
         if (!replyEmojiPicker || !replyEmojiButton) return;
         renderEmojiPicker();
         replyEmojiPicker.hidden = false;
         replyEmojiButton.setAttribute("aria-expanded", "true");
         updateEmojiPickerPosition();
-        parseTwemoji(replyEmojiPicker);
     }
 
     // 이모지 피커를 열기/닫기 토글한다
     function toggleEmojiPicker() {
+        const libraryPicker = ensureReplyEmojiLibraryPicker();
+        if (libraryPicker && replyEmojiButton) {
+            saveReplySelection();
+            if (libraryPicker.pickerVisible) {
+                libraryPicker.hidePicker();
+                replyEmojiButton.setAttribute("aria-expanded", "false");
+            } else {
+                replyEmojiButton.setAttribute("aria-expanded", "true");
+                libraryPicker.showPicker(replyEmojiButton);
+            }
+            return;
+        }
+
         if (!replyEmojiPicker) return;
         replyEmojiPicker.hidden ? openEmojiPicker() : closeEmojiPicker();
     }
@@ -772,20 +911,54 @@ window.onload = function () {
     // 선택한 이모지를 에디터 커서 위치에 삽입한다
     function insertReplyEmoji(emoji) {
         if (!replyEditor) return;
+        isInsertingReplyEmoji = true;
         replyEditor.focus();
         if (!restoreReplySelection()) {
             const range = document.createRange(); range.selectNodeContents(replyEditor); range.collapse(false);
             const sel = window.getSelection(); sel?.removeAllRanges(); sel?.addRange(range);
         }
-        if (!document.execCommand("insertText", false, emoji)) {
-            const sel = window.getSelection();
-            if (!sel || sel.rangeCount === 0) return;
-            const range = sel.getRangeAt(0);
-            range.deleteContents(); range.insertNode(document.createTextNode(emoji)); range.collapse(false);
-            sel.removeAllRanges(); sel.addRange(range);
+
+        const sel = window.getSelection();
+        if (!sel) { isInsertingReplyEmoji = false; return; }
+
+        let range;
+        if (sel.rangeCount === 0) {
+            range = document.createRange();
+            range.selectNodeContents(replyEditor);
+            range.collapse(false);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        } else {
+            range = sel.getRangeAt(0);
         }
-        applyPendingReplyFormatsToContent(); saveRecentEmoji(emoji);
-        saveReplySelection(); syncReplySubmitState(); syncReplyFormatButtons(); renderEmojiPicker();
+
+        if (!replyEditor.contains(range.commonAncestorContainer)) {
+            range = document.createRange();
+            range.selectNodeContents(replyEditor);
+            range.collapse(false);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+
+        const emojiNode = document.createTextNode(emoji);
+        range.deleteContents();
+        range.insertNode(emojiNode);
+
+        const nextRange = document.createRange();
+        nextRange.setStartAfter(emojiNode);
+        nextRange.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(nextRange);
+
+        isInsertingReplyEmoji = false;
+        applyPendingReplyFormatsToContent();
+        saveRecentEmoji(emoji);
+        saveReplySelection();
+        syncReplySubmitState();
+        syncReplyFormatButtons();
+        if (replyEmojiPicker && !replyEmojiPicker.hidden) {
+            renderEmojiPicker();
+        }
     }
 
     // 하단 탭 네비게이션의 활성 탭을 변경한다
@@ -828,16 +1001,17 @@ window.onload = function () {
     }
 
     // ===== 5. Reply Modal =====
-    // 답글 모달을 열고 모든 상태를 초기화한다
+    // HTML에 이미 있는 [data-reply-modal] 오버레이를 표시하고 내부 상태를 초기화한다.
     function openReplyModal(button) {
         if (!replyModalOverlay || !replyEditor) return;
         activeReplyTrigger = button;
+        shouldRestoreReplyEditorAfterEmojiInsert = false;
         document.body.classList.add("modal-open");
         replyModalOverlay.hidden = false;
         populateReplyModal(button);
         closeEmojiPicker();
         replyEditor.textContent = "";
-        savedReplySelection = null;
+        savedReplySelection = null; savedReplySelectionOffsets = null;
         pendingReplyFormats = new Set();
         activeEmojiCategory = "recent";
         selectedLocation = null; pendingLocation = null;
@@ -863,11 +1037,12 @@ window.onload = function () {
         return (!hasDraft && !hasReplyAttachment()) || window.confirm("게시물을 삭제하시겠어요?");
     }
 
-    // 답글 모달을 닫고 모든 상태를 정리한다
+    // 같은 [data-reply-modal] 오버레이를 다시 hidden 처리한다. DOM을 삭제하지 않고 다음 열기 때 재사용한다.
     function closeReplyModal(options = {}) {
         const { skipConfirm = false, restoreFocus = true } = options;
         if (!replyModalOverlay || replyModalOverlay.hidden) return;
         if (!skipConfirm && !canCloseReplyModal()) return;
+        shouldRestoreReplyEditorAfterEmojiInsert = false;
         replyModalOverlay.hidden = true;
         document.body.classList.remove("modal-open");
         closeEmojiPicker();
@@ -876,7 +1051,7 @@ window.onload = function () {
         closeMediaEditor({ restoreFocus: false, discardChanges: true });
         closeDraftPanel({ restoreFocus: false });
         if (replyEditor) replyEditor.textContent = "";
-        savedReplySelection = null; pendingReplyFormats = new Set();
+        savedReplySelection = null; savedReplySelectionOffsets = null; pendingReplyFormats = new Set();
         selectedLocation = null; pendingLocation = null;
         selectedTaggedUsers = []; pendingTaggedUsers = [];
         resetReplyAttachment(); renderLocationList(); syncLocationUI();
@@ -922,11 +1097,12 @@ window.onload = function () {
         return { handle, tweetItem: ti, tweetId: tid, permalink: url.toString(), bookmarkButton: bk };
     }
 
-    // 공유 관련 토스트 메시지를 표시한다
+    // 공유 토스트는 HTML에 없으므로 body 아래에 임시 노드를 추가하고 타이머 후 제거한다.
     function showShareToast(message) {
         activeShareToast?.remove();
         const toast = document.createElement("div");
         toast.className = "share-toast"; toast.setAttribute("role", "status"); toast.setAttribute("aria-live", "polite"); toast.textContent = message;
+        // body 직속으로 붙여서 화면 하단에 띄운 뒤 timeout 에서 remove 한다.
         document.body.appendChild(toast); activeShareToast = toast;
         window.setTimeout(() => { if (activeShareToast === toast) activeShareToast = null; toast.remove(); }, 3000);
     }
@@ -941,7 +1117,7 @@ window.onload = function () {
         path.setAttribute("d", isActive ? path.dataset.pathActive : path.dataset.pathInactive);
     }
 
-    // 공유 모달을 닫고 경로를 복원한다
+    // body 에 동적으로 추가했던 공유 바텀시트를 제거하고 경로를 복원한다.
     function closeShareModal({ restorePath = true } = {}) {
         if (!activeShareModal) return;
         activeShareModal.remove(); activeShareModal = null;
@@ -964,7 +1140,7 @@ window.onload = function () {
         return users.map((u) => `<button type="button" class="share-sheet__user" data-share-user-id="${escapeHtml(u.id)}"><span class="share-sheet__user-avatar"><img src="${escapeHtml(u.avatar)}" alt="${escapeHtml(u.name)}" /></span><span class="share-sheet__user-body"><span class="share-sheet__user-name">${escapeHtml(u.name)}</span><span class="share-sheet__user-handle">${escapeHtml(u.handle)}</span></span></button>`).join("");
     }
 
-    // Chat 공유 모달을 생성하여 표시한다
+    // HTML에 없는 공유 바텀시트를 새로 만들고 body 에 붙인다. closeShareModal() 에서 remove 된다.
     function openShareChatModal(button) {
         closeShareDropdown(); closeShareModal({ restorePath: false }); pushSharePath("/messages/compose");
         const modal = document.createElement("div");
@@ -973,10 +1149,11 @@ window.onload = function () {
         modal.addEventListener("click", (e) => {
             if (e.target.closest("[data-share-close='true']") || e.target.classList.contains("share-sheet__backdrop") || e.target.closest(".share-sheet__user")) { e.preventDefault(); closeShareModal(); }
         });
+        // body 직속으로 추가해 오버레이/시트를 전체 화면 기준으로 표시한다.
         document.body.appendChild(modal); document.body.classList.add("modal-open"); activeShareModal = modal;
     }
 
-    // 북마크 폴더 추가 모달을 생성하여 표시한다
+    // HTML에 없는 북마크 바텀시트를 새로 만들고 body 에 붙인다. closeShareModal() 에서 remove 된다.
     function openShareBookmarkModal(button) {
         const { bookmarkButton } = getSharePostMeta(button);
         closeShareDropdown(); closeShareModal({ restorePath: false }); pushSharePath("/i/bookmarks/add");
@@ -989,6 +1166,7 @@ window.onload = function () {
             if (e.target.closest(".share-sheet__create-folder")) { e.preventDefault(); closeShareModal(); return; }
             if (e.target.closest("[data-share-folder='all-bookmarks']")) { e.preventDefault(); setBookmarkButtonState(bookmarkButton, !isBookmarked); closeShareModal(); }
         });
+        // body 직속으로 추가해 오버레이/시트를 전체 화면 기준으로 표시한다.
         document.body.appendChild(modal); document.body.classList.add("modal-open"); activeShareModal = modal;
     }
 
@@ -999,7 +1177,7 @@ window.onload = function () {
         if (activeShareButton) { activeShareButton.setAttribute("aria-expanded", "false"); activeShareButton = null; }
     }
 
-    // 공유 드롭다운 메뉴를 생성하여 표시한다
+    // 공유 드롭다운은 HTML의 #layers 아래에 임시로 추가한다. closeShareDropdown() 에서 remove 된다.
     function openShareDropdown(button) {
         if (!layersRoot) return;
         closeShareDropdown(); closeNotificationDropdown();
@@ -1017,6 +1195,7 @@ window.onload = function () {
             if (ab.classList.contains("share-menu-item--chat")) { openShareChatModal(activeShareButton); return; }
             if (ab.classList.contains("share-menu-item--bookmark")) openShareBookmarkModal(activeShareButton);
         });
+        // main 안쪽 #layers 마운트 지점에 붙여서 본문 위로 띄운다.
         layersRoot.appendChild(lc);
         activeShareDropdown = lc; activeShareButton = button;
         activeShareButton.setAttribute("aria-expanded", "true");
@@ -1051,23 +1230,24 @@ window.onload = function () {
         return { tweetItem: ti, handle, displayName, tweetId };
     }
 
-    // 알림 관련 토스트 메시지를 표시한다
+    // 알림 액션 토스트는 HTML에 없으므로 body 아래에 임시 노드를 추가하고 타이머 후 제거한다.
     function showNotificationToast(message) {
         activeNotificationToast?.remove();
         const toast = document.createElement("div");
         toast.className = "notification-toast"; toast.setAttribute("role", "status"); toast.setAttribute("aria-live", "polite"); toast.textContent = message;
+        // body 직속으로 붙여서 화면 하단 토스트로 사용한다.
         document.body.appendChild(toast); activeNotificationToast = toast;
         window.setTimeout(() => { if (activeNotificationToast === toast) activeNotificationToast = null; toast.remove(); }, 3000);
     }
 
-    // 알림 모달(차단/신고)을 닫는다
+    // body 에 동적으로 추가했던 차단/신고 모달을 제거한다.
     function closeNotificationModal() {
         if (!activeNotificationModal) return;
         activeNotificationModal.remove(); activeNotificationModal = null;
         document.body.classList.remove("modal-open");
     }
 
-    // 사용자 차단 확인 모달을 생성하여 표시한다
+    // HTML에 없는 차단 확인 모달을 새로 만들고 body 에 붙인다. closeNotificationModal() 에서 remove 된다.
     function openNotificationBlockModal(button) {
         const { handle } = getNotificationUserMeta(button);
         closeNotificationDropdown(); closeNotificationModal();
@@ -1078,10 +1258,11 @@ window.onload = function () {
             if (e.target.classList.contains("notification-dialog__backdrop") || e.target.closest(".notification-dialog__close")) { e.preventDefault(); closeNotificationModal(); return; }
             if (e.target.closest(".notification-dialog__confirm-block")) { e.preventDefault(); closeNotificationModal(); }
         });
+        // body 직속으로 추가해 전체 화면 오버레이 모달로 표시한다.
         document.body.appendChild(modal); document.body.classList.add("modal-open"); activeNotificationModal = modal;
     }
 
-    // 게시물 신고 모달을 생성하여 표시한다
+    // HTML에 없는 신고 모달을 새로 만들고 body 에 붙인다. closeNotificationModal() 에서 remove 된다.
     function openNotificationReportModal(button) {
         const { tweetId } = getNotificationUserMeta(button);
         closeNotificationDropdown(); closeNotificationModal();
@@ -1092,6 +1273,7 @@ window.onload = function () {
             if (e.target.classList.contains("notification-dialog__backdrop") || e.target.closest(".notification-dialog__close")) { e.preventDefault(); closeNotificationModal(); return; }
             if (e.target.closest(".notification-report__item")) { e.preventDefault(); closeNotificationModal(); }
         });
+        // body 직속으로 추가해 전체 화면 오버레이 모달로 표시한다.
         document.body.appendChild(modal); document.body.classList.add("modal-open"); activeNotificationModal = modal;
     }
 
@@ -1109,7 +1291,7 @@ window.onload = function () {
         if (actionClass === "menu-item--report") openNotificationReportModal(button);
     }
 
-    // 알림 더보기 드롭다운을 생성하여 표시한다
+    // 알림 더보기 드롭다운은 HTML의 #layers 아래에 임시로 추가한다. closeNotificationDropdown() 에서 remove 된다.
     function openNotificationDropdown(button) {
         if (!layersRoot) return;
         closeShareDropdown(); closeNotificationDropdown();
@@ -1129,13 +1311,14 @@ window.onload = function () {
             }
             e.stopPropagation();
         });
+        // main 안쪽 #layers 마운트 지점에 붙여서 본문 위로 띄운다.
         layersRoot.appendChild(lc);
         activeMoreDropdown = lc; activeMoreButton = button;
         activeMoreButton.setAttribute("aria-expanded", "true");
     }
 
     // ===== 7. Draft Panel =====
-    // 임시저장 패널 뷰
+    // 답글 모달 내부 초안 서브뷰 (.tweet-modal__draft-view)
     const draftView = q(".tweet-modal__draft-view");
     // 임시저장 패널 열기 버튼
     const draftButton = q(".tweet-modal__draft");
@@ -1253,7 +1436,7 @@ window.onload = function () {
         });
     }
 
-    // 임시저장 패널 전체 UI를 렌더링한다
+    // HTML의 .draft-panel__list / .draft-panel__empty / .draft-panel__confirm-overlay 를 상태에 맞게 갱신한다.
     function renderDraftPanel() {
         if (!draftView) return;
         const hasItems = getDraftItems().length > 0;
@@ -1271,13 +1454,13 @@ window.onload = function () {
         if (draftConfirmDesc) draftConfirmDesc.textContent = cc.body;
     }
 
-    // 임시저장 패널을 연다
+    // 기존 HTML 서브뷰 전환: .tweet-modal__compose-view 를 숨기고 .tweet-modal__draft-view 를 보여준다.
     function openDraftPanel() {
         if (!composeView || !draftView) return;
         renderDraftPanel(); composeView.hidden = true; draftView.hidden = false;
     }
 
-    // 임시저장 패널을 닫고 상태를 초기화한다
+    // 기존 HTML 서브뷰 전환: .tweet-modal__draft-view 를 숨기고 .tweet-modal__compose-view 로 복귀한다.
     function closeDraftPanel({ restoreFocus = true } = {}) {
         if (!composeView || !draftView) return;
         resetDraftPanel(); renderDraftPanel();
@@ -1303,6 +1486,9 @@ window.onload = function () {
 
     // 하단 탭 클릭 시 활성 탭을 변경한다
     tabLinks.forEach((link) => { link.addEventListener("click", (e) => { e.preventDefault(); setActiveTab(link.dataset.tab); }); });
+
+    // 외부 라이브러리가 있으면 기존 이모지 버튼과 연결한다
+    ensureReplyEmojiLibraryPicker();
 
     // 스크롤 방향에 따라 하단 바를 숨기거나 표시한다
     window.addEventListener("scroll", (e) => {
@@ -1427,8 +1613,8 @@ window.onload = function () {
     });
 
     // 이모지 버튼 클릭 시 이모지 피커를 토글한다
-    replyEmojiButton?.addEventListener("mousedown", (e) => e.preventDefault());
-    replyEmojiButton?.addEventListener("click", (e) => { e.preventDefault(); toggleEmojiPicker(); });
+    replyEmojiButton?.addEventListener("mousedown", (e) => { e.preventDefault(); e.stopPropagation(); saveReplySelection(); });
+    replyEmojiButton?.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); toggleEmojiPicker(); });
     // 위치 버튼 클릭 시 위치 선택 패널을 연다
     replyGeoButton?.addEventListener("click", (e) => { e.preventDefault(); openLocationPanel(); });
     // 사용자 태그 버튼 클릭 시 태그 패널을 연다

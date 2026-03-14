@@ -1,0 +1,150 @@
+.pageLayout {
+    display: grid;
+    grid-template-columns: 275px minmax(0, 1fr) 350px;
+    align-items: start;
+}
+
+.sidebar-left {
+    grid-column: 1;
+}
+
+#timelinePanel {
+    grid-column: 2;
+    min-width: 0;
+}
+
+#trendSidebar {
+    grid-column: 3;
+    min-width: 0;
+}
+
+@media (max-width: 1280px) {
+    .pageLayout {
+        grid-template-columns: 88px minmax(0, 1fr) 320px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .pageLayout {
+        grid-template-columns: 88px minmax(0, 1fr);
+    }
+
+    #trendSidebar {
+        display: none;
+    }
+}
+
+.timelineTabs {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.exploreSticky {
+    background: rgba(255, 255, 255, 0.85);
+}
+
+#timelinePanel .timelineTabs {
+    border-bottom: 1px solid #eff3f4;
+}
+
+.feedSection,
+.friendsSection {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.feedSection[hidden],
+.friendsSection[hidden] {
+    display: none;
+}
+
+.feedSection {
+    border-top: 1px solid #eff3f4;
+}
+
+.feedSection .postCard,
+.feedSection article.postCard {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    margin: 0;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eff3f4;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+.feedSection .postCard:last-child,
+.feedSection article.postCard:last-child {
+    border-bottom: 0;
+}
+
+.feedSection .postAvatar {
+    flex-shrink: 0;
+}
+
+.feedSection .postBody {
+    flex: 1;
+    min-width: 0;
+}
+
+.feedSection .postText {
+    white-space: normal;
+    word-break: break-word;
+}
+
+.feedSection .postMedia {
+    overflow: hidden;
+}
+
+.feedSection .postMediaImage {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.feedSection .tweet-action-bar {
+    width: 100%;
+}
+
+.feedSection .tweet-action-right {
+    margin-left: auto;
+}
+
+.friendsSection {
+    border-top: 1px solid #eff3f4;
+}
+
+.friendsSection #friendsList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.friendsSection .user-card {
+    margin: 0;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eff3f4;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+.friendsSection .user-card:last-child {
+    border-bottom: 0;
+}
+
+.friendsSection .user-info {
+    min-width: 0;
+}
+
+.friendsSection .user-top {
+    gap: 12px;
+}
+
+.friendsSection .user-name-group,
+.friendsSection .user-bio {
+    min-width: 0;
+    word-break: break-word;
+}

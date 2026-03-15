@@ -1,0 +1,62 @@
+.timelineTabs {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.feedSection,
+.friendsSection {
+    width: 100%;
+    background: #fff;
+}
+
+.feedSection[hidden],
+.friendsSection[hidden] {
+    display: none;
+}
+
+.feedSection {
+    border-top: 1px solid #eff3f4;
+}
+
+.feedSection .postCard {
+    margin: 0;
+    border-bottom: 1px solid #eff3f4;
+}
+
+.feedSection .postCard:last-child {
+    border-bottom: 0;
+}
+
+.feedSection .postBody,
+.friendsSection .user-info {
+    min-width: 0;
+}
+
+.feedSection .postText,
+.friendsSection .user-bio,
+.friendsSection .user-name-group {
+    word-break: break-word;
+}
+
+.feedSection .postMediaImage {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.friendsSection {
+    border-top: 1px solid #eff3f4;
+}
+
+.friendsSection #friendsList {
+    display: flex;
+    flex-direction: column;
+}
+
+.friendsSection .user-card {
+    margin: 0;
+    border-bottom: 1px solid #eff3f4;
+}
+
+.friendsSection .user-card:last-child {
+    border-bottom: 0;
+}

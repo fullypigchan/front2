@@ -68,15 +68,15 @@
                                             </button>
                                             <button type="button" class="activity-filter-menu__item" role="menuitemradio" aria-checked="false" data-activity-filter-item="open">
                                                 <span class="activity-filter-menu__check" aria-hidden="true">✓</span>
-                                                <span class="activity-filter-menu__label">모집중</span>
+                                                <span class="activity-filter-menu__label">견적 접수</span>
                                             </button>
                                             <button type="button" class="activity-filter-menu__item" role="menuitemradio" aria-checked="false" data-activity-filter-item="review">
                                                 <span class="activity-filter-menu__check" aria-hidden="true">✓</span>
-                                                <span class="activity-filter-menu__label">검토중</span>
+                                                <span class="activity-filter-menu__label">검토 요청</span>
                                             </button>
                                             <button type="button" class="activity-filter-menu__item" role="menuitemradio" aria-checked="false" data-activity-filter-item="closed">
                                                 <span class="activity-filter-menu__check" aria-hidden="true">✓</span>
-                                                <span class="activity-filter-menu__label">마감</span>
+                                                <span class="activity-filter-menu__label">요청 완료</span>
                                             </button>
                                         </div>
                                     </div>
@@ -108,7 +108,10 @@
                                                 <span class="postHandle">견적 요청</span>
                                                 <span class="postTime">2026.03.15</span>
                                             </div>
-                                            <span class="estimation-status estimation-status--open">모집중</span>
+                                            <div class="estimation-action-group" data-estimation-decision-group="detail-301">
+                                                <button type="button" class="estimation-action-btn estimation-action-btn--approve" data-estimation-decision-id="detail-301" data-estimation-decision="approve" aria-pressed="false">승인</button>
+                                                <button type="button" class="estimation-action-btn estimation-action-btn--reject" data-estimation-decision-id="detail-301" data-estimation-decision="reject" aria-pressed="false">거절</button>
+                                            </div>
                                         </header>
                                         <div class="estimation-preview-card__link">
                                             <div class="estimation-preview-card__person">
@@ -149,7 +152,10 @@
                                                 <span class="postHandle">견적 요청</span>
                                                 <span class="postTime">2026.03.13</span>
                                             </div>
-                                            <span class="estimation-status estimation-status--review">검토중</span>
+                                            <div class="estimation-action-group" data-estimation-decision-group="detail-302">
+                                                <button type="button" class="estimation-action-btn estimation-action-btn--approve" data-estimation-decision-id="detail-302" data-estimation-decision="approve" aria-pressed="false">승인</button>
+                                                <button type="button" class="estimation-action-btn estimation-action-btn--reject" data-estimation-decision-id="detail-302" data-estimation-decision="reject" aria-pressed="false">거절</button>
+                                            </div>
                                         </header>
                                         <div class="estimation-preview-card__link">
                                             <div class="estimation-preview-card__person">
@@ -190,7 +196,10 @@
                                                 <span class="postHandle">견적 요청</span>
                                                 <span class="postTime">2026.03.10</span>
                                             </div>
-                                            <span class="estimation-status estimation-status--closed">마감</span>
+                                            <div class="estimation-action-group" data-estimation-decision-group="detail-303">
+                                                <button type="button" class="estimation-action-btn estimation-action-btn--approve" data-estimation-decision-id="detail-303" data-estimation-decision="approve" aria-pressed="false">승인</button>
+                                                <button type="button" class="estimation-action-btn estimation-action-btn--reject" data-estimation-decision-id="detail-303" data-estimation-decision="reject" aria-pressed="false">거절</button>
+                                            </div>
                                         </header>
                                         <div class="estimation-preview-card__link">
                                             <div class="estimation-preview-card__person">
@@ -256,7 +265,10 @@
                 <div class="estimation-detail-modal__body">
                     <article class="estimation-detail-panel" data-estimation-detail-panel="detail-301" hidden>
                         <div class="estimation-detail-panel__hero">
-                            <span class="estimation-status estimation-status--open">모집중</span>
+                            <div class="estimation-action-group" data-estimation-decision-group="detail-301">
+                                <button type="button" class="estimation-action-btn estimation-action-btn--approve" data-estimation-decision-id="detail-301" data-estimation-decision="approve" aria-pressed="false">승인</button>
+                                <button type="button" class="estimation-action-btn estimation-action-btn--reject" data-estimation-decision-id="detail-301" data-estimation-decision="reject" aria-pressed="false">거절</button>
+                            </div>
                             <h3 class="estimation-detail-panel__title">프리미엄 완구 3종 수출 견적 요청</h3>
                             <p class="estimation-detail-panel__description">
                                 미국 동부 유통 채널 입점을 위한 완구 3종 견적이 필요합니다. MOQ, 납기, 패키지 커스터마이징 가능 여부를 함께 확인하고 싶습니다.
@@ -295,7 +307,10 @@
                     </article>
                     <article class="estimation-detail-panel" data-estimation-detail-panel="detail-302" hidden>
                         <div class="estimation-detail-panel__hero">
-                            <span class="estimation-status estimation-status--review">검토중</span>
+                            <div class="estimation-action-group" data-estimation-decision-group="detail-302">
+                                <button type="button" class="estimation-action-btn estimation-action-btn--approve" data-estimation-decision-id="detail-302" data-estimation-decision="approve" aria-pressed="false">승인</button>
+                                <button type="button" class="estimation-action-btn estimation-action-btn--reject" data-estimation-decision-id="detail-302" data-estimation-decision="reject" aria-pressed="false">거절</button>
+                            </div>
                             <h3 class="estimation-detail-panel__title">산업용 필름 공동 생산 견적 요청</h3>
                             <p class="estimation-detail-panel__description">
                                 내열성 필름 샘플 리뷰가 진행 중입니다. 단가표와 최소 생산 배치, 인증 대응 범위를 다시 정리해 주셔야 합니다.
@@ -334,7 +349,10 @@
                     </article>
                     <article class="estimation-detail-panel" data-estimation-detail-panel="detail-303" hidden>
                         <div class="estimation-detail-panel__hero">
-                            <span class="estimation-status estimation-status--closed">마감</span>
+                            <div class="estimation-action-group" data-estimation-decision-group="detail-303">
+                                <button type="button" class="estimation-action-btn estimation-action-btn--approve" data-estimation-decision-id="detail-303" data-estimation-decision="approve" aria-pressed="false">승인</button>
+                                <button type="button" class="estimation-action-btn estimation-action-btn--reject" data-estimation-decision-id="detail-303" data-estimation-decision="reject" aria-pressed="false">거절</button>
+                            </div>
                             <h3 class="estimation-detail-panel__title">친환경 패키지 공급 견적 요청</h3>
                             <p class="estimation-detail-panel__description">
                                 종이 완충재와 리사이클 박스 조합으로 패키지 단가를 비교한 요청입니다. 내부 검토가 끝나 마감 상태로 전환되었습니다.

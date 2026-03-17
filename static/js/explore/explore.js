@@ -224,6 +224,7 @@ window.addEventListener("load", function () {
 
     var searchForm        = document.getElementById("searchForm");
     var searchInput       = document.getElementById("searchInput");
+    var searchClearBtn    = document.getElementById("searchClearBtn");
     var searchPanel       = document.getElementById("searchPanel");
     var searchPanelEmpty  = document.getElementById("searchPanelEmpty");
     var searchRecentSec   = document.getElementById("searchRecentSection");
@@ -260,8 +261,17 @@ window.addEventListener("load", function () {
             if (searchResultsEl)  searchResultsEl.hidden  = false;
         }
 
+        function updateSearchClearButton() {
+            if (!searchClearBtn) {
+                return;
+            }
+
+            searchClearBtn.hidden = searchInput.value.length === 0;
+        }
+
         function updatePanel() {
             var val = searchInput.value.trim();
+            updateSearchClearButton();
             if (val.length > 0) {
                 showResults(val);
             } else if (hasRecentItems()) {
@@ -286,6 +296,16 @@ window.addEventListener("load", function () {
             updatePanel();
         });
 
+        if (searchClearBtn) {
+            searchClearBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                searchInput.value = "";
+                updatePanel();
+                searchInput.focus();
+            });
+        }
+
         searchInput.addEventListener("blur", function (e) {
             if (!document.hasFocus()) { return; }
             searchForm.classList.remove("isFocused");
@@ -306,6 +326,8 @@ window.addEventListener("load", function () {
                 searchPanel.hidden = true;
             });
         }
+
+        updateSearchClearButton();
     }
 
     // 개별 삭제 버튼

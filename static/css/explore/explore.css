@@ -28,6 +28,49 @@
     margin: 0 16px;
 }
 
+.searchField {
+    position: relative;
+}
+
+.searchInput::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.searchInput {
+    padding-right: 32px;
+}
+
+.searchClearBtn {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: 0;
+    border-radius: 9999px;
+    background: transparent;
+    color: #536471;
+    cursor: pointer;
+    z-index: 1;
+    flex-shrink: 0;
+}
+
+.searchClearBtn:hover {
+    background: rgba(15, 20, 25, 0.08);
+}
+
+.searchClearIcon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
 /* 포커스 시 검색 */
 #timelinePanel .searchForm.isFocused .searchIcon {
     color: #536471;
@@ -96,6 +139,10 @@
 .searchResultItem {
     padding-top: 8px;
     padding-bottom: 8px;
+}
+
+.searchResultList {
+    cursor: pointer;
 }
 
 /* Trending 탭 */

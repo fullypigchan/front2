@@ -204,7 +204,6 @@ if (trendReportMenu) {
     });
 
     // 이벤트 위임 (productsSection)
-    var productsSection = document.getElementById("productsSection");
     if (productsSection) {
         productsSection.addEventListener("click", (e) => {
             var likeBtn     = e.target.closest(".Post-Action-Btn.Like");
@@ -219,7 +218,6 @@ if (trendReportMenu) {
 })();
 
 // 8. 검색창 포커스 드롭다운 + 최근검색 삭제
-// main event.js(window.onload) 이후에 등록해야 label 덮어쓰기 충돌 방지
 window.addEventListener("load", function () {
 
     var searchForm        = document.getElementById("searchForm");
@@ -291,7 +289,6 @@ window.addEventListener("load", function () {
             updatePanel();
         });
 
-        // main event.js 이후에 등록 → 마지막으로 실행되어 # 없는 텍스트로 덮어씀
         searchInput.addEventListener("input", function (e) {
             updatePanel();
         });

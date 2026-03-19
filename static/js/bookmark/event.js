@@ -92,10 +92,6 @@
     const replyFooterMeta = q(".tweet-modal__footer-meta");
     const replyFormatButtons = qAll("[data-format]");
     const replyEmojiButton = q("[data-testid='emojiButton']");
-    const replyEmojiPicker = q(".tweet-modal__emoji-picker");
-    const replyEmojiSearchInput = q("[data-testid='emojiSearchInput']");
-    const replyEmojiTabs = qAll(".tweet-modal__emoji-tab");
-    const replyEmojiContent = q("[data-testid='emojiPickerContent']");
     const replyMediaUploadButton = q("[data-testid='mediaUploadButton']");
     const replyFileInput = q("[data-testid='fileInput']");
     const replyAttachmentPreview = q("[data-attachment-preview]");
@@ -154,13 +150,11 @@
     let activeReplyTrigger = null;
     let attachedReplyFiles = [];
     let attachedReplyFileUrls = [];
+    let replyEmojiLibraryPicker = null;
     const replyMaxLength = 500;
     const maxReplyImages = 4;
     const maxReplyMediaAltLength = 1000;
-    const emojiRecentsKey = "bookmark_reply_recent_emojis";
-    const maxRecentEmojis = 18;
 
-    let pendingReplyFormats = new Set(), activeEmojiCategory = "recent";
     let selectedLocation = null, pendingLocation = null;
     let selectedTaggedUsers = [], pendingTaggedUsers = [];
     let replyMediaEdits = [], pendingReplyMediaEdits = [], activeReplyMediaIndex = 0;
@@ -364,6 +358,26 @@
         return { postCard, handle };
     }
 
+    function getFollowMenuIcon(isFollowing) {
+        return isFollowing
+            ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4c-1.105 0-2 .9-2 2s.895 2 2 2 2-.9 2-2-.895-2-2-2zM6 6c0-2.21 1.791-4 4-4s4 1.79 4 4-1.791 4-4 4-4-1.79-4-4zm12.586 3l-2.043-2.04 1.414-1.42L20 7.59l2.043-2.05 1.414 1.42L21.414 9l2.043 2.04-1.414 1.42L20 10.41l-2.043 2.05-1.414-1.42L18.586 9zM3.651 19h12.698c-.337-1.8-1.023-3.21-1.945-4.19C13.318 13.65 11.838 13 10 13s-3.317.65-4.404 1.81c-.922.98-1.608 2.39-1.945 4.19zm.486-5.56C5.627 11.85 7.648 11 10 11s4.373.85 5.863 2.44c1.477 1.58 2.366 3.8 2.632 6.46l.11 1.1H1.395l.11-1.1c.266-2.66 1.155-4.88 2.632-6.46z"></path></svg>'
+            : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4c-1.105 0-2 .9-2 2s.895 2 2 2 2-.9 2-2-.895-2-2-2zM6 6c0-2.21 1.791-4 4-4s4 1.79 4 4-1.791 4-4 4-4-1.79-4-4zm4 7c-3.053 0-5.563 1.193-7.443 3.596l1.548 1.207C5.573 15.922 7.541 15 10 15s4.427.922 5.895 2.803l1.548-1.207C15.563 14.193 13.053 13 10 13zm8-6V5h-3V3h-2v2h-3v2h3v3h2V7h3z"></path></svg>';
+    }
+
+    function syncBookmarkMoreMenu(menu, handle) {
+        const isFollowing = bookmarkFollowState.get(handle) ?? false;
+        const followLabel = menu.querySelector("[data-follow-label]");
+        const followIcon = menu.querySelector("[data-follow-icon]");
+        if (followLabel) {
+            followLabel.textContent = isFollowing
+                ? `${handle} 님 언팔로우하기`
+                : `${handle} 님 팔로우하기`;
+        }
+        if (followIcon) {
+            followIcon.innerHTML = getFollowMenuIcon(isFollowing);
+        }
+    }
+
     function copyShareLink(button) {
         const { permalink } = getSharePostMeta(button);
         closeShareDropdown();
@@ -436,9 +450,14 @@
     }
 
     function positionDropdownLayer(layer, anchorRect) {
-        const menu = layer.querySelector(".bookmark-dropdown-menu");
+        const menu = layer.querySelector(".dropdown-menu");
         if (!menu) {
             return;
+        }
+        const wasHidden = layer.hidden;
+        if (wasHidden) {
+            layer.hidden = false;
+            layer.style.visibility = "hidden";
         }
         const spacing = 8;
         const viewportPadding = 8;
@@ -451,12 +470,19 @@
             ),
         );
         const left = Math.min(
-            Math.max(viewportPadding, anchorRect.left - menuRect.width + anchorRect.width),
+            Math.max(
+                viewportPadding,
+                anchorRect.right - menuRect.width,
+            ),
             Math.max(
                 viewportPadding,
                 window.innerWidth - menuRect.width - viewportPadding,
             ),
         );
+        if (wasHidden) {
+            layer.hidden = true;
+            layer.style.removeProperty("visibility");
+        }
         layer.style.top = `${top}px`;
         layer.style.left = `${left}px`;
     }
@@ -583,9 +609,11 @@
             const isFollowing = bookmarkFollowState.get(meta.handle) ?? false;
             bookmarkFollowState.set(meta.handle, !isFollowing);
             closePostMenus();
-            if (!isFollowing) {
-                showToast(`${meta.handle} 님을 팔로우함`);
-            }
+            showToast(
+                isFollowing
+                    ? `${meta.handle} 님 팔로우를 취소했습니다`
+                    : `${meta.handle} 님을 팔로우했습니다`,
+            );
             return;
         }
         if (action === "block") {
@@ -978,22 +1006,14 @@
             resetPostMoreMenus();
             if (menu && willOpen) {
                 const meta = getBookmarkMoreMeta(moreButton);
-                const isFollowing = bookmarkFollowState.get(meta.handle) ?? false;
-                const followLabel = menu.querySelector(
-                    "[data-more-action='follow-toggle'] span",
-                );
-                if (followLabel) {
-                    followLabel.textContent = isFollowing
-                        ? `${meta.handle} 님 언팔로우하기`
-                        : `${meta.handle} 님 팔로우하기`;
-                }
+                syncBookmarkMoreMenu(menu, meta.handle);
                 menu.hidden = false;
                 moreButton.setAttribute("aria-expanded", "true");
             }
             return;
         }
 
-        const moreMenuItem = target.closest(".bookmark-post-more-menu-item");
+        const moreMenuItem = target.closest("[data-more-action]");
         if (moreMenuItem) {
             const action = moreMenuItem.getAttribute("data-more-action");
             if (action) {
@@ -1063,7 +1083,7 @@
             }
         }
 
-        if (!target.closest(".bookmark-dropdown-menu")) {
+        if (!target.closest("#shareDropdown .dropdown-menu")) {
             closeShareDropdown();
         }
 
@@ -1134,6 +1154,8 @@
         if (detailFolderMenu && !detailFolderMenu.hidden) {
             positionDetailFolderMenu();
         }
+        closeShareDropdown();
+        resetPostMoreMenus();
     });
 
     window.addEventListener(
@@ -1142,130 +1164,77 @@
             if (detailFolderMenu && !detailFolderMenu.hidden) {
                 positionDetailFolderMenu();
             }
+            closeShareDropdown();
+            resetPostMoreMenus();
         },
         true,
     );
 
     // ===== 답글 모달 =====
-    // ── 이모지 카테고리 데이터 ──
-    const emojiCategoryMeta = {
-        recent: { label: "최근", sectionTitle: "최근", icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M12 1.75A10.25 10.25 0 112.75 12 10.26 10.26 0 0112 1.75zm0 1.5A8.75 8.75 0 1020.75 12 8.76 8.76 0 0012 3.25zm.75 3.5v5.19l3.03 1.75-.75 1.3-3.78-2.18V6.75h1.5z"></path></g></svg>' },
-        smileys: { label: "스마일리 및 사람", sectionTitle: "스마일리 및 사람", icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M12 22.75C6.072 22.75 1.25 17.928 1.25 12S6.072 1.25 12 1.25 22.75 6.072 22.75 12 17.928 22.75 12 22.75zm0-20c-5.109 0-9.25 4.141-9.25 9.25s4.141 9.25 9.25 9.25 9.25-4.141 9.25-9.25S17.109 2.75 12 2.75zM9 11.75c-.69 0-1.25-.56-1.25-1.25S8.31 9.25 9 9.25s1.25.56 1.25 1.25S9.69 11.75 9 11.75zm6 0c-.69 0-1.25-.56-1.25-1.25S14.31 9.25 15 9.25s1.25.56 1.25 1.25S15.69 11.75 15 11.75zm-8.071 3.971c.307-.298.771-.397 1.188-.253.953.386 2.403.982 3.883.982s2.93-.596 3.883-.982c.417-.144.88-.044 1.188.253a.846.846 0 01-.149 1.34c-1.254.715-3.059 1.139-4.922 1.139s-3.668-.424-4.922-1.139a.847.847 0 01-.149-1.39z"></path></g></svg>' },
-        animals: { label: "동물 및 자연", sectionTitle: "동물 및 자연", icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M12 3.5c3.77 0 6.75 2.86 6.75 6.41 0 3.17-1.88 4.94-4.15 6.28-.74.44-1.54.9-1.6 1.86-.02.38-.33.68-.71.68h-.6a.71.71 0 01-.71-.67c-.07-.95-.86-1.42-1.6-1.85C7.13 14.85 5.25 13.08 5.25 9.91 5.25 6.36 8.23 3.5 12 3.5z"></path></g></svg>' },
-        food: { label: "음식 및 음료", sectionTitle: "음식 및 음료", icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M5 10.5c0-3.59 3.36-6.5 7.5-6.5s7.5 2.91 7.5 6.5v.58a5.42 5.42 0 01-2.08 4.26L16.5 21H8.5l-1.42-5.66A5.42 5.42 0 015 11.08v-.58z"></path></g></svg>' },
-        activities: { label: "활동", sectionTitle: "활동", icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M12 2.25c5.385 0 9.75 4.365 9.75 9.75S17.385 21.75 12 21.75 2.25 17.385 2.25 12 6.615 2.25 12 2.25z"></path></g></svg>' },
-        travel: { label: "여행 및 장소", sectionTitle: "여행 및 장소", icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M12 2.25c-4.142 0-7.5 3.245-7.5 7.248 0 5.207 6.46 11.611 6.735 11.881a1.08 1.08 0 001.53 0c.275-.27 6.735-6.674 6.735-11.881 0-4.003-3.358-7.248-7.5-7.248z"></path></g></svg>' },
-        objects: { label: "사물", sectionTitle: "사물", icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M12 2.5c2.07 0 3.75 1.68 3.75 3.75 0 1.45-.83 2.71-2.04 3.33l-.21.11V11h.5A2.5 2.5 0 0116.5 13.5v1.38c0 1.27-.7 2.43-1.82 3.03l-.93.5V21.5h-3.5v-3.09l-.93-.5A3.44 3.44 0 017.5 14.88V13.5A2.5 2.5 0 0110 11h.5V9.69l-.21-.11A3.75 3.75 0 018.25 6.25 3.75 3.75 0 0112 2.5z"></path></g></svg>' },
-        symbols: { label: "기호", sectionTitle: "기호", icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M5 4h14v4.5h-2V6H7v2.5H5V4zm2 6h4v4H7v-4zm6 0h4v4h-4v-4zM5 16h6v4H5v-4zm8 0h6v4h-6v-4z"></path></g></svg>' },
-        flags: { label: "깃발", sectionTitle: "깃발", icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M6 2.75A.75.75 0 016.75 2h.5a.75.75 0 01.75.75V3h9.38c.97 0 1.45 1.17.76 1.85L16.1 6.9l2.05 2.05c.69.68.21 1.85-.76 1.85H8v10.45a.75.75 0 01-.75.75h-.5a.75.75 0 01-.75-.75V2.75z"></path></g></svg>' },
-    };
-    const emojiCategoryData = {
-        smileys: ["😀","😃","😄","😁","😆","🥹","😂","🤣","😊","😉","😍","🥰","😘","😗","😙","😚","🙂","🤗","🤩","🤔","😐","😑","😌","🙃","😏","🥳","😭","😤","😴","😵","🤯","😎","🤓","🫠","😇","🤠"],
-        animals: ["🐶","🐱","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🐧","🐦","🦄","🐝","🦋","🌸","🌻","🍀","🌿","🌈","🌞","⭐","🌙"],
-        food: ["🍔","🍟","🍕","🌭","🍗","🍜","🍣","🍩","🍪","🍫","🍿","🥐","🍎","🍓","🍉","🍇","☕","🍵","🧃","🥤","🍺","🍷"],
-        activities: ["⚽","🏀","🏈","⚾","🎾","🏐","🎮","🎲","🎯","🎳","🎸","🎧","🎬","📚","🧩","🏆","🥇","🏃","🚴","🏊"],
-        travel: ["🚗","🚕","🚌","🚎","🚓","🚑","✈️","🚀","🛸","🚲","⛵","🚉","🏠","🏙️","🌋","🏝️","🗼","🗽","🎡","🌁"],
-        objects: ["💡","📱","💻","⌚","📷","🎥","🕹️","💰","💎","🔑","🪄","🎁","📌","🧸","🛒","🧴","💊","🧯","📢","🧠"],
-        symbols: ["❤️","💙","💚","💛","💜","🖤","✨","💫","💥","💯","✔️","❌","⚠️","🔔","♻️","➕","➖","➗","✖️","🔣"],
-        flags: ["🏳️","🏴","🏁","🚩","🎌","🏳️‍🌈","🇰🇷","🇺🇸","🇯🇵","🇫🇷","🇬🇧","🇩🇪","🇨🇦","🇦🇺"],
-    };
-
-    // ── 유틸 ──
     function buildReplyAvatarDataUri(label) {
         const safe = escapeHtml((label || "?").slice(0, 1));
         const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" rx="20" fill="#536471"></rect><text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#fff">${safe}</text></svg>`;
         return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
     }
 
-    function getRecentEmojis() {
-        try { const p = JSON.parse(window.localStorage.getItem(emojiRecentsKey) || "[]"); return Array.isArray(p) ? p : []; } catch { return []; }
+    function hasEmojiButtonLibrary() {
+        return typeof window.EmojiButton === "function";
     }
-    function saveRecentEmoji(emoji) {
-        const r = getRecentEmojis().filter((i) => i !== emoji); r.unshift(emoji);
-        try { window.localStorage.setItem(emojiRecentsKey, JSON.stringify(r.slice(0, maxRecentEmojis))); } catch {}
-    }
-    function clearRecentEmojis() { try { window.localStorage.removeItem(emojiRecentsKey); } catch {} }
 
-    function getEmojiEntriesForCategory(cat) {
-        if (cat === "recent") return getRecentEmojis().map((e) => ({ emoji: e, keywords: [e] }));
-        return (emojiCategoryData[cat] ?? []).map((e) => ({ emoji: e, keywords: [e, emojiCategoryMeta[cat]?.label ?? ""] }));
-    }
-    function getFilteredEmojiEntries(cat) {
-        const entries = getEmojiEntriesForCategory(cat);
-        const term = replyEmojiSearchInput?.value.trim().toLowerCase() ?? "";
-        return term ? entries.filter((e) => e.keywords.some((k) => k.toLowerCase().includes(term))) : entries;
-    }
-    function buildEmojiSection(title, emojis, { clearable = false, emptyText = "" } = {}) {
-        const hdr = clearable ? '<button type="button" class="tweet-modal__emoji-clear" data-action="clear-recent">모두 지우기</button>' : "";
-        const body = emojis.length
-            ? `<div class="tweet-modal__emoji-grid">${emojis.map((e) => `<button type="button" class="tweet-modal__emoji-option" data-emoji="${e}" role="menuitem">${e}</button>`).join("")}</div>`
-            : `<p class="tweet-modal__emoji-empty">${emptyText}</p>`;
-        return `<section class="tweet-modal__emoji-section"><div class="tweet-modal__emoji-section-header"><h3 class="tweet-modal__emoji-section-title">${title}</h3>${hdr}</div>${body}</section>`;
-    }
-    function renderEmojiTabs() {
-        replyEmojiTabs.forEach((tab) => {
-            const cat = tab.getAttribute("data-emoji-category");
-            const active = cat === activeEmojiCategory;
-            tab.classList.toggle("tweet-modal__emoji-tab--active", active);
-            tab.setAttribute("aria-selected", String(active));
-            if (cat && emojiCategoryMeta[cat]) tab.innerHTML = emojiCategoryMeta[cat].icon;
+    function ensureReplyEmojiLibraryPicker() {
+        if (!replyEmojiButton || !replyEditor || !hasEmojiButtonLibrary()) return null;
+        if (replyEmojiLibraryPicker) return replyEmojiLibraryPicker;
+
+        replyEmojiLibraryPicker = new window.EmojiButton({
+            position: "bottom-start",
+            rootElement: replyModal ?? undefined,
+            zIndex: 1400,
         });
-    }
-    function renderEmojiPickerContent() {
-        if (!replyEmojiContent) return;
-        const term = replyEmojiSearchInput?.value.trim().toLowerCase() ?? "";
-        if (term) {
-            const sections = Object.keys(emojiCategoryData).map((cat) => {
-                const entries = getFilteredEmojiEntries(cat);
-                return entries.length ? buildEmojiSection(emojiCategoryMeta[cat].sectionTitle, entries.map((e) => e.emoji)) : "";
-            }).join("");
-            replyEmojiContent.innerHTML = sections || buildEmojiSection("검색 결과", [], { emptyText: "일치하는 이모티콘이 없습니다." });
-            return;
-        }
-        if (activeEmojiCategory === "recent") {
-            const recent = getRecentEmojis();
-            replyEmojiContent.innerHTML = buildEmojiSection("최근", recent, { clearable: recent.length > 0, emptyText: "최근 사용한 이모티콘이 없습니다." }) + buildEmojiSection(emojiCategoryMeta.smileys.sectionTitle, getEmojiEntriesForCategory("smileys").map((e) => e.emoji));
-            return;
-        }
-        replyEmojiContent.innerHTML = buildEmojiSection(emojiCategoryMeta[activeEmojiCategory].sectionTitle, getEmojiEntriesForCategory(activeEmojiCategory).map((e) => e.emoji));
-    }
-    function renderEmojiPicker() { renderEmojiTabs(); renderEmojiPickerContent(); }
 
-    // ── 이모지 삽입 ──
-    function insertReplyEmoji(emoji) {
-        if (!replyEditor) return;
-        replyEditor.focus();
-        const sel = window.getSelection();
-        if (sel && sel.rangeCount > 0 && replyEditor.contains(sel.getRangeAt(0).commonAncestorContainer)) {
-            const range = sel.getRangeAt(0);
-            range.deleteContents();
-            range.insertNode(document.createTextNode(emoji));
-            range.collapse(false);
-            sel.removeAllRanges(); sel.addRange(range);
-        } else {
-            document.execCommand("insertText", false, emoji);
-        }
-        saveRecentEmoji(emoji);
-        syncReplySubmitState();
-    }
+        replyEmojiLibraryPicker.on("emoji", (selection) => {
+            const emoji = typeof selection === "string" ? selection : selection?.emoji;
+            if (!emoji) return;
+            insertReplyEmoji(emoji);
+            closeEmojiPicker();
+        });
 
-    // ── 이모지 피커 위치 ──
-    function updateEmojiPickerPosition() {
-        if (!replyEmojiButton || !replyEmojiPicker) return;
-        const rect = replyEmojiButton.getBoundingClientRect();
-        const pw = Math.min(565, window.innerWidth - 32);
-        const ml = Math.max(16, window.innerWidth - pw - 16);
-        const left = Math.min(Math.max(16, rect.left), ml);
-        const top = Math.min(rect.bottom + 8, window.innerHeight - 24);
-        const mh = Math.max(220, window.innerHeight - top - 16);
-        replyEmojiPicker.style.left = `${left}px`;
-        replyEmojiPicker.style.top = `${top}px`;
-        replyEmojiPicker.style.maxHeight = `${mh}px`;
+        replyEmojiLibraryPicker.on("hidden", () => {
+            replyEmojiButton?.setAttribute("aria-expanded", "false");
+        });
+
+        return replyEmojiLibraryPicker;
     }
 
     function closeEmojiPicker() {
-        if (replyEmojiPicker) replyEmojiPicker.hidden = true;
-        if (replyEmojiButton) replyEmojiButton.setAttribute("aria-expanded", "false");
+        if (!replyEmojiLibraryPicker) {
+            replyEmojiButton?.setAttribute("aria-expanded", "false");
+            return;
+        }
+        if (replyEmojiLibraryPicker.pickerVisible) {
+            replyEmojiLibraryPicker.hidePicker();
+        }
+        replyEmojiButton?.setAttribute("aria-expanded", "false");
+    }
+
+    function toggleEmojiPicker() {
+        const picker = ensureReplyEmojiLibraryPicker();
+        if (!picker || !replyEmojiButton) return;
+        if (picker.pickerVisible) {
+            picker.hidePicker();
+            replyEmojiButton.setAttribute("aria-expanded", "false");
+            return;
+        }
+        replyEmojiButton.setAttribute("aria-expanded", "true");
+        picker.showPicker(replyEmojiButton);
+    }
+
+    function insertReplyEmoji(emoji) {
+        if (!replyEditor) return;
+        replyEditor.focus();
+        replyEditor.append(document.createTextNode(emoji));
+        placeCaretAtEnd(replyEditor);
+        syncReplySubmitState();
+        syncReplyFormatButtons();
     }
 
     // ── submit 상태 동기화 ──
@@ -1278,19 +1247,42 @@
         const progress = `${Math.min(text.length / replyMaxLength, 1) * 360}deg`;
         if (replySubmitButton) replySubmitButton.disabled = !canSubmit;
         if (replyGauge) { replyGauge.style.setProperty("--gauge-progress", progress); replyGauge.setAttribute("aria-valuenow", String(len)); }
-        if (replyGaugeText) replyGaugeText.textContent = remaining <= 20 ? String(remaining) : "";
+        if (replyGaugeText) replyGaugeText.textContent = String(remaining);
     }
 
     // ── 서식 버튼 ──
+    function isReplyEditorSelectionActive() {
+        if (!replyEditor) return false;
+        const selection = window.getSelection();
+        return Boolean(
+            selection &&
+                selection.rangeCount > 0 &&
+                replyEditor.contains(selection.getRangeAt(0).commonAncestorContainer),
+        );
+    }
+    function focusReplyEditorToEnd() {
+        if (!replyEditor) return;
+        replyEditor.focus();
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(replyEditor);
+        range.collapse(false);
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+    }
     function syncReplyFormatButtons() {
         replyFormatButtons.forEach((btn) => {
             const fmt = btn.getAttribute("data-format");
-            btn.classList.toggle("tweet-modal__tool-btn--active", pendingReplyFormats.has(fmt));
+            const isActive =
+                isReplyEditorSelectionActive() &&
+                document.queryCommandState?.(fmt || "") === true;
+            btn.classList.toggle("tweet-modal__tool-btn--active", isActive);
         });
     }
     function applyReplyFormat(fmt) {
-        if (pendingReplyFormats.has(fmt)) pendingReplyFormats.delete(fmt);
-        else pendingReplyFormats.add(fmt);
+        if (!fmt || !replyEditor) return;
+        if (!isReplyEditorSelectionActive()) focusReplyEditorToEnd();
+        document.execCommand(fmt, false);
         syncReplyFormatButtons();
     }
 
@@ -1513,8 +1505,6 @@
         clearAttachedReplyFileUrls();
         attachedReplyFiles = [];
         pendingAttachmentEditIndex = null;
-        pendingReplyFormats = new Set();
-        activeEmojiCategory = "recent";
         selectedProduct = null;
         q("[data-selected-product]")?.remove();
         productSelectList?.querySelectorAll(".draft-panel__item--selected").forEach((el) => {
@@ -1569,9 +1559,13 @@
         if (e.target === replyModalOverlay) closeBookmarkReplyModal();
     });
 
-    replyEditor?.addEventListener("input", syncReplySubmitState);
+    replyEditor?.addEventListener("input", () => { syncReplySubmitState(); syncReplyFormatButtons(); });
+    replyEditor?.addEventListener("keyup", syncReplyFormatButtons);
+    replyEditor?.addEventListener("mouseup", syncReplyFormatButtons);
+    replyEditor?.addEventListener("focus", syncReplyFormatButtons);
 
     replyFormatButtons.forEach((btn) => {
+        btn.addEventListener("mousedown", (event) => event.preventDefault());
         btn.addEventListener("click", () => applyReplyFormat(btn.getAttribute("data-format")));
     });
 
@@ -1600,26 +1594,15 @@
         if (editBtn) { pendingAttachmentEditIndex = Number(editBtn.dataset.attachmentEditIndex); replyFileInput?.click(); }
     });
 
+    replyEmojiButton?.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
     replyEmojiButton?.addEventListener("click", (e) => {
         e.preventDefault();
-        if (!replyEmojiPicker) return;
-        if (!replyEmojiPicker.hidden) { closeEmojiPicker(); return; }
-        renderEmojiPicker();
-        replyEmojiPicker.hidden = false;
-        replyEmojiButton.setAttribute("aria-expanded", "true");
-        updateEmojiPickerPosition();
+        e.stopPropagation();
+        toggleEmojiPicker();
     });
-
-    replyEmojiPicker?.addEventListener("click", (e) => {
-        const opt = e.target.closest(".tweet-modal__emoji-option");
-        if (opt) { e.preventDefault(); insertReplyEmoji(opt.dataset.emoji || opt.textContent); renderEmojiPickerContent(); return; }
-        const clearBtn = e.target.closest("[data-action='clear-recent']");
-        if (clearBtn) { clearRecentEmojis(); renderEmojiPickerContent(); return; }
-        const tab = e.target.closest(".tweet-modal__emoji-tab");
-        if (tab) { const cat = tab.getAttribute("data-emoji-category"); if (cat) { activeEmojiCategory = cat; renderEmojiPicker(); } }
-    });
-
-    replyEmojiSearchInput?.addEventListener("input", renderEmojiPickerContent);
 
     replyGeoButton?.addEventListener("click", () => {
         if (replyLocationView && !replyLocationView.hidden) closeLocationPanel();
@@ -1755,9 +1738,4 @@
         showToast("답글이 게시되었습니다");
     });
 
-    document.addEventListener("click", (e) => {
-        if (replyEmojiPicker && !replyEmojiPicker.hidden && !replyEmojiPicker.contains(e.target) && !replyEmojiButton?.contains(e.target)) {
-            closeEmojiPicker();
-        }
-    });
 })();

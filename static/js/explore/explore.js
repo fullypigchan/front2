@@ -1,14 +1,15 @@
-// 1. 탭 요소
-const tabProducts = document.getElementById("tabProducts");
-const tabTrending = document.getElementById("tabTrending");
-const tabNews = document.getElementById("tabNews");
+window.onload = () => {
+    // 1. 탭 요소
+    const tabProducts = document.getElementById("tabProducts");
+    const tabTrending = document.getElementById("tabTrending");
+    const tabNews = document.getElementById("tabNews");
 
-// 2. 섹션 요소
-const productsSection = document.getElementById("productsSection");
-const trendingSection = document.getElementById("trendingSection");
-const newsSection = document.getElementById("newsSection");
+    // 2. 섹션 요소
+    const productsSection = document.getElementById("productsSection");
+    const trendingSection = document.getElementById("trendingSection");
+    const newsSection = document.getElementById("newsSection");
 
-if (tabProducts && tabTrending && tabNews && productsSection && trendingSection && newsSection) {
+    if (tabProducts && tabTrending && tabNews && productsSection && trendingSection && newsSection) {
 
     // 3. 탭 전환 함수
     function showProductsTab() {
@@ -54,129 +55,141 @@ if (tabProducts && tabTrending && tabNews && productsSection && trendingSection 
     tabProducts.addEventListener("click", (e) => { showProductsTab(); });
     tabTrending.addEventListener("click", (e) => { showTrendingTab(); });
     tabNews.addEventListener("click", (e) => { showNewsTab(); });
-}
+    }
 
-// 5. Trending 서브탭
-const trendingSubtabs = document.querySelectorAll("#trendingSubtabs .trending-subtab");
-if (trendingSubtabs.length > 0) {
-    trendingSubtabs.forEach((tab) => {
-        tab.addEventListener("click", (e) => {
-            e.preventDefault();
-            trendingSubtabs.forEach((t) => { t.classList.remove("isActive"); });
-            tab.classList.add("isActive");
+    // 5. Trending 서브탭
+    const trendingSubtabs = document.querySelectorAll("#trendingSubtabs .trending-subtab");
+    if (trendingSubtabs.length > 0) {
+        trendingSubtabs.forEach((tab) => {
+            tab.addEventListener("click", (e) => {
+                e.preventDefault();
+                trendingSubtabs.forEach((t) => { t.classList.remove("isActive"); });
+                tab.classList.add("isActive");
+            });
         });
-    });
-}
+    }
 
-// 6. 트렌딩 더보기 메뉴
-const trendReportMenu = document.getElementById("trendReportMenu");
+    // 6. 트렌딩 더보기 메뉴
+    const trendReportMenu = document.getElementById("trendReportMenu");
 
-if (trendReportMenu) {
-    let activeBtn = null;
+    if (trendReportMenu) {
+        let activeBtn = null;
 
-    document.querySelectorAll(".trending-more-btn").forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-            e.stopPropagation();
+        document.querySelectorAll(".trending-more-btn").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
 
-            // 같은 버튼 다시 누르면 닫기
-            if (activeBtn === btn && !trendReportMenu.hidden) {
-                trendReportMenu.hidden = true;
-                activeBtn = null;
-                return;
-            }
+                // 같은 버튼 다시 누르면 닫기
+                if (activeBtn === btn && !trendReportMenu.hidden) {
+                    trendReportMenu.hidden = true;
+                    activeBtn = null;
+                    return;
+                }
 
-            activeBtn = btn;
-            const rect = btn.getBoundingClientRect();
-            const menuHeight = 5 * 44;
+                activeBtn = btn;
+                const rect = btn.getBoundingClientRect();
 
-            const top = (rect.bottom + menuHeight > window.innerHeight)
-                ? rect.top - menuHeight
-                : rect.bottom;
+                trendReportMenu.style.top  = rect.bottom + "px";
+                trendReportMenu.style.left = (rect.right - 284) + "px";
+                trendReportMenu.hidden = false;
 
-            trendReportMenu.style.top  = top + "px";
-            trendReportMenu.style.left = (rect.right - 284) + "px";
-            trendReportMenu.hidden = false;
+                const menuH = trendReportMenu.offsetHeight;
+                if (rect.bottom + menuH > window.innerHeight) {
+                    trendReportMenu.style.top = (rect.top - menuH) + "px";
+                }
+            });
         });
-    });
 
-    // 메뉴 아이템 클릭 시 해당 트렌딩 아이템 → dismissed 상태로 교체
-    trendReportMenu.querySelectorAll(".menu-item").forEach((item) => {
-        item.addEventListener("click", (e) => {
-            if (activeBtn) {
-                const trendingItem = activeBtn.closest(".trending-item");
-                if (trendingItem) {
-                    const dismissed = document.createElement("article");
-                    dismissed.className = "trend-dismissed";
-                    dismissed.setAttribute("role", "article");
-                    dismissed.innerHTML =
-                        '<div class="trend-dismissed__wrapper">' +
-                            '<div class="trend-dismissed__spacer"></div>' +
-                            '<div class="trend-dismissed__body">' +
-                                '<div class="trend-dismissed__box">' +
-                                    '<div class="trend-dismissed__text">' +
-                                        '<span>감사합니다. 이 트렌드를 업데이트하려면 페이지를 새로고침해 주세요.</span>' +
+        // 메뉴 아이템 클릭 시 해당 트렌딩 아이템 → dismissed 상태로 교체
+        trendReportMenu.querySelectorAll(".more-menu").forEach((item) => {
+            item.addEventListener("click", (e) => {
+                if (activeBtn) {
+                    const trendingItem = activeBtn.closest(".trending-item");
+                    if (trendingItem) {
+                        const dismissed = document.createElement("article");
+                        dismissed.className = "trend-dismissed";
+                        dismissed.setAttribute("role", "article");
+                        dismissed.innerHTML =
+                            '<div class="trend-dismissed__wrapper">' +
+                                '<div class="trend-dismissed__spacer"></div>' +
+                                '<div class="trend-dismissed__body">' +
+                                    '<div class="trend-dismissed__box">' +
+                                        '<div class="trend-dismissed__text">' +
+                                            '<span>감사합니다. 이 트렌드를 업데이트하려면 페이지를 새로고침해 주세요.</span>' +
+                                        '</div>' +
                                     '</div>' +
                                 '</div>' +
-                            '</div>' +
-                        '</div>';
-                    trendingItem.replaceWith(dismissed);
+                            '</div>';
+                        trendingItem.replaceWith(dismissed);
+                    }
                 }
-            }
-            trendReportMenu.hidden = true;
-            activeBtn = null;
+                trendReportMenu.hidden = true;
+                activeBtn = null;
+            });
         });
-    });
 
-    // 외부 클릭 시 닫기
-    document.addEventListener("click", (e) => {
-        if (!trendReportMenu.hidden && !trendReportMenu.contains(e.target)) {
-            trendReportMenu.hidden = true;
-            activeBtn = null;
-        }
-    });
+        // 외부 클릭 시 닫기
+        document.addEventListener("click", (e) => {
+            if (!trendReportMenu.hidden && !trendReportMenu.contains(e.target)) {
+                trendReportMenu.hidden = true;
+                activeBtn = null;
+            }
+        });
 
-    // 스크롤 시 닫기
-    window.addEventListener("scroll", (e) => {
-        if (!trendReportMenu.hidden) {
-            trendReportMenu.hidden = true;
-            activeBtn = null;
-        }
-    }, { passive: true });
-}
+        // 스크롤 시 닫기
+        window.addEventListener("scroll", (e) => {
+            if (!trendReportMenu.hidden) {
+                trendReportMenu.hidden = true;
+                activeBtn = null;
+            }
+        }, { passive: true });
+    }
 
 // 7. Post-Card 인터랙션 (Like / Bookmark / 이미지 프리뷰)
 (function () {
+    // Toast 알림
+    function showToast(message, extraClass) {
+        const toast = document.createElement("div");
+        toast.className = "toast";
+        if (extraClass) {
+            toast.classList.add(extraClass);
+        }
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(function () { toast.remove(); }, 2500);
+    }
+
     // Like 토글
     function handleLike(btn) {
-        var isLiked = btn.classList.contains("liked");
+        const isLiked = btn.classList.contains("liked");
         btn.classList.toggle("liked", !isLiked);
-        var svgs = btn.querySelectorAll("svg");
-        if (svgs.length >= 2) {
-            svgs[0].classList.toggle("off", !isLiked);
-            svgs[1].classList.toggle("off", isLiked);
+        const path = btn.querySelector("svg path");
+        if (path) {
+            path.setAttribute("d", isLiked ? path.getAttribute("data-path-inactive") : path.getAttribute("data-path-active"));
         }
-        var countEl = btn.querySelector(".Post-Action-Count");
+        const countEl = btn.querySelector(".Post-Action-Count");
         if (countEl) {
-            var cur = parseInt(countEl.textContent.replace(/[^0-9]/g, ""), 10) || 0;
+            const cur = parseInt(countEl.textContent.replace(/[^0-9]/g, ""), 10) || 0;
             countEl.textContent = isLiked ? cur - 1 : cur + 1;
         }
+        showToast(isLiked ? "좋아요를 취소했습니다." : "좋아요를 눌렀습니다.", "toast--like");
     }
 
     // Bookmark 토글
     function handleBookmark(btn) {
-        var isBookmarked = btn.classList.contains("bookmarked");
+        const isBookmarked = btn.classList.contains("bookmarked");
         btn.classList.toggle("bookmarked", !isBookmarked);
-        var svgs = btn.querySelectorAll("svg");
-        if (svgs.length >= 2) {
-            svgs[0].classList.toggle("off", !isBookmarked);
-            svgs[1].classList.toggle("off", isBookmarked);
+        const path = btn.querySelector("svg path");
+        if (path) {
+            path.setAttribute("d", isBookmarked ? path.getAttribute("data-path-inactive") : path.getAttribute("data-path-active"));
         }
+        showToast(isBookmarked ? "북마크가 해제되었습니다." : "북마크에 저장되었습니다.");
     }
 
     // 이미지 프리뷰
-    var previewOverlay = document.getElementById("postMediaPreviewOverlay");
-    var previewImg     = document.getElementById("postMediaPreviewImage");
-    var previewClose   = document.getElementById("postMediaPreviewClose");
+    const previewOverlay = document.getElementById("postMediaPreviewOverlay");
+    const previewImg = document.getElementById("postMediaPreviewImage");
+    const previewClose = document.getElementById("postMediaPreviewClose");
 
     function openPreview(src, alt) {
         if (!previewOverlay || !src) return;
@@ -185,6 +198,7 @@ if (trendReportMenu) {
         previewOverlay.classList.remove("off");
         document.body.style.overflow = "hidden";
     }
+    
     function closePreview() {
         if (!previewOverlay) return;
         previewOverlay.classList.add("off");
@@ -205,12 +219,11 @@ if (trendReportMenu) {
     });
 
     // 이벤트 위임 (productsSection)
-    var productsSection = document.getElementById("productsSection");
     if (productsSection) {
         productsSection.addEventListener("click", (e) => {
-            var likeBtn     = e.target.closest(".Post-Action-Btn.Like");
-            var bookmarkBtn = e.target.closest(".Post-Action-Btn.Bookmark");
-            var mediaImg    = e.target.closest(".Post-Media-Img");
+            const likeBtn     = e.target.closest(".Post-Action-Btn.Like");
+            const bookmarkBtn = e.target.closest(".Post-Action-Btn.Bookmark");
+            const mediaImg    = e.target.closest(".Post-Media-Img");
 
             if (likeBtn)     { handleLike(likeBtn); return; }
             if (bookmarkBtn) { handleBookmark(bookmarkBtn); return; }
@@ -220,17 +233,15 @@ if (trendReportMenu) {
 })();
 
 // 8. 검색창 포커스 드롭다운 + 최근검색 삭제
-// main event.js(window.onload) 이후에 등록해야 label 덮어쓰기 충돌 방지
-window.addEventListener("load", function () {
-
-    var searchForm        = document.getElementById("searchForm");
-    var searchInput       = document.getElementById("searchInput");
-    var searchPanel       = document.getElementById("searchPanel");
-    var searchPanelEmpty  = document.getElementById("searchPanelEmpty");
-    var searchRecentSec   = document.getElementById("searchRecentSection");
-    var searchResultsEl   = document.getElementById("searchResults");
-    var searchResultTopic = document.getElementById("searchResultTopic");
-    var searchResultLabel = document.getElementById("searchResultLabel");
+    const searchForm        = document.getElementById("searchForm");
+    const searchInput       = document.getElementById("searchInput");
+    const searchClearBtn    = document.getElementById("searchClearBtn");
+    const searchPanel       = document.getElementById("searchPanel");
+    const searchPanelEmpty  = document.getElementById("searchPanelEmpty");
+    const searchRecentSec   = document.getElementById("searchRecentSection");
+    const searchResultsEl   = document.getElementById("searchResults");
+    const searchResultTopic = document.getElementById("searchResultTopic");
+    const searchResultLabel = document.getElementById("searchResultLabel");
 
     if (searchForm && searchInput && searchPanel) {
 
@@ -255,14 +266,23 @@ window.addEventListener("load", function () {
 
         // 케이스 3: 입력 있음
         function showResults(val) {
-            if (searchResultLabel) searchResultLabel.textContent = val + " 검색";
+            if (searchResultLabel) searchResultLabel.textContent = val;
             if (searchPanelEmpty) searchPanelEmpty.hidden = true;
             if (searchRecentSec)  searchRecentSec.hidden  = true;
             if (searchResultsEl)  searchResultsEl.hidden  = false;
         }
 
+        function updateSearchClearButton() {
+            if (!searchClearBtn) {
+                return;
+            }
+
+            searchClearBtn.hidden = searchInput.value.length === 0;
+        }
+
         function updatePanel() {
-            var val = searchInput.value.trim();
+            const val = searchInput.value.trim();
+            updateSearchClearButton();
             if (val.length > 0) {
                 showResults(val);
             } else if (hasRecentItems()) {
@@ -272,28 +292,37 @@ window.addEventListener("load", function () {
             }
         }
 
-        searchPanel.addEventListener("mousedown", function (e) {
+        searchPanel.addEventListener("mousedown", (e) => {
             e.preventDefault();
         });
 
-        searchInput.addEventListener("focus", function (e) {
+        searchInput.addEventListener("focus", (e) => {
             searchForm.classList.add("isFocused");
             searchPanel.hidden = false;
             updatePanel();
         });
 
-        // main event.js 이후에 등록 → 마지막으로 실행되어 # 없는 텍스트로 덮어씀
-        searchInput.addEventListener("input", function (e) {
+        searchInput.addEventListener("input", (e) => {
             updatePanel();
         });
 
-        searchInput.addEventListener("blur", function (e) {
+        if (searchClearBtn) {
+            searchClearBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                searchInput.value = "";
+                updatePanel();
+                searchInput.focus();
+            });
+        }
+
+        searchInput.addEventListener("blur", (e) => {
             if (!document.hasFocus()) { return; }
             searchForm.classList.remove("isFocused");
             searchPanel.hidden = true;
         });
 
-        searchInput.addEventListener("keydown", function (e) {
+        searchInput.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
                 searchForm.classList.remove("isFocused");
                 searchPanel.hidden = true;
@@ -302,17 +331,19 @@ window.addEventListener("load", function () {
         });
 
         if (searchResultTopic) {
-            searchResultTopic.addEventListener("click", function (e) {
+            searchResultTopic.addEventListener("click", (e) => {
                 searchForm.classList.remove("isFocused");
                 searchPanel.hidden = true;
             });
         }
+
+        updateSearchClearButton();
     }
 
     // 개별 삭제 버튼
     if (searchRecentSec) {
-        searchRecentSec.addEventListener("click", function (e) {
-            var deleteBtn = e.target.closest(".searchRecentDeleteBtn");
+        searchRecentSec.addEventListener("click", (e) => {
+            const deleteBtn = e.target.closest(".searchRecentDeleteBtn");
             if (deleteBtn) {
                 e.stopPropagation();
                 deleteBtn.closest(".searchResultItem").remove();
@@ -323,15 +354,16 @@ window.addEventListener("load", function () {
         });
 
         // 모두 지우기
-        var clearAllBtn = searchRecentSec.querySelector(".searchRecentClearAll");
+        const clearAllBtn = searchRecentSec.querySelector(".searchRecentClearAll");
         if (clearAllBtn) {
-            clearAllBtn.addEventListener("click", function (e) {
+            clearAllBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
-                searchRecentSec.querySelectorAll(".searchResultItem").forEach(function (item) {
+                searchRecentSec.querySelectorAll(".searchResultItem").forEach((item) => {
                     item.remove();
                 });
                 showEmpty();
             });
         }
     }
-});
+
+};

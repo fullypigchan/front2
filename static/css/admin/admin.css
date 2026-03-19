@@ -1,6 +1,13 @@
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+}
 
-    html { overflow-y: scroll; }
+    html { 
+        overflow-y: scroll; 
+        scrollbar-gutter: stable;
+    }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -12,7 +19,7 @@
     a { text-decoration: none; color: inherit; }
 
     /* 맨위 검정바 */
-    .topBar {
+    .top-bar {
       position: fixed; 
       top: 0; 
       left: 0; 
@@ -282,7 +289,15 @@
 
     .modal-field-row:last-child { border-bottom: none; }
 
-    .modal-field-row--top { align-items: start; }
+    .modal-field-row-top {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+        min-height: 44px;
+        padding: 12px 24px;
+        border-bottom: 1px solid rgb(239, 243, 244);
+    }
+    .modal-field-row-top:last-child { border-bottom: none; }
 
     .modal-field-label {
         font-size: 15px;
@@ -322,11 +337,12 @@
     .modal-field-readonly {
         color: #536471;
         font-size: 14px;
+        font-weight: 400;
         line-height: 1.6;
         padding: 2px 0;
     }
 
-    .modal-email { color: #1d9bf0; }
+    .modal-email { color: #1d9bf0; font-size: 15px; font-weight: 400; }
 
     /* 검색창 */
     .search-input {
@@ -342,15 +358,18 @@
 
     .search-input:focus { border-color: #1d9bf0; }
 
-    .btn {
-      padding: 8px 18px; 
+    .btn-primary,
+    .btn-outline,
+    .btn-danger,
+    .btn-ai {
+      padding: 8px 18px;
       border-radius: 8px;
-      font-size: 15px; 
+      font-size: 15px;
       font-weight: 700;
-      cursor: pointer; 
-      border: none; 
-      font-family: inherit; 
-      transition: background 0s; 
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      transition: background 0s;
       white-space: nowrap;
     }
     .btn-primary {
@@ -396,10 +415,10 @@
         cursor: not-allowed;
     }
 
-    .table-wrap { 
-        border: 1px solid #cfd9de; 
-        border-radius: 12px; 
-        overflow: hidden; 
+    .nw-table {
+        border: 1px solid #cfd9de;
+        border-radius: 12px;
+        overflow: hidden;
     }
 
     .div-table {
@@ -675,6 +694,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 20px 24px;
+        border-bottom: 1px solid #eff3f4;
     }
 
     .post-header-right,
@@ -762,6 +783,13 @@
       margin-bottom: 18px;
     }
     .ai-summary-text {
+      padding: 10px 14px;
+      border: 1px solid #cfd9de;
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
       min-height: 80px;
       background: #f7f9f9;
       color: #536471;
@@ -790,11 +818,19 @@
       background: #fff;
       border: 1px solid rgb(229, 234, 236);
       border-radius: 16px;
-      width: 1400px;
+      width: 900px;
       max-width: calc(100vw - 279px - 48px);
       max-height: calc(100vh - 80px);
       overflow-y: auto;
       box-shadow: rgba(0,0,0,0.05) 0px 1px 2px 0px;
+    }
+    
+    #modalNewsAutoSettings .modal {
+        width: 580px;
+    }
+
+    #modalNewsAutoSettings.modal-overlay {
+        padding-left: 0px;
     }
 
     .modal-header {
@@ -1010,7 +1046,10 @@
     }
 
     .stats-data-card {
-        padding: 20px;
+        background: #fff;
+        border: 1px solid #eff3f4;
+        border-radius: 16px;
+        padding: 28px 24px;
         text-align: center;
         margin-bottom: 0;
     }
@@ -1031,14 +1070,19 @@
         margin-top: 6px;
     }
 
-    .stats-data-value--sm { font-size: 20px; }
-    .stats-data-value--muted { font-size: 20px; color: #cfd9de; }
+    .stats-value-sm {
+        font-size: 20px;
+        font-weight: 800;
+        color: #0f1419;
+        line-height: 1.2;
+        margin-top: 6px;
+    }
 
     .chart-area {
         height: 280px;
     }
 
-    .chart-area--tall {
+    .chart-area-tall {
         height: 320px;
     }
 
@@ -1097,3 +1141,22 @@
         background: #000;
         cursor: default;
     }
+
+    /* 인라인 스타일 이관 */
+    .td-email { color: #1d9bf0; }
+
+    .news-url-row { display: flex; gap: 8px; }
+
+    #newsUrl { flex: 1; }
+
+    #aiBox .form-group { margin-bottom: 0; }
+
+    .news-write-preview .nw-module-body { padding: 0; }
+
+    #previewCategory { display: none; }
+
+    .stats-two-col .nw-module { margin-bottom: 0; }
+
+    #page-stats-report .stats-data-grid { grid-template-columns: repeat(3, 1fr); }
+
+    #modalNewsAutoSettings .modal-section-title { width: 100%; text-align: center; }

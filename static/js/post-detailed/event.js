@@ -1,208 +1,10 @@
-const composerEmojiCategoryMeta = {
-    recent: {
-        label: "최근",
-        sectionTitle: "최근",
-        icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M12 1.75A10.25 10.25 0 112.75 12 10.26 10.26 0 0112 1.75zm0 1.5A8.75 8.75 0 1020.75 12 8.76 8.76 0 0012 3.25zm.75 3.5v5.19l3.03 1.75-.75 1.3-3.78-2.18V6.75h1.5z"></path></g></svg>',
-    },
-    smileys: {
-        label: "스마일리 및 사람",
-        sectionTitle: "스마일리 및 사람",
-        icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M12 22.75C6.072 22.75 1.25 17.928 1.25 12S6.072 1.25 12 1.25 22.75 6.072 22.75 12 17.928 22.75 12 22.75zm0-20c-5.109 0-9.25 4.141-9.25 9.25s4.141 9.25 9.25 9.25 9.25-4.141 9.25-9.25S17.109 2.75 12 2.75zM9 11.75c-.69 0-1.25-.56-1.25-1.25S8.31 9.25 9 9.25s1.25.56 1.25 1.25S9.69 11.75 9 11.75zm6 0c-.69 0-1.25-.56-1.25-1.25S14.31 9.25 15 9.25s1.25.56 1.25 1.25S15.69 11.75 15 11.75zm-8.071 3.971c.307-.298.771-.397 1.188-.253.953.386 2.403.982 3.883.982s2.93-.596 3.883-.982c.417-.144.88-.044 1.188.253a.846.846 0 01-.149 1.34c-1.254.715-3.059 1.139-4.922 1.139s-3.668-.424-4.922-1.139a.847.847 0 01-.149-1.39z"></path></g></svg>',
-    },
-    animals: {
-        label: "동물 및 자연",
-        sectionTitle: "동물 및 자연",
-        icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M12 3.5c3.77 0 6.75 2.86 6.75 6.41 0 3.17-1.88 4.94-4.15 6.28-.74.44-1.54.9-1.6 1.86-.02.38-.33.68-.71.68h-.6a.71.71 0 01-.71-.67c-.07-.95-.86-1.42-1.6-1.85C7.13 14.85 5.25 13.08 5.25 9.91 5.25 6.36 8.23 3.5 12 3.5zm-4.79-.97c.61 0 1.1.49 1.1 1.1 0 .32-.14.63-.39.84-.4.34-.78.78-1.08 1.3-.18.3-.49.48-.84.48-.61 0-1.1-.49-1.1-1.1 0-.14.03-.29.09-.42.47-1.04 1.17-1.93 2.02-2.63.19-.15.43-.24.7-.24zm9.58 0c.27 0 .51.09.7.24.85.7 1.55 1.6 2.02 2.63.06.13.09.28.09.42 0 .61-.49 1.1-1.1 1.1-.35 0-.66-.18-.84-.48-.3-.52-.68-.96-1.08-1.3a1.1 1.1 0 01-.39-.84c0-.61.49-1.1 1.1-1.1z"></path></g></svg>',
-    },
-    food: {
-        label: "음식 및 음료",
-        sectionTitle: "음식 및 음료",
-        icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M5 10.5c0-3.59 3.36-6.5 7.5-6.5s7.5 2.91 7.5 6.5v.58a5.42 5.42 0 01-2.08 4.26L16.5 21H8.5l-1.42-5.66A5.42 5.42 0 015 11.08v-.58zm2 0v.58c0 1.08.5 2.08 1.36 2.76l.3.24.95 3.92h5.78l.95-3.92.3-.24a3.42 3.42 0 001.36-2.76v-.58c0-2.48-2.47-4.5-5.5-4.5S7 8.02 7 10.5z"></path></g></svg>',
-    },
-    activities: {
-        label: "활동",
-        sectionTitle: "활동",
-        icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M12 2.25c5.385 0 9.75 4.365 9.75 9.75S17.385 21.75 12 21.75 2.25 17.385 2.25 12 6.615 2.25 12 2.25zm0 1.5A8.25 8.25 0 103.75 12 8.26 8.26 0 0012 3.75zm-4.1 4.5c.27 0 .53.12.71.33l1.94 2.55 3.12-2.29c.36-.27.87-.22 1.18.12l2.83 3.12a.88.88 0 01-.07 1.24.88.88 0 01-1.24-.07l-2.3-2.54-3.16 2.33a.88.88 0 01-1.23-.16L7.2 9.64a.88.88 0 01.7-1.39z"></path></g></svg>',
-    },
-    travel: {
-        label: "여행 및 장소",
-        sectionTitle: "여행 및 장소",
-        icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M12 2.25c-4.142 0-7.5 3.245-7.5 7.248 0 5.207 6.46 11.611 6.735 11.881a1.08 1.08 0 001.53 0c.275-.27 6.735-6.674 6.735-11.881 0-4.003-3.358-7.248-7.5-7.248zm0 17.493c-1.758-1.878-6-6.838-6-10.245 0-3.172 2.686-5.748 6-5.748s6 2.576 6 5.748c0 3.407-4.242 8.367-6 10.245zm0-13.243a3 3 0 100 6 3 3 0 000-6z"></path></g></svg>',
-    },
-    objects: {
-        label: "사물",
-        sectionTitle: "사물",
-        icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M12 2.5c2.07 0 3.75 1.68 3.75 3.75 0 1.45-.83 2.71-2.04 3.33l-.21.11V11h.5A2.5 2.5 0 0116.5 13.5v1.38c0 1.27-.7 2.43-1.82 3.03l-.93.5V21.5h-3.5v-3.09l-.93-.5A3.44 3.44 0 017.5 14.88V13.5A2.5 2.5 0 0110 11h.5V9.69l-.21-.11A3.75 3.75 0 018.25 6.25 3.75 3.75 0 0112 2.5zm0 1.5a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5zm-2 8.5a1 1 0 00-1 1v1.38c0 .72.4 1.39 1.04 1.73l1.71.92v1.47h.5v-1.47l1.71-.92A1.97 1.97 0 0015 14.88V13.5a1 1 0 00-1-1h-4z"></path></g></svg>',
-    },
-    symbols: {
-        label: "기호",
-        sectionTitle: "기호",
-        icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M5 4h14v4.5h-2V6H7v2.5H5V4zm2 6h4v4H7v-4zm6 0h4v4h-4v-4zM5 16h6v4H5v-4zm8 0h6v4h-6v-4z"></path></g></svg>',
-    },
-    flags: {
-        label: "깃발",
-        sectionTitle: "깃발",
-        icon: '<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__emoji-tab-icon"><g><path d="M6 2.75A.75.75 0 016.75 2h.5a.75.75 0 01.75.75V3h9.38c.97 0 1.45 1.17.76 1.85L16.1 6.9l2.05 2.05c.69.68.21 1.85-.76 1.85H8v10.45a.75.75 0 01-.75.75h-.5a.75.75 0 01-.75-.75V2.75z"></path></g></svg>',
-    },
-};
-
-const composerEmojiCategoryData = {
-    smileys: [
-        "😀",
-        "😃",
-        "😄",
-        "😁",
-        "😂",
-        "😊",
-        "😉",
-        "😍",
-        "🥰",
-        "😎",
-        "🤔",
-        "😭",
-        "🥳",
-        "🤩",
-        "😴",
-        "😤",
-        "🤯",
-        "🫠",
-    ],
-    animals: [
-        "🐶",
-        "🐱",
-        "🐻",
-        "🐼",
-        "🦊",
-        "🐯",
-        "🦁",
-        "🐸",
-        "🐵",
-        "🐧",
-        "🐦",
-        "🦄",
-        "🐝",
-        "🦋",
-        "🌸",
-        "🌿",
-        "🌙",
-        "⭐",
-    ],
-    food: [
-        "🍔",
-        "🍕",
-        "🍜",
-        "🍣",
-        "🍩",
-        "🍪",
-        "🍫",
-        "🍿",
-        "🥐",
-        "🍎",
-        "🍓",
-        "🍉",
-        "🍇",
-        "☕",
-        "🍵",
-        "🥤",
-    ],
-    activities: [
-        "⚽",
-        "🏀",
-        "🏈",
-        "⚾",
-        "🎾",
-        "🎮",
-        "🎧",
-        "🎤",
-        "🎬",
-        "📚",
-        "🎯",
-        "🎨",
-        "🧩",
-        "🎻",
-        "🥁",
-        "🏆",
-    ],
-    travel: [
-        "✈️",
-        "🚗",
-        "🚆",
-        "🚢",
-        "🚀",
-        "🏝️",
-        "🏔️",
-        "🏙️",
-        "🌉",
-        "🗼",
-        "🗽",
-        "🏟️",
-        "🌍",
-        "🧭",
-        "🧳",
-        "📍",
-    ],
-    objects: [
-        "📱",
-        "💻",
-        "⌚",
-        "📷",
-        "🎁",
-        "💡",
-        "🔒",
-        "🧸",
-        "🛍️",
-        "💼",
-        "📦",
-        "🔋",
-        "📡",
-        "🧪",
-        "🛠️",
-        "💎",
-    ],
-    symbols: [
-        "❤️",
-        "💙",
-        "💚",
-        "💛",
-        "🖤",
-        "💯",
-        "✨",
-        "🔥",
-        "✅",
-        "❌",
-        "⚠️",
-        "❓",
-        "➕",
-        "➖",
-        "♻️",
-        "🔔",
-    ],
-    flags: [
-        "🇰🇷",
-        "🇺🇸",
-        "🇯🇵",
-        "🇨🇳",
-        "🇬🇧",
-        "🇫🇷",
-        "🇩🇪",
-        "🇸🇬",
-        "🇦🇺",
-        "🇨🇦",
-        "🇪🇸",
-        "🇮🇹",
-        "🇹🇭",
-        "🇻🇳",
-        "🇧🇷",
-        "🇮🇳",
-    ],
-};
-
 window.addEventListener("DOMContentLoaded", setupPostDetailPage);
 
 // 게시물 상세 화면의 액션 바 초기화만 연결한다.
 function setupPostDetailPage() {
     setupInlineReplyComposer();
     setupPostDetailActions();
+    setupCardReplyModal();
 }
 
 // 메인 게시글 모달의 답글 작성 기능 중 상세 화면에 필요한 것만 가볍게 다시 묶는다.
@@ -218,10 +20,7 @@ function setupInlineReplyComposer() {
     const footerBottom = composer.querySelector(".tweet-modal__footer-bottom");
     const context = q(".post-detail-inline-reply-context");
     const emojiButton = q("[data-testid='emojiButton']");
-    const emojiPicker = q(".tweet-modal__emoji-picker");
-    const emojiSearchInput = q("[data-testid='emojiSearchInput']");
-    const emojiContent = q("[data-testid='emojiPickerContent']");
-    const emojiTabs = qAll(".tweet-modal__emoji-tab");
+    let emojiLibraryPicker = null;
     const mediaUploadButton = q("[data-testid='mediaUploadButton']");
     const fileInput = q("[data-testid='fileInput']");
     const attachmentPreview = q("[data-attachment-preview]");
@@ -241,16 +40,45 @@ function setupInlineReplyComposer() {
     const submitButton = q("[data-testid='tweetButton']");
     const gauge = q("#replyGauge");
     const gaugeText = q("#replyGaugeText");
-    const gifButton = q("[data-testid='gifSearchButton']");
+    const productButton = q("[data-testid='productSelectButton']");
+    const productView = q("[data-product-select-modal]");
+    const productSelectClose = productView?.querySelector("[data-product-select-close]");
+    const productSelectList = productView?.querySelector("[data-product-select-list]");
+    const productSelectComplete = productView?.querySelector("[data-product-select-complete]");
+    const selectedProductCard = q("[data-selected-product]");
+    const userTagTrigger = q("[data-user-tag-trigger]");
+    const userTagLabel = q("[data-user-tag-label]");
+    const tagView = q("[data-tag-modal]");
+    const tagCloseButton = tagView?.querySelector("[data-tag-back]");
+    const tagCompleteButton = tagView?.querySelector("[data-tag-complete]");
+    const tagSearchForm = tagView?.querySelector("[data-tag-search-form]");
+    const tagSearchInput = tagView?.querySelector("[data-tag-search]");
+    const tagChipList = tagView?.querySelector("[data-tag-chip-list]");
+    const tagResults = tagView?.querySelector("[data-tag-results]");
+    const mediaAltTrigger = q("[data-media-alt-trigger]");
+    const mediaAltLabel = q("[data-media-alt-label]");
+    const mediaView = q("[data-media-alt-modal]");
+    const mediaBackButton = mediaView?.querySelector("[data-media-back]");
+    const mediaPrevButton = mediaView?.querySelector("[data-media-prev]");
+    const mediaNextButton = mediaView?.querySelector("[data-media-next]");
+    const mediaSaveButton = mediaView?.querySelector("[data-media-save]");
+    const mediaPreviewImage = mediaView?.querySelector("[data-media-preview-image]");
+    const mediaAltInput = mediaView?.querySelector("[data-media-alt-input]");
+    const mediaAltCount = mediaView?.querySelector("[data-media-alt-count]");
+    const maxMediaAltLength = 1000;
     const maxLength = 500;
     const maxAttachments = 4;
-    const emojiRecentsKey = "post_detail_inline_reply_recent_emojis";
-    let activeEmojiCategory = "recent";
     let selectedLocation = null;
     let pendingLocation = null;
+    let selectedProduct = null;
+    let selectedTaggedUsers = [], pendingTaggedUsers = [];
+    let mediaEdits = [], pendingMediaEdits = [], activeMediaIndex = 0;
+    let currentTagResults = [];
+    let pendingAttachmentEditIndex = null;
     let attachedFiles = [];
     let attachmentPreviewUrls = [];
     let savedSelection = null;
+    const formatButtons = qAll("[data-format]");
 
     function getEditorLength() {
         return editor?.textContent?.replace(/\u00a0/g, " ").trim().length ?? 0;
@@ -263,27 +91,20 @@ function setupInlineReplyComposer() {
         editor.innerHTML = "";
     }
 
-    function getRecentEmojis() {
-        try {
-            const saved = window.localStorage.getItem(emojiRecentsKey);
-            const parsed = saved ? JSON.parse(saved) : [];
-            return Array.isArray(parsed) ? parsed : [];
-        } catch {
-            return [];
-        }
+    function syncFormatButtons() {
+        formatButtons.forEach((btn) => {
+            const fmt = btn.getAttribute("data-format");
+            if (fmt) btn.classList.toggle("tweet-modal__tool-btn--active", document.queryCommandState(fmt));
+        });
     }
 
-    function saveRecentEmoji(emoji) {
-        const next = getRecentEmojis().filter((item) => item !== emoji);
-        next.unshift(emoji);
-        try {
-            window.localStorage.setItem(
-                emojiRecentsKey,
-                JSON.stringify(next.slice(0, 18)),
-            );
-        } catch {
-            return;
-        }
+    function applyFormat(format) {
+        if (!editor) return;
+        editor.focus();
+        restoreEditorSelection();
+        document.execCommand(format, false);
+        saveEditorSelection();
+        syncFormatButtons();
     }
 
     // 입력 상태, 첨부 상태, 글자 수를 한 번에 맞춰 submit 활성화와 게이지를 갱신한다.
@@ -396,171 +217,191 @@ function setupInlineReplyComposer() {
         saveEditorSelection();
     }
 
-    function clearRecentEmojis() {
-        try {
-            window.localStorage.removeItem(emojiRecentsKey);
-        } catch {
-            return;
-        }
-    }
-
-    function getEmojiEntriesForCategory(category) {
-        if (category === "recent") {
-            return getRecentEmojis().map((emoji) => ({
-                emoji,
-                keywords: [emoji],
-            }));
-        }
-
-        return (composerEmojiCategoryData[category] ?? []).map((emoji) => ({
-            emoji,
-            keywords: [emoji, composerEmojiCategoryMeta[category]?.label ?? ""],
-        }));
-    }
-
-    function buildEmojiSection(
-        title,
-        emojis,
-        { clearable = false, emptyText = "" } = {},
-    ) {
-        const headerAction = clearable
-            ? '<button type="button" class="tweet-modal__emoji-clear" data-action="clear-recent">모두 지우기</button>'
-            : "";
-        const body = emojis.length
-            ? `<div class="tweet-modal__emoji-grid">${emojis.map((emoji) => `<button type="button" class="tweet-modal__emoji-option" data-emoji="${emoji}" role="menuitem">${emoji}</button>`).join("")}</div>`
-            : `<p class="tweet-modal__emoji-empty">${emptyText}</p>`;
-
-        return `<section class="tweet-modal__emoji-section"><div class="tweet-modal__emoji-section-header"><h3 class="tweet-modal__emoji-section-title">${title}</h3>${headerAction}</div>${body}</section>`;
-    }
-
-    function renderEmojiTabs() {
-        emojiTabs.forEach((tab) => {
-            const category = tab.getAttribute("data-emoji-category");
-            const meta = category ? composerEmojiCategoryMeta[category] : null;
-            const isActive = category === activeEmojiCategory;
-
-            tab.classList.toggle("tweet-modal__emoji-tab--active", isActive);
-            tab.setAttribute("aria-selected", String(isActive));
-            if (meta) {
-                tab.innerHTML = meta.icon;
-            }
-        });
-    }
-
-    function renderInlineReplyEmojiPicker() {
-        if (!emojiContent) {
-            return;
-        }
-
-        const searchTerm = emojiSearchInput?.value.trim().toLowerCase() ?? "";
-        if (searchTerm) {
-            const sections = Object.keys(composerEmojiCategoryData)
-                .map((category) => {
-                    const entries = getEmojiEntriesForCategory(category).filter(
-                        (entry) =>
-                            entry.keywords.some((keyword) =>
-                                keyword.toLowerCase().includes(searchTerm),
-                            ),
-                    );
-                    if (entries.length === 0) {
-                        return "";
-                    }
-                    return buildEmojiSection(
-                        composerEmojiCategoryMeta[category].sectionTitle,
-                        entries.map((entry) => entry.emoji),
-                    );
-                })
-                .join("");
-
-            emojiContent.innerHTML =
-                sections ||
-                buildEmojiSection("검색 결과", [], {
-                    emptyText: "일치하는 이모티콘이 없습니다.",
-                });
-            renderEmojiTabs();
-            return;
-        }
-
-        if (activeEmojiCategory === "recent") {
-            const recent = getRecentEmojis();
-            emojiContent.innerHTML =
-                buildEmojiSection("최근", recent, {
-                    clearable: recent.length > 0,
-                    emptyText: "최근 사용한 이모티콘이 없습니다.",
-                }) +
-                buildEmojiSection(
-                    composerEmojiCategoryMeta.smileys.sectionTitle,
-                    getEmojiEntriesForCategory("smileys").map(
-                        (entry) => entry.emoji,
-                    ),
-                );
-        } else {
-            emojiContent.innerHTML = buildEmojiSection(
-                composerEmojiCategoryMeta[activeEmojiCategory].sectionTitle,
-                getEmojiEntriesForCategory(activeEmojiCategory).map(
-                    (entry) => entry.emoji,
-                ),
-            );
-        }
-
-        renderEmojiTabs();
-    }
-
-    function openEmojiPicker() {
-        if (!emojiPicker || !emojiButton) {
-            return;
-        }
-
-        renderInlineReplyEmojiPicker();
-        emojiPicker.hidden = false;
-        emojiButton.setAttribute("aria-expanded", "true");
-    }
-
-    function closeEmojiPicker() {
-        if (!emojiPicker || !emojiButton) {
-            return;
-        }
-
-        emojiPicker.hidden = true;
-        emojiButton.setAttribute("aria-expanded", "false");
-    }
-
-    function toggleEmojiPicker(forceOpen) {
-        if (!emojiPicker) {
-            return;
-        }
-
-        if (typeof forceOpen === "boolean") {
-            if (forceOpen) {
-                openEmojiPicker();
-            } else {
-                closeEmojiPicker();
-            }
-            return;
-        }
-
-        if (emojiPicker.hidden) {
-            openEmojiPicker();
-        } else {
-            closeEmojiPicker();
-        }
-    }
-
     function insertEmoji(emoji) {
-        if (!editor) {
-            return;
-        }
-
+        if (!editor) return;
         editor.focus();
-        if (!restoreEditorSelection()) {
-            placeCaretAtEnd();
-        }
+        if (!restoreEditorSelection()) placeCaretAtEnd();
         insertNodeAtSelection(document.createTextNode(emoji));
-
-        saveRecentEmoji(emoji);
         saveEditorSelection();
         syncInlineReplySubmitState();
-        renderInlineReplyEmojiPicker();
+    }
+
+    function getOrCreateEmojiPicker() {
+        if (!emojiButton || !editor || typeof window.EmojiButton !== "function") return null;
+        if (emojiLibraryPicker) return emojiLibraryPicker;
+        emojiLibraryPicker = new window.EmojiButton({ position: "bottom-start", zIndex: 9999 });
+        emojiLibraryPicker.on("emoji", (sel) => {
+            const emoji = typeof sel === "string" ? sel : sel?.emoji;
+            if (emoji) insertEmoji(emoji);
+        });
+        emojiLibraryPicker.on("hidden", () => {
+            emojiButton?.setAttribute("aria-expanded", "false");
+        });
+        return emojiLibraryPicker;
+    }
+
+    function hideEmojiPicker() {
+        if (emojiLibraryPicker?.pickerVisible) emojiLibraryPicker.hidePicker();
+        emojiButton?.setAttribute("aria-expanded", "false");
+    }
+
+    function openProductPanel() {
+        if (!productView) return;
+        hideEmojiPicker();
+        toggleLocationPanel(false);
+        productView.hidden = false;
+    }
+
+    function closeProductPanel() {
+        if (!productView) return;
+        productView.hidden = true;
+    }
+
+    function syncSelectedProductCard() {
+        if (!selectedProductCard) return;
+        if (!selectedProduct) {
+            selectedProductCard.hidden = true;
+            return;
+        }
+        selectedProductCard.querySelector("[data-selected-product-image]").src = selectedProduct.image;
+        selectedProductCard.querySelector("[data-selected-product-image]").alt = selectedProduct.name;
+        selectedProductCard.querySelector("[data-selected-product-name]").textContent = selectedProduct.name;
+        selectedProductCard.querySelector("[data-selected-product-price]").textContent = selectedProduct.price;
+        selectedProductCard.hidden = false;
+    }
+
+    function isImageSet() {
+        return attachedFiles.some((f) => f.type.startsWith("image/"));
+    }
+
+    function getPageUsers() {
+        const seen = new Set();
+        return Array.from(document.querySelectorAll("[data-post-card]")).map((card, i) => {
+            const name = card.querySelector(".postName")?.textContent?.trim();
+            const handle = card.querySelector(".postHandle")?.textContent?.trim();
+            if (!name || !handle || seen.has(handle)) return null;
+            seen.add(handle);
+            return { id: `${handle.replace("@", "")}-${i}`, name, handle, avatar: "" };
+        }).filter(Boolean);
+    }
+
+    function syncUserTagTrigger() {
+        const can = isImageSet();
+        if (userTagTrigger) { userTagTrigger.hidden = !can; userTagTrigger.disabled = !can; }
+        if (userTagLabel) userTagLabel.textContent = selectedTaggedUsers.length === 0 ? "사용자 태그하기" : selectedTaggedUsers.map((u) => u.name).join(", ");
+        if (!can && tagView && !tagView.hidden) closeTagPanel();
+    }
+
+    function renderTagChipList() {
+        if (!tagChipList) return;
+        tagChipList.innerHTML = pendingTaggedUsers.map((u) =>
+            `<button type="button" class="tweet-modal__tag-chip" data-tag-remove-id="${escapeAttachmentText(u.id)}">` +
+            `<span class="tweet-modal__tag-chip-avatar">${u.avatar ? `<img src="${escapeAttachmentText(u.avatar)}" alt="">` : ""}</span>` +
+            `<span class="tweet-modal__tag-chip-name">${escapeAttachmentText(u.name)}</span>` +
+            `<svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__tag-chip-icon"><g><path d="M10.59 12 4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z"></path></g></svg>` +
+            `</button>`
+        ).join("");
+    }
+
+    function renderTagResults(users) {
+        if (!tagResults) return;
+        currentTagResults = users;
+        if (!tagSearchInput?.value.trim()) { tagResults.innerHTML = ""; return; }
+        if (users.length === 0) { tagResults.innerHTML = '<p class="tweet-modal__tag-empty">일치하는 사용자를 찾지 못했습니다.</p>'; return; }
+        tagResults.innerHTML = users.map((u) => {
+            const sel = pendingTaggedUsers.some((t) => t.id === u.id);
+            return `<div role="option" class="tweet-modal__tag-option">` +
+                `<div role="checkbox" aria-checked="${sel}" aria-disabled="${sel}" class="tweet-modal__tag-checkbox">` +
+                `<button type="button" class="tweet-modal__tag-user" data-tag-user-id="${escapeAttachmentText(u.id)}" ${sel ? "disabled" : ""}>` +
+                `<span class="tweet-modal__tag-avatar"></span>` +
+                `<span class="tweet-modal__tag-user-body">` +
+                `<span class="tweet-modal__tag-user-name">${escapeAttachmentText(u.name)}</span>` +
+                `<span class="tweet-modal__tag-user-handle">${escapeAttachmentText(u.handle)}${sel ? " 이미 태그됨" : ""}</span>` +
+                `</span></button></div></div>`;
+        }).join("");
+    }
+
+    function runTagSearch() {
+        const term = tagSearchInput?.value.trim().toLowerCase() ?? "";
+        renderTagResults(term ? getPageUsers().filter((u) => `${u.name} ${u.handle}`.toLowerCase().includes(term)).slice(0, 6) : []);
+    }
+
+    function openTagPanel() {
+        if (!tagView) return;
+        hideEmojiPicker();
+        toggleLocationPanel(false);
+        closeProductPanel();
+        closeMediaEditor({ discardChanges: true });
+        pendingTaggedUsers = selectedTaggedUsers.map((u) => ({ ...u }));
+        if (tagSearchInput) tagSearchInput.value = "";
+        renderTagChipList();
+        renderTagResults([]);
+        tagView.hidden = false;
+        window.requestAnimationFrame(() => tagSearchInput?.focus());
+    }
+
+    function closeTagPanel() {
+        if (!tagView) return;
+        tagView.hidden = true;
+        pendingTaggedUsers = selectedTaggedUsers.map((u) => ({ ...u }));
+        if (tagSearchInput) tagSearchInput.value = "";
+        renderTagChipList();
+        renderTagResults([]);
+    }
+
+    function syncMediaAltTrigger() {
+        const can = isImageSet();
+        if (mediaAltTrigger) { mediaAltTrigger.hidden = !can; mediaAltTrigger.disabled = !can; }
+        if (mediaAltLabel) mediaAltLabel.textContent = mediaEdits.some((e) => e.alt.trim().length > 0) ? "설명 수정" : "설명 추가";
+        if (!can && mediaView && !mediaView.hidden) closeMediaEditor({ discardChanges: true });
+    }
+
+    function syncMediaEditsToAttachments() {
+        if (!isImageSet()) {
+            mediaEdits = []; pendingMediaEdits = []; activeMediaIndex = 0;
+            syncMediaAltTrigger(); return;
+        }
+        mediaEdits = attachedFiles.map((_, i) => mediaEdits[i] ?? { alt: "" });
+        if (pendingMediaEdits.length !== mediaEdits.length) pendingMediaEdits = mediaEdits.map((e) => ({ alt: e.alt }));
+        activeMediaIndex = Math.min(activeMediaIndex, Math.max(mediaEdits.length - 1, 0));
+        syncMediaAltTrigger();
+    }
+
+    function renderMediaEditor() {
+        if (!mediaView || pendingMediaEdits.length === 0) return;
+        const edit = pendingMediaEdits[activeMediaIndex] ?? { alt: "" };
+        const url = attachmentPreviewUrls[activeMediaIndex] ?? "";
+        const alt = edit.alt ?? "";
+        if (mediaPrevButton) mediaPrevButton.disabled = activeMediaIndex === 0;
+        if (mediaNextButton) mediaNextButton.disabled = activeMediaIndex >= pendingMediaEdits.length - 1;
+        if (mediaPreviewImage) { mediaPreviewImage.src = url; mediaPreviewImage.alt = alt; }
+        if (mediaAltInput) mediaAltInput.value = alt;
+        if (mediaAltCount) mediaAltCount.textContent = `${alt.length} / ${maxMediaAltLength.toLocaleString()}`;
+    }
+
+    function openMediaEditor() {
+        if (!mediaView || !isImageSet()) return;
+        hideEmojiPicker();
+        toggleLocationPanel(false);
+        closeProductPanel();
+        closeTagPanel();
+        pendingMediaEdits = mediaEdits.map((e) => ({ alt: e.alt }));
+        activeMediaIndex = 0;
+        mediaView.hidden = false;
+        renderMediaEditor();
+        window.requestAnimationFrame(() => mediaAltInput?.focus());
+    }
+
+    function closeMediaEditor({ discardChanges = true } = {}) {
+        if (!mediaView) return;
+        if (discardChanges) pendingMediaEdits = mediaEdits.map((e) => ({ alt: e.alt }));
+        mediaView.hidden = true;
+    }
+
+    function saveMediaEdits() {
+        mediaEdits = pendingMediaEdits.map((e) => ({ alt: e.alt }));
+        syncMediaAltTrigger();
+        closeMediaEditor({ discardChanges: false });
     }
 
     function revokeAttachmentPreviewUrls() {
@@ -589,7 +430,10 @@ function setupInlineReplyComposer() {
             ? `<div class="media-bg" style="background-image:url('${safeUrl}')"></div>`
             : "";
 
-        return `<div class="media-cell ${className}"><div class="media-cell-inner"><div class="media-img-container">${background}${mediaMarkup}</div><button type="button" class="media-btn-delete" data-attachment-remove-index="${index}" aria-label="첨부 삭제"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.59 12 4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z"></path></svg></button></div></div>`;
+        const editBtn = file.type.startsWith("image/")
+            ? `<div class="media-btn-row"><button type="button" class="media-btn" data-attachment-edit-index="${index}"><span>수정</span></button></div>`
+            : "";
+        return `<div class="media-cell ${className}"><div class="media-cell-inner"><div class="media-img-container">${background}${mediaMarkup}</div>${editBtn}<button type="button" class="media-btn-delete" data-attachment-remove-index="${index}" aria-label="첨부 삭제"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.59 12 4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z"></path></svg></button></div></div>`;
     }
 
     function buildAttachmentLayout() {
@@ -621,6 +465,8 @@ function setupInlineReplyComposer() {
         mediaUploadButton.disabled = attachedFiles.length >= maxAttachments;
         composer.classList.toggle("has-draft", hasDraftContent());
         syncInlineReplySubmitState();
+        syncMediaEditsToAttachments();
+        syncUserTagTrigger();
     }
 
     function setAttachments(files) {
@@ -709,17 +555,31 @@ function setupInlineReplyComposer() {
     setExpanded();
     syncInlineReplySubmitState();
     syncLocationUI();
-    renderInlineReplyEmojiPicker();
 
     editor?.addEventListener("input", () => {
         resetEditorIfEmpty();
         saveEditorSelection();
+        syncFormatButtons();
         composer.classList.toggle("has-draft", hasDraftContent());
         syncInlineReplySubmitState();
     });
 
-    editor?.addEventListener("keyup", saveEditorSelection);
-    editor?.addEventListener("mouseup", saveEditorSelection);
+    editor?.addEventListener("keyup", () => { saveEditorSelection(); syncFormatButtons(); });
+    editor?.addEventListener("mouseup", () => { saveEditorSelection(); syncFormatButtons(); });
+    editor?.addEventListener("focus", syncFormatButtons);
+
+    editor?.addEventListener("keydown", (event) => {
+        if (!event.ctrlKey && !event.metaKey) return;
+        const key = event.key.toLowerCase();
+        if (key !== "b" && key !== "i") return;
+        event.preventDefault();
+        applyFormat(key === "b" ? "bold" : "italic");
+    });
+
+    formatButtons.forEach((btn) => {
+        btn.addEventListener("mousedown", (e) => e.preventDefault());
+        btn.addEventListener("click", () => applyFormat(btn.getAttribute("data-format")));
+    });
 
     composer.addEventListener("focusin", () => {
         setExpanded();
@@ -732,62 +592,45 @@ function setupInlineReplyComposer() {
         }, 0);
     });
 
-    emojiButton?.addEventListener("mousedown", (event) =>
-        event.preventDefault(),
-    );
+    emojiButton?.addEventListener("mousedown", (event) => event.preventDefault());
     emojiButton?.addEventListener("click", (event) => {
         event.preventDefault();
+        saveEditorSelection();
         toggleLocationPanel(false);
-        toggleEmojiPicker();
-    });
-
-    emojiSearchInput?.addEventListener("input", renderInlineReplyEmojiPicker);
-
-    emojiTabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            const category = tab.getAttribute("data-emoji-category");
-            if (!category) {
-                return;
-            }
-            activeEmojiCategory = category;
-            renderInlineReplyEmojiPicker();
-        });
-    });
-
-    emojiContent?.addEventListener("mousedown", (event) => {
-        if (
-            event.target.closest(
-                ".tweet-modal__emoji-option, .tweet-modal__emoji-clear",
-            )
-        ) {
-            event.preventDefault();
+        const picker = getOrCreateEmojiPicker();
+        if (!picker) return;
+        if (picker.pickerVisible) {
+            picker.hidePicker();
+        } else {
+            emojiButton.setAttribute("aria-expanded", "true");
+            picker.showPicker(emojiButton);
         }
-    });
-    emojiContent?.addEventListener("click", (event) => {
-        if (event.target.closest("[data-action='clear-recent']")) {
-            clearRecentEmojis();
-            activeEmojiCategory = "recent";
-            renderInlineReplyEmojiPicker();
-            return;
-        }
-
-        const button = event.target.closest("[data-emoji]");
-        const emoji = button?.getAttribute("data-emoji");
-        if (!emoji) {
-            return;
-        }
-        insertEmoji(emoji);
-        toggleEmojiPicker(false);
     });
 
     mediaUploadButton?.addEventListener("click", (event) => {
         event.preventDefault();
+        pendingAttachmentEditIndex = null;
+        if (fileInput) fileInput.value = "";
         fileInput?.click();
     });
 
     fileInput?.addEventListener("change", (event) => {
         const nextFiles = Array.from(event.target.files ?? []);
         if (nextFiles.length === 0) {
+            pendingAttachmentEditIndex = null;
+            return;
+        }
+        if (pendingAttachmentEditIndex !== null) {
+            const rep = nextFiles[0];
+            if (rep && rep.type.startsWith("image/")) {
+                const edited = [...attachedFiles];
+                edited[pendingAttachmentEditIndex] = rep;
+                pendingAttachmentEditIndex = null;
+                setAttachments(edited.slice(0, maxAttachments));
+            } else {
+                pendingAttachmentEditIndex = null;
+            }
+            fileInput.value = "";
             return;
         }
         const imageAndVideoFiles = nextFiles.filter(
@@ -800,9 +643,19 @@ function setupInlineReplyComposer() {
     });
 
     attachmentMedia?.addEventListener("click", (event) => {
-        const button = event.target.closest("[data-attachment-remove-index]");
+        const editBtn = event.target.closest("[data-attachment-edit-index]");
+        if (editBtn) {
+            pendingAttachmentEditIndex = Number.parseInt(
+                editBtn.getAttribute("data-attachment-edit-index") ?? "-1",
+                10,
+            );
+            if (fileInput) fileInput.value = "";
+            fileInput?.click();
+            return;
+        }
+        const removeBtn = event.target.closest("[data-attachment-remove-index]");
         const index = Number.parseInt(
-            button?.getAttribute("data-attachment-remove-index") || "",
+            removeBtn?.getAttribute("data-attachment-remove-index") || "",
             10,
         );
         if (Number.isNaN(index)) {
@@ -815,13 +668,13 @@ function setupInlineReplyComposer() {
 
     geoButton?.addEventListener("click", (event) => {
         event.preventDefault();
-        toggleEmojiPicker(false);
+        hideEmojiPicker();
         toggleLocationPanel();
     });
 
     locationDisplay?.addEventListener("click", (event) => {
         event.preventDefault();
-        toggleEmojiPicker(false);
+        hideEmojiPicker();
         toggleLocationPanel(true);
     });
 
@@ -861,8 +714,115 @@ function setupInlineReplyComposer() {
         syncLocationUI();
     });
 
-    gifButton?.addEventListener("click", (event) => {
+    productButton?.addEventListener("click", (event) => {
         event.preventDefault();
+        openProductPanel();
+    });
+
+    productSelectClose?.addEventListener("click", () => {
+        closeProductPanel();
+    });
+
+    productSelectList?.addEventListener("click", (event) => {
+        const item = event.target.closest(".draft-panel__item");
+        if (!item) return;
+        const wasSelected = item.classList.contains("draft-panel__item--selected");
+        productSelectList.querySelectorAll(".draft-panel__item--selected").forEach((el) => {
+            el.classList.remove("draft-panel__item--selected");
+            el.setAttribute("aria-pressed", "false");
+            el.querySelector(".draft-panel__checkbox")?.classList.remove("draft-panel__checkbox--checked");
+        });
+        if (!wasSelected) {
+            item.classList.add("draft-panel__item--selected");
+            item.setAttribute("aria-pressed", "true");
+            item.querySelector(".draft-panel__checkbox")?.classList.add("draft-panel__checkbox--checked");
+        }
+        if (productSelectComplete) {
+            productSelectComplete.disabled = !productSelectList.querySelector(".draft-panel__item--selected");
+        }
+    });
+
+    productSelectComplete?.addEventListener("click", () => {
+        const checkedItem = productSelectList?.querySelector(".draft-panel__item--selected");
+        if (checkedItem) {
+            selectedProduct = {
+                name: checkedItem.dataset.productName ?? "",
+                price: checkedItem.dataset.productPrice ?? "",
+                image: checkedItem.dataset.productImage ?? "",
+                id: checkedItem.dataset.productId ?? "",
+            };
+            syncSelectedProductCard();
+            if (productButton) productButton.disabled = true;
+        }
+        closeProductPanel();
+    });
+
+    selectedProductCard?.querySelector("[data-product-remove]")?.addEventListener("click", () => {
+        selectedProduct = null;
+        syncSelectedProductCard();
+        if (productButton) productButton.disabled = false;
+    });
+
+    userTagTrigger?.addEventListener("click", (e) => {
+        e.preventDefault();
+        openTagPanel();
+    });
+
+    mediaAltTrigger?.addEventListener("click", (e) => {
+        e.preventDefault();
+        openMediaEditor();
+    });
+
+    tagSearchForm?.addEventListener("submit", (e) => e.preventDefault());
+    tagSearchInput?.addEventListener("input", () => runTagSearch());
+
+    tagCloseButton?.addEventListener("click", () => closeTagPanel());
+    tagCompleteButton?.addEventListener("click", () => {
+        selectedTaggedUsers = pendingTaggedUsers.map((u) => ({ ...u }));
+        syncUserTagTrigger();
+        closeTagPanel();
+    });
+
+    tagChipList?.addEventListener("click", (e) => {
+        const cb = e.target.closest("[data-tag-remove-id]");
+        if (!cb) return;
+        const uid = cb.getAttribute("data-tag-remove-id");
+        pendingTaggedUsers = pendingTaggedUsers.filter((u) => u.id !== uid);
+        renderTagChipList();
+        runTagSearch();
+        tagSearchInput?.focus();
+    });
+
+    tagResults?.addEventListener("click", (e) => {
+        const ub = e.target.closest("[data-tag-user-id]");
+        if (!ub || ub.hasAttribute("disabled")) return;
+        const uid = ub.getAttribute("data-tag-user-id");
+        const user = currentTagResults.find((u) => u.id === uid);
+        if (!user || pendingTaggedUsers.some((u) => u.id === user.id)) return;
+        pendingTaggedUsers = [...pendingTaggedUsers, { ...user }];
+        renderTagChipList();
+        if (tagSearchInput) tagSearchInput.value = "";
+        renderTagResults([]);
+        tagSearchInput?.focus();
+    });
+
+    mediaBackButton?.addEventListener("click", () => closeMediaEditor());
+    mediaSaveButton?.addEventListener("click", () => saveMediaEdits());
+    mediaPrevButton?.addEventListener("click", () => {
+        if (activeMediaIndex === 0) return;
+        activeMediaIndex -= 1;
+        renderMediaEditor();
+    });
+    mediaNextButton?.addEventListener("click", () => {
+        if (activeMediaIndex >= pendingMediaEdits.length - 1) return;
+        activeMediaIndex += 1;
+        renderMediaEditor();
+    });
+    mediaAltInput?.addEventListener("input", () => {
+        const edit = pendingMediaEdits[activeMediaIndex];
+        if (!edit) return;
+        edit.alt = mediaAltInput.value.slice(0, maxMediaAltLength);
+        if (mediaAltCount) mediaAltCount.textContent = `${edit.alt.length} / ${maxMediaAltLength.toLocaleString()}`;
     });
 
     submitButton?.addEventListener("click", (event) => {
@@ -875,19 +835,36 @@ function setupInlineReplyComposer() {
         fileInput.value = "";
         selectedLocation = null;
         pendingLocation = null;
+        selectedProduct = null;
+        syncSelectedProductCard();
+        if (productButton) productButton.disabled = false;
+        selectedTaggedUsers = [];
+        pendingTaggedUsers = [];
+        pendingAttachmentEditIndex = null;
+        mediaEdits = [];
+        pendingMediaEdits = [];
+        activeMediaIndex = 0;
+        syncUserTagTrigger();
+        syncMediaAltTrigger();
+        closeTagPanel();
+        closeMediaEditor({ discardChanges: true });
         syncLocationUI();
         syncInlineReplySubmitState();
-        toggleEmojiPicker(false);
+        hideEmojiPicker();
         toggleLocationPanel(false);
+        closeProductPanel();
         resetEditorIfEmpty();
         placeCaretAtEnd();
         setExpanded();
     });
 
     document.addEventListener("click", (event) => {
-        if (!composer.contains(event.target)) {
-            toggleEmojiPicker(false);
+        if (!composer.contains(event.target) && !productView?.contains(event.target) && !tagView?.contains(event.target) && !mediaView?.contains(event.target)) {
+            hideEmojiPicker();
             toggleLocationPanel(false);
+            closeProductPanel();
+            closeTagPanel();
+            closeMediaEditor({ discardChanges: true });
             syncExpandedState();
         }
     });
@@ -1542,4 +1519,1101 @@ function setupPostDetailActions() {
             closeShareDropdown();
         }
     });
+}
+
+// 답글/댓글 카드의 말풍선 버튼 클릭 시 열리는 답글 모달을 초기화한다.
+function setupCardReplyModal() {
+    const overlay = document.querySelector("[data-reply-modal]");
+    if (!overlay) return;
+
+    const q = (selector) => overlay.querySelector(selector);
+    const qAll = (selector) => Array.from(overlay.querySelectorAll(selector));
+    const composeView = q(".tweet-modal__compose-view");
+    const editor = q("[data-testid='tweetTextarea_0']");
+    const submitBtn = q("[data-testid='tweetButton']");
+    const gauge = q("[data-reply-gauge]");
+    const gaugeText = q("[data-reply-gauge-text]");
+    const closeButton = q("[data-testid='app-bar-close']");
+    const contextButton = q(".tweet-modal__context-button");
+    const sourceAvatar = q("[data-reply-source-avatar]");
+    const sourceInitial = q("[data-reply-source-initial]");
+    const sourceName = q("[data-reply-source-name]");
+    const sourceHandle = q("[data-reply-source-handle]");
+    const sourceTime = q("[data-reply-source-time]");
+    const sourceText = q("[data-reply-source-text]");
+    const draftButton = q(".tweet-modal__draft");
+    const draftView = q(".tweet-modal__draft-view");
+    const draftBackButton = draftView?.querySelector("[data-draft-back]");
+    const draftList = draftView?.querySelector("[data-draft-list]");
+    const draftEmpty = draftView?.querySelector("[data-draft-empty]");
+    const mediaUploadButton = q("[data-testid='mediaUploadButton']");
+    const fileInput = q("[data-testid='fileInput']");
+    const emojiButton = q("[data-testid='emojiButton']");
+    const geoButton = q("[data-testid='geoButton']");
+    const geoButtonPath = geoButton?.querySelector("path");
+    const formatButtons = qAll("[data-format]");
+    const attachmentPreview = q("[data-attachment-preview]");
+    const attachmentMedia = q("[data-attachment-media]");
+    const attachmentMetaButtons = qAll(".tweet-modal__attachment-meta-btn");
+    const locationView = q(".tweet-modal__location-view");
+    const locationCloseButton = q("[data-testid='location-back']");
+    const locationSearchInput = q("[data-location-search]");
+    const locationList = q("[data-location-list]");
+    const locationItems = qAll(".tweet-modal__location-item");
+    const locationDisplay = q("[data-location-display]");
+    const locationName = q("[data-location-name]");
+    const locationDeleteButton = q("[data-location-delete]");
+    const locationCompleteButton = q("[data-location-complete]");
+    const productButton = q("[data-testid='productSelectButton']");
+    const productView = q("[data-product-select-modal]");
+    const productSelectClose = productView?.querySelector(
+        "[data-product-select-close]",
+    );
+    const productSelectList = productView?.querySelector(
+        "[data-product-select-list]",
+    );
+    const productSelectComplete = productView?.querySelector(
+        "[data-product-select-complete]",
+    );
+    const selectedProductCard = q("[data-selected-product]");
+    const userTagTrigger = q("[data-user-tag-trigger]");
+    const userTagLabel = q("[data-user-tag-label]");
+    const tagView = q("[data-tag-modal]");
+    const tagCloseButton = tagView?.querySelector("[data-tag-back]");
+    const tagCompleteButton = tagView?.querySelector("[data-tag-complete]");
+    const tagSearchForm = tagView?.querySelector("[data-tag-search-form]");
+    const tagSearchInput = tagView?.querySelector("[data-tag-search]");
+    const tagChipList = tagView?.querySelector("[data-tag-chip-list]");
+    const tagResults = tagView?.querySelector("[data-tag-results]");
+    const mediaAltTrigger = q("[data-media-alt-trigger]");
+    const mediaAltLabel = q("[data-media-alt-label]");
+    const mediaView = q("[data-media-alt-modal]");
+    const mediaBackButton = mediaView?.querySelector("[data-media-back]");
+    const mediaPrevButton = mediaView?.querySelector("[data-media-prev]");
+    const mediaNextButton = mediaView?.querySelector("[data-media-next]");
+    const mediaSaveButton = mediaView?.querySelector("[data-media-save]");
+    const mediaPreviewImage = mediaView?.querySelector("[data-media-preview-image]");
+    const mediaAltInput = mediaView?.querySelector("[data-media-alt-input]");
+    const mediaAltCount = mediaView?.querySelector("[data-media-alt-count]");
+    const maxLength = 500;
+    const maxAttachments = 4;
+    const maxMediaAltLength = 1000;
+    const drafts = [];
+    let draftSequence = 0;
+    let emojiPicker = null;
+    let attachedFiles = [];
+    let attachmentPreviewUrls = [];
+    let pendingAttachmentEditIndex = null;
+    let selectedLocation = null;
+    let pendingLocation = null;
+    let selectedProduct = null;
+    let selectedTaggedUsers = [];
+    let pendingTaggedUsers = [];
+    let mediaEdits = [];
+    let pendingMediaEdits = [];
+    let activeMediaIndex = 0;
+    let currentTagResults = [];
+
+    function syncState() {
+        if (!editor) {
+            return;
+        }
+        let content = editor.textContent?.replace(/\u00a0/g, " ") ?? "";
+        if (content.length > maxLength) {
+            content = content.slice(0, maxLength);
+            editor.textContent = content;
+            placeCaretAtEnd(editor);
+        }
+        const currentLength = content.length;
+        const remaining = maxLength - currentLength;
+        if (gauge) {
+            gauge.setAttribute("aria-valuenow", String(currentLength));
+            gauge.style.setProperty(
+                "--gauge-progress",
+                `${Math.min(360, (currentLength / maxLength) * 360)}deg`,
+            );
+        }
+        if (gaugeText) {
+            gaugeText.textContent = String(remaining);
+            gaugeText.style.color = remaining < 0 ? "#f4212e" : "#536471";
+        }
+        if (submitBtn) {
+            submitBtn.disabled =
+                content.trim().length === 0 && attachedFiles.length === 0;
+        }
+    }
+
+    function syncLocationUI() {
+        const hasLocation = Boolean(selectedLocation);
+        if (locationDisplay) {
+            locationDisplay.hidden = !hasLocation;
+        }
+        if (locationName) {
+            locationName.textContent = selectedLocation ?? "";
+        }
+        if (geoButton) {
+            geoButton.classList.toggle("tweet-modal__tool-btn--active", hasLocation);
+        }
+        if (geoButtonPath) {
+            geoButtonPath.setAttribute(
+                "d",
+                hasLocation
+                    ? geoButtonPath.dataset.pathActive ||
+                          geoButtonPath.getAttribute("d")
+                    : geoButtonPath.dataset.pathInactive ||
+                          geoButtonPath.getAttribute("d"),
+            );
+        }
+        if (locationDeleteButton) {
+            locationDeleteButton.hidden = !hasLocation;
+        }
+        if (locationCompleteButton) {
+            locationCompleteButton.disabled = !pendingLocation;
+        }
+    }
+
+    function renderLocationList() {
+        if (locationItems.length === 0) {
+            return;
+        }
+        const query = locationSearchInput?.value.trim() ?? "";
+        locationItems.forEach((item) => {
+            const label = item
+                .querySelector(".tweet-modal__location-item-label")
+                ?.textContent?.trim();
+            const check = item.querySelector(".tweet-modal__location-item-check");
+            const isVisible = !query || Boolean(label?.includes(query));
+            const isActive = label === pendingLocation;
+
+            item.hidden = !isVisible;
+            if (check) {
+                check.innerHTML = isActive
+                    ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.64 18.952l-5.55-4.861 1.317-1.504 3.951 3.459 8.459-10.948L19.4 6.32 9.64 18.952z"></path></svg>'
+                    : "";
+            }
+        });
+    }
+
+    function closeProductPanel() {
+        if (productView) {
+            productView.hidden = true;
+        }
+    }
+
+    function closeLocationPanel({ resetPending = true } = {}) {
+        if (!locationView) {
+            return;
+        }
+        locationView.hidden = true;
+        if (resetPending) {
+            pendingLocation = selectedLocation;
+        }
+        if (locationSearchInput) {
+            locationSearchInput.value = "";
+        }
+        renderLocationList();
+        syncLocationUI();
+    }
+
+    function openLocationPanel() {
+        if (!locationView) {
+            return;
+        }
+        if (emojiPicker?.pickerVisible) {
+            emojiPicker.hidePicker();
+        }
+        closeProductPanel();
+        closeTagPanel();
+        closeMediaEditor({ discardChanges: true });
+        pendingLocation = selectedLocation;
+        renderLocationList();
+        syncLocationUI();
+        locationView.hidden = false;
+        window.requestAnimationFrame(() => locationSearchInput?.focus());
+    }
+
+    function syncSelectedProductCard() {
+        if (!selectedProductCard) {
+            return;
+        }
+        if (!selectedProduct) {
+            selectedProductCard.hidden = true;
+            return;
+        }
+        selectedProductCard.querySelector("[data-selected-product-image]").src =
+            selectedProduct.image;
+        selectedProductCard.querySelector("[data-selected-product-image]").alt =
+            selectedProduct.name;
+        selectedProductCard.querySelector("[data-selected-product-name]").textContent =
+            selectedProduct.name;
+        selectedProductCard.querySelector("[data-selected-product-price]").textContent =
+            selectedProduct.price;
+        selectedProductCard.hidden = false;
+    }
+
+    function openProductPanel() {
+        if (!productView) {
+            return;
+        }
+        if (emojiPicker?.pickerVisible) {
+            emojiPicker.hidePicker();
+        }
+        closeLocationPanel();
+        closeTagPanel();
+        closeMediaEditor({ discardChanges: true });
+        productView.hidden = false;
+    }
+
+    function syncProductListSelection() {
+        if (!productSelectList) {
+            return;
+        }
+        const selectedId = selectedProduct?.id ?? "";
+        productSelectList
+            .querySelectorAll(".draft-panel__item")
+            .forEach((item) => {
+                const isSelected = item.dataset.productId === selectedId;
+                item.classList.toggle("draft-panel__item--selected", isSelected);
+                item.setAttribute("aria-pressed", String(isSelected));
+                item.querySelector(".draft-panel__checkbox")?.classList.toggle(
+                    "draft-panel__checkbox--checked",
+                    isSelected,
+                );
+            });
+        if (productSelectComplete) {
+            productSelectComplete.disabled = !selectedId;
+        }
+    }
+
+    function escapeAttachmentText(value) {
+        return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;");
+    }
+
+    function revokeAttachmentPreviewUrls() {
+        attachmentPreviewUrls.forEach((url) => URL.revokeObjectURL(url));
+        attachmentPreviewUrls = [];
+    }
+
+    function buildAttachmentCell(file, index, className) {
+        const fileUrl = attachmentPreviewUrls[index] || "";
+        const safeUrl = escapeAttachmentText(fileUrl);
+        const safeName = escapeAttachmentText(file.name);
+        const mediaMarkup = file.type.startsWith("image/")
+            ? `<img class="media-img" src="${safeUrl}" alt="${safeName}">`
+            : `<video class="tweet-modal__attachment-video" controls preload="metadata"><source src="${safeUrl}" type="${file.type}"></video>`;
+        const background = file.type.startsWith("image/")
+            ? `<div class="media-bg" style="background-image:url('${safeUrl}')"></div>`
+            : "";
+        const editButton = file.type.startsWith("image/")
+            ? `<div class="media-btn-row"><button type="button" class="media-btn" data-attachment-edit-index="${index}"><span>수정</span></button></div>`
+            : "";
+
+        return `<div class="media-cell ${className}"><div class="media-cell-inner"><div class="media-img-container">${background}${mediaMarkup}</div>${editButton}<button type="button" class="media-btn-delete" data-attachment-remove-index="${index}" aria-label="첨부 삭제"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.59 12 4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z"></path></svg></button></div></div>`;
+    }
+
+    function buildAttachmentLayout() {
+        if (attachedFiles.length === 0) {
+            return "";
+        }
+        if (attachedFiles.length === 1) {
+            return `<div class="media-aspect-ratio media-aspect-ratio--single"><div class="media-absolute-layer">${buildAttachmentCell(attachedFiles[0], 0, "media-cell--single")}</div></div>`;
+        }
+        if (attachedFiles.length === 2) {
+            return `<div class="media-aspect-ratio"><div class="media-absolute-layer"><div class="media-row">${buildAttachmentCell(attachedFiles[0], 0, "media-cell--left")}${buildAttachmentCell(attachedFiles[1], 1, "media-cell--right")}</div></div></div>`;
+        }
+        if (attachedFiles.length === 3) {
+            return `<div class="media-aspect-ratio"><div class="media-absolute-layer"><div class="media-row">${buildAttachmentCell(attachedFiles[0], 0, "media-cell--left-tall")}<div class="media-col">${buildAttachmentCell(attachedFiles[1], 1, "media-cell--right-top")}${buildAttachmentCell(attachedFiles[2], 2, "media-cell--right-bottom")}</div></div></div></div>`;
+        }
+        return `<div class="media-aspect-ratio"><div class="media-absolute-layer"><div class="media-row"><div class="media-col">${buildAttachmentCell(attachedFiles[0], 0, "media-cell--top-left")}${buildAttachmentCell(attachedFiles[2], 2, "media-cell--bottom-left")}</div><div class="media-col">${buildAttachmentCell(attachedFiles[1], 1, "media-cell--top-right")}${buildAttachmentCell(attachedFiles[3], 3, "media-cell--bottom-right")}</div></div></div></div>`;
+    }
+
+    function isImageSet() {
+        return attachedFiles.some((file) => file.type.startsWith("image/"));
+    }
+
+    function syncUserTagTrigger() {
+        const canTag = isImageSet();
+        if (userTagTrigger) {
+            userTagTrigger.hidden = !canTag;
+            userTagTrigger.disabled = !canTag;
+        }
+        if (userTagLabel) {
+            userTagLabel.textContent =
+                selectedTaggedUsers.length === 0
+                    ? "사용자 태그하기"
+                    : selectedTaggedUsers.map((user) => user.name).join(", ");
+        }
+        if (!canTag && tagView && !tagView.hidden) {
+            closeTagPanel();
+        }
+    }
+
+    function syncMediaAltTrigger() {
+        const canEditAlt = isImageSet();
+        if (mediaAltTrigger) {
+            mediaAltTrigger.hidden = !canEditAlt;
+            mediaAltTrigger.disabled = !canEditAlt;
+        }
+        if (mediaAltLabel) {
+            mediaAltLabel.textContent = mediaEdits.some(
+                (edit) => edit.alt.trim().length > 0,
+            )
+                ? "설명 수정"
+                : "설명 추가";
+        }
+        if (!canEditAlt && mediaView && !mediaView.hidden) {
+            closeMediaEditor({ discardChanges: true });
+        }
+    }
+
+    function syncMediaEditsToAttachments() {
+        if (!isImageSet()) {
+            mediaEdits = [];
+            pendingMediaEdits = [];
+            activeMediaIndex = 0;
+            syncMediaAltTrigger();
+            return;
+        }
+        mediaEdits = attachedFiles.map(
+            (_, index) => mediaEdits[index] ?? { alt: "" },
+        );
+        if (pendingMediaEdits.length !== mediaEdits.length) {
+            pendingMediaEdits = mediaEdits.map((edit) => ({ alt: edit.alt }));
+        }
+        activeMediaIndex = Math.min(
+            activeMediaIndex,
+            Math.max(mediaEdits.length - 1, 0),
+        );
+        syncMediaAltTrigger();
+    }
+
+    function renderAttachments() {
+        if (!attachmentPreview || !attachmentMedia) {
+            return;
+        }
+        attachmentPreview.hidden = attachedFiles.length === 0;
+        attachmentMedia.innerHTML = buildAttachmentLayout();
+        attachmentMetaButtons.forEach((button) => {
+            button.hidden = attachedFiles.length === 0;
+        });
+        syncMediaEditsToAttachments();
+        syncUserTagTrigger();
+        syncState();
+    }
+
+    function setAttachments(files) {
+        attachedFiles = files.slice(0, maxAttachments);
+        revokeAttachmentPreviewUrls();
+        attachmentPreviewUrls = attachedFiles.map((file) =>
+            URL.createObjectURL(file),
+        );
+        renderAttachments();
+    }
+
+    function getPageUsers() {
+        const seen = new Set();
+        return Array.from(document.querySelectorAll("[data-post-card]"))
+            .map((card, index) => {
+                const name = card.querySelector(".postName")?.textContent?.trim();
+                const handle = card.querySelector(".postHandle")?.textContent?.trim();
+                const avatarMarkup =
+                    card.querySelector(".post-detail-avatar")?.innerHTML ?? "";
+                if (!name || !handle || seen.has(handle)) {
+                    return null;
+                }
+                seen.add(handle);
+                return {
+                    id: `${handle.replace("@", "")}-${index}`,
+                    name,
+                    handle,
+                    avatarMarkup,
+                };
+            })
+            .filter(Boolean);
+    }
+
+    function renderTagChipList() {
+        if (!tagChipList) {
+            return;
+        }
+        tagChipList.innerHTML = pendingTaggedUsers
+            .map(
+                (user) =>
+                    `<button type="button" class="tweet-modal__tag-chip" data-tag-remove-id="${escapeAttachmentText(user.id)}"><span class="tweet-modal__tag-chip-avatar">${user.avatarMarkup ?? ""}</span><span class="tweet-modal__tag-chip-name">${escapeAttachmentText(user.name)}</span><svg viewBox="0 0 24 24" aria-hidden="true" class="tweet-modal__tag-chip-icon"><g><path d="M10.59 12 4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z"></path></g></svg></button>`,
+            )
+            .join("");
+    }
+
+    function renderTagResults(users) {
+        if (!tagResults) {
+            return;
+        }
+        currentTagResults = users;
+        if (!tagSearchInput?.value.trim()) {
+            tagResults.innerHTML = "";
+            return;
+        }
+        if (users.length === 0) {
+            tagResults.innerHTML =
+                '<p class="tweet-modal__tag-empty">일치하는 사용자를 찾지 못했습니다.</p>';
+            return;
+        }
+        tagResults.innerHTML = users
+            .map((user) => {
+                const isSelected = pendingTaggedUsers.some(
+                    (target) => target.id === user.id,
+                );
+                return `<div role="option" class="tweet-modal__tag-option"><div role="checkbox" aria-checked="${isSelected}" aria-disabled="${isSelected}" class="tweet-modal__tag-checkbox"><button type="button" class="tweet-modal__tag-user" data-tag-user-id="${escapeAttachmentText(user.id)}" ${isSelected ? "disabled" : ""}><span class="tweet-modal__tag-avatar">${user.avatarMarkup ?? ""}</span><span class="tweet-modal__tag-user-body"><span class="tweet-modal__tag-user-name">${escapeAttachmentText(user.name)}</span><span class="tweet-modal__tag-user-handle">${escapeAttachmentText(user.handle)}${isSelected ? " 이미 태그됨" : ""}</span></span></button></div></div>`;
+            })
+            .join("");
+    }
+
+    function runTagSearch() {
+        const term = tagSearchInput?.value.trim().toLowerCase() ?? "";
+        renderTagResults(
+            term
+                ? getPageUsers()
+                      .filter((user) =>
+                          `${user.name} ${user.handle}`
+                              .toLowerCase()
+                              .includes(term),
+                      )
+                      .slice(0, 6)
+                : [],
+        );
+    }
+
+    function openTagPanel() {
+        if (!tagView || !isImageSet()) {
+            return;
+        }
+        closeLocationPanel();
+        closeProductPanel();
+        closeMediaEditor({ discardChanges: true });
+        pendingTaggedUsers = selectedTaggedUsers.map((user) => ({ ...user }));
+        if (tagSearchInput) {
+            tagSearchInput.value = "";
+        }
+        renderTagChipList();
+        renderTagResults([]);
+        tagView.hidden = false;
+        window.requestAnimationFrame(() => tagSearchInput?.focus());
+    }
+
+    function closeTagPanel() {
+        if (!tagView) {
+            return;
+        }
+        tagView.hidden = true;
+        pendingTaggedUsers = selectedTaggedUsers.map((user) => ({ ...user }));
+        if (tagSearchInput) {
+            tagSearchInput.value = "";
+        }
+        renderTagChipList();
+        renderTagResults([]);
+    }
+
+    function renderMediaEditor() {
+        if (!mediaView || pendingMediaEdits.length === 0) {
+            return;
+        }
+        const edit = pendingMediaEdits[activeMediaIndex] ?? { alt: "" };
+        const url = attachmentPreviewUrls[activeMediaIndex] ?? "";
+        if (mediaPrevButton) {
+            mediaPrevButton.disabled = activeMediaIndex === 0;
+        }
+        if (mediaNextButton) {
+            mediaNextButton.disabled =
+                activeMediaIndex >= pendingMediaEdits.length - 1;
+        }
+        if (mediaPreviewImage) {
+            mediaPreviewImage.src = url;
+            mediaPreviewImage.alt = edit.alt;
+        }
+        if (mediaAltInput) {
+            mediaAltInput.value = edit.alt;
+        }
+        if (mediaAltCount) {
+            mediaAltCount.textContent = `${edit.alt.length} / ${maxMediaAltLength.toLocaleString()}`;
+        }
+    }
+
+    function openMediaEditor() {
+        if (!mediaView || !isImageSet()) {
+            return;
+        }
+        closeLocationPanel();
+        closeProductPanel();
+        closeTagPanel();
+        pendingMediaEdits = mediaEdits.map((edit) => ({ alt: edit.alt }));
+        activeMediaIndex = 0;
+        mediaView.hidden = false;
+        renderMediaEditor();
+        window.requestAnimationFrame(() => mediaAltInput?.focus());
+    }
+
+    function closeMediaEditor({ discardChanges = true } = {}) {
+        if (!mediaView) {
+            return;
+        }
+        if (discardChanges) {
+            pendingMediaEdits = mediaEdits.map((edit) => ({ alt: edit.alt }));
+        }
+        mediaView.hidden = true;
+    }
+
+    function saveMediaEdits() {
+        mediaEdits = pendingMediaEdits.map((edit) => ({ alt: edit.alt }));
+        syncMediaAltTrigger();
+        closeMediaEditor({ discardChanges: false });
+    }
+
+    function formatDraftDate(date) {
+        return new Intl.DateTimeFormat("ko-KR", {
+            month: "numeric",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+        }).format(date);
+    }
+
+    function buildDraftSnapshot() {
+        return {
+            id: `draft-${++draftSequence}`,
+            context: contextButton?.textContent?.trim() ?? "",
+            sourceName: sourceName?.textContent?.trim() ?? "",
+            sourceHandle: sourceHandle?.textContent?.trim() ?? "",
+            sourceTime: sourceTime?.textContent?.trim() ?? "",
+            sourceText: sourceText?.textContent?.trim() ?? "",
+            sourceAvatarClass: sourceAvatar?.className ?? "",
+            sourceAvatarMarkup: sourceAvatar?.innerHTML ?? "",
+            text: editor?.textContent ?? "",
+            files: [...attachedFiles],
+            location: selectedLocation,
+            product: selectedProduct ? { ...selectedProduct } : null,
+            taggedUsers: selectedTaggedUsers.map((user) => ({ ...user })),
+            mediaAlt: mediaEdits.map((edit) => ({ alt: edit.alt })),
+            savedAt: new Date(),
+        };
+    }
+
+    function renderDraftList() {
+        if (!draftList || !draftEmpty) {
+            return;
+        }
+        draftEmpty.hidden = drafts.length !== 0;
+        draftList.innerHTML = drafts
+            .map(
+                (draft) =>
+                    `<button type="button" class="draft-panel__item" data-draft-id="${draft.id}" aria-pressed="false"><span class="draft-panel__checkbox" hidden></span><span class="draft-panel__avatar draft-panel__avatar--reply">${draft.sourceAvatarMarkup || "<span>답</span>"}</span><span class="draft-panel__item-body"><span class="draft-panel__meta">${escapeAttachmentText(draft.context || `${draft.sourceHandle}님에게 보내는 답글`)}</span><span class="draft-panel__text">${escapeAttachmentText(draft.text || "이미지 초안")}</span><span class="draft-panel__date">${escapeAttachmentText(formatDraftDate(draft.savedAt))}</span></span><span class="draft-panel__item-remove" data-draft-remove-id="${draft.id}" aria-label="초안 삭제"><svg viewBox="0 0 24 24" aria-hidden="true"><g><path d="M10.59 12 4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z"></path></g></svg></span></button>`,
+            )
+            .join("");
+    }
+
+    function openDraftPanel() {
+        if (!composeView || !draftView) {
+            return;
+        }
+        renderDraftList();
+        composeView.hidden = true;
+        draftView.hidden = false;
+    }
+
+    function closeDraftPanel() {
+        if (!composeView || !draftView) {
+            return;
+        }
+        draftView.hidden = true;
+        composeView.hidden = false;
+    }
+
+    function saveDraftAndOpenPanel() {
+        if (
+            editor?.textContent?.trim() ||
+            attachedFiles.length > 0 ||
+            selectedTaggedUsers.length > 0
+        ) {
+            drafts.unshift(buildDraftSnapshot());
+        }
+        openDraftPanel();
+    }
+
+    function loadDraft(draftId) {
+        const draft = drafts.find((item) => item.id === draftId);
+        if (!draft || !editor) {
+            return;
+        }
+        editor.textContent = draft.text;
+        selectedTaggedUsers = draft.taggedUsers.map((user) => ({ ...user }));
+        pendingTaggedUsers = selectedTaggedUsers.map((user) => ({ ...user }));
+        selectedLocation = draft.location ?? null;
+        pendingLocation = selectedLocation;
+        selectedProduct = draft.product ? { ...draft.product } : null;
+        mediaEdits = draft.mediaAlt.map((edit) => ({ alt: edit.alt }));
+        pendingMediaEdits = mediaEdits.map((edit) => ({ alt: edit.alt }));
+        setAttachments(draft.files);
+        if (sourceAvatar) {
+            sourceAvatar.className =
+                draft.sourceAvatarClass || sourceAvatar.className;
+            sourceAvatar.innerHTML = draft.sourceAvatarMarkup;
+        }
+        if (contextButton) {
+            contextButton.textContent = draft.context;
+            contextButton.hidden = !draft.context;
+        }
+        if (sourceName) {
+            sourceName.textContent = draft.sourceName;
+        }
+        if (sourceHandle) {
+            sourceHandle.textContent = draft.sourceHandle;
+        }
+        if (sourceTime) {
+            sourceTime.textContent = draft.sourceTime;
+        }
+        if (sourceText) {
+            sourceText.textContent = draft.sourceText;
+        }
+        syncLocationUI();
+        syncSelectedProductCard();
+        syncProductListSelection();
+        syncUserTagTrigger();
+        syncMediaAltTrigger();
+        syncState();
+        closeDraftPanel();
+        window.requestAnimationFrame(() => editor.focus());
+    }
+
+    function resetComposerState() {
+        if (editor) {
+            editor.textContent = "";
+        }
+        pendingAttachmentEditIndex = null;
+        selectedLocation = null;
+        pendingLocation = null;
+        selectedProduct = null;
+        selectedTaggedUsers = [];
+        pendingTaggedUsers = [];
+        mediaEdits = [];
+        pendingMediaEdits = [];
+        activeMediaIndex = 0;
+        setAttachments([]);
+        if (fileInput) {
+            fileInput.value = "";
+        }
+        closeLocationPanel();
+        closeProductPanel();
+        closeTagPanel();
+        closeMediaEditor({ discardChanges: true });
+        closeDraftPanel();
+        syncLocationUI();
+        syncSelectedProductCard();
+        syncProductListSelection();
+        syncUserTagTrigger();
+        syncMediaAltTrigger();
+        syncState();
+    }
+
+    // Spring 서버에서 렌더링한 댓글/답글 카드 메타 정보를 모달 상단에 주입한다.
+    function populate(card) {
+        const name = card.querySelector(".postName")?.textContent?.trim() ?? "";
+        const handle = card.querySelector(".postHandle")?.textContent?.trim() ?? "";
+        const spans = Array.from(
+            card.querySelectorAll(".post-detail-reply-identity > span"),
+        );
+        const time = spans[spans.length - 1]?.textContent?.trim() ?? "";
+        const text = card.querySelector(".post-detail-reply-text")?.textContent?.trim() ?? "";
+        const cardAvatar = card.querySelector(".post-detail-avatar");
+
+        if (contextButton) {
+            contextButton.textContent = handle
+                ? `${handle}님에게 보내는 답글`
+                : `${name}님에게 보내는 답글`;
+            contextButton.hidden = false;
+        }
+        if (sourceAvatar && cardAvatar) {
+            sourceAvatar.className = cardAvatar.className;
+            sourceAvatar.setAttribute("data-reply-source-avatar", "");
+            sourceAvatar.innerHTML = cardAvatar.innerHTML;
+        }
+        if (sourceInitial && !cardAvatar) {
+            sourceInitial.textContent = name.charAt(0) || "?";
+        }
+        if (sourceName) {
+            sourceName.textContent = name;
+        }
+        if (sourceHandle) {
+            sourceHandle.textContent = handle;
+        }
+        if (sourceTime) {
+            sourceTime.textContent = time;
+        }
+        if (sourceText) {
+            sourceText.textContent = text;
+        }
+    }
+
+    function open(btn) {
+        const card = btn.closest(".post-detail-reply-card");
+        if (!card) return;
+        resetComposerState();
+        populate(card);
+        overlay.hidden = false;
+        document.body.classList.add("modal-open");
+        syncLocationUI();
+        syncSelectedProductCard();
+        syncProductListSelection();
+        syncState();
+        requestAnimationFrame(() => editor?.focus());
+    }
+
+    function close() {
+        overlay.hidden = true;
+        document.body.classList.remove("modal-open");
+        if (emojiPicker?.pickerVisible) emojiPicker.hidePicker();
+        resetComposerState();
+    }
+
+    document
+        .querySelectorAll(".post-detail-reply-card [data-testid='reply']")
+        .forEach((button) => {
+            button.addEventListener("click", (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                open(button);
+            });
+        });
+
+    closeButton?.addEventListener("click", close);
+    overlay.addEventListener("click", (event) => {
+        if (event.target === overlay) {
+            close();
+        }
+    });
+
+    editor?.addEventListener("input", () => {
+        if (editor && !editor.textContent.trim()) {
+            editor.innerHTML = "";
+        }
+        syncState();
+    });
+    editor?.addEventListener("keydown", (event) => {
+        if (
+            (!event.ctrlKey && !event.metaKey) ||
+            (event.key !== "b" && event.key !== "i")
+        ) {
+            return;
+        }
+        event.preventDefault();
+        document.execCommand(event.key === "b" ? "bold" : "italic");
+    });
+
+    formatButtons.forEach((button) => {
+        button.addEventListener("mousedown", (event) => event.preventDefault());
+        button.addEventListener("click", () => {
+            editor?.focus();
+            const format = button.getAttribute("data-format");
+            if (format) {
+                document.execCommand(format);
+            }
+        });
+    });
+
+    mediaUploadButton?.addEventListener("click", (event) => {
+        event.preventDefault();
+        closeLocationPanel();
+        closeProductPanel();
+        if (fileInput) {
+            fileInput.value = "";
+            fileInput.click();
+        }
+    });
+
+    emojiButton?.addEventListener("click", (event) => {
+        event.preventDefault();
+        if (!editor || typeof window.EmojiButton !== "function") return;
+        closeLocationPanel();
+        closeProductPanel();
+        closeTagPanel();
+        closeMediaEditor({ discardChanges: true });
+        if (!emojiPicker) {
+            emojiPicker = new window.EmojiButton({
+                position: "bottom-start",
+                zIndex: 9999,
+            });
+            emojiPicker.on("emoji", (sel) => {
+                const emoji = typeof sel === "string" ? sel : sel?.emoji;
+                if (!emoji || !editor) return;
+                editor.focus();
+                const s = window.getSelection();
+                if (s?.rangeCount) {
+                    const r = s.getRangeAt(0);
+                    r.deleteContents();
+                    r.insertNode(document.createTextNode(emoji));
+                    r.collapse(false);
+                } else {
+                    editor.append(document.createTextNode(emoji));
+                }
+                syncState();
+            });
+            emojiPicker.on("hidden", () =>
+                emojiButton?.setAttribute("aria-expanded", "false"),
+            );
+        }
+        if (emojiPicker.pickerVisible) {
+            emojiPicker.hidePicker();
+        } else {
+            event.currentTarget.setAttribute("aria-expanded", "true");
+            emojiPicker.showPicker(event.currentTarget);
+        }
+    });
+
+    fileInput?.addEventListener("change", (event) => {
+        const nextFiles = Array.from(event.target.files ?? []);
+        if (nextFiles.length === 0) {
+            pendingAttachmentEditIndex = null;
+            return;
+        }
+        if (pendingAttachmentEditIndex !== null) {
+            const replacement = nextFiles[0];
+            if (replacement?.type.startsWith("image/")) {
+                const editedFiles = [...attachedFiles];
+                editedFiles[pendingAttachmentEditIndex] = replacement;
+                setAttachments(editedFiles);
+            }
+            pendingAttachmentEditIndex = null;
+            fileInput.value = "";
+            return;
+        }
+        setAttachments(
+            [...attachedFiles, ...nextFiles].filter(
+                (file) =>
+                    file.type.startsWith("image/") ||
+                    file.type.startsWith("video/"),
+            ),
+        );
+        fileInput.value = "";
+    });
+
+    attachmentMedia?.addEventListener("click", (event) => {
+        const editButton = event.target.closest("[data-attachment-edit-index]");
+        if (editButton) {
+            pendingAttachmentEditIndex = Number.parseInt(
+                editButton.getAttribute("data-attachment-edit-index") ?? "-1",
+                10,
+            );
+            if (fileInput) {
+                fileInput.value = "";
+                fileInput.click();
+            }
+            return;
+        }
+
+        const removeButton = event.target.closest(
+            "[data-attachment-remove-index]",
+        );
+        const index = Number.parseInt(
+            removeButton?.getAttribute("data-attachment-remove-index") ?? "-1",
+            10,
+        );
+        if (index < 0) {
+            return;
+        }
+        setAttachments(
+            attachedFiles.filter((_, fileIndex) => fileIndex !== index),
+        );
+    });
+
+    geoButton?.addEventListener("click", (event) => {
+        event.preventDefault();
+        openLocationPanel();
+    });
+    locationDisplay?.addEventListener("click", (event) => {
+        event.preventDefault();
+        openLocationPanel();
+    });
+    locationSearchInput?.addEventListener("input", () => {
+        renderLocationList();
+    });
+    locationList?.addEventListener("click", (event) => {
+        const item = event.target.closest(".tweet-modal__location-item");
+        const location = item
+            ?.querySelector(".tweet-modal__location-item-label")
+            ?.textContent?.trim();
+        if (!location) {
+            return;
+        }
+        pendingLocation = location;
+        renderLocationList();
+        syncLocationUI();
+    });
+    locationCloseButton?.addEventListener("click", () => {
+        closeLocationPanel();
+    });
+    locationDeleteButton?.addEventListener("click", () => {
+        selectedLocation = null;
+        pendingLocation = null;
+        closeLocationPanel({ resetPending: false });
+    });
+    locationCompleteButton?.addEventListener("click", () => {
+        selectedLocation = pendingLocation;
+        closeLocationPanel({ resetPending: false });
+        syncLocationUI();
+    });
+
+    productButton?.addEventListener("click", (event) => {
+        event.preventDefault();
+        openProductPanel();
+    });
+    productSelectClose?.addEventListener("click", () => {
+        closeProductPanel();
+    });
+    productSelectList?.addEventListener("click", (event) => {
+        const item = event.target.closest(".draft-panel__item");
+        if (!item) {
+            return;
+        }
+        const isSameItem = selectedProduct?.id === (item.dataset.productId ?? "");
+        selectedProduct = isSameItem
+            ? null
+            : {
+                  id: item.dataset.productId ?? "",
+                  name: item.dataset.productName ?? "",
+                  price: item.dataset.productPrice ?? "",
+                  image: item.dataset.productImage ?? "",
+              };
+        syncSelectedProductCard();
+        syncProductListSelection();
+    });
+    productSelectComplete?.addEventListener("click", () => {
+        if (!selectedProduct) {
+            return;
+        }
+        syncSelectedProductCard();
+        closeProductPanel();
+    });
+    selectedProductCard
+        ?.querySelector("[data-product-remove]")
+        ?.addEventListener("click", () => {
+            selectedProduct = null;
+            syncSelectedProductCard();
+            syncProductListSelection();
+        });
+
+    draftButton?.addEventListener("click", (event) => {
+        event.preventDefault();
+        saveDraftAndOpenPanel();
+    });
+    draftBackButton?.addEventListener("click", (event) => {
+        event.preventDefault();
+        closeDraftPanel();
+    });
+    draftList?.addEventListener("click", (event) => {
+        const removeButton = event.target.closest("[data-draft-remove-id]");
+        if (removeButton) {
+            const draftId = removeButton.getAttribute("data-draft-remove-id");
+            const draftIndex = drafts.findIndex((draft) => draft.id === draftId);
+            if (draftIndex >= 0) {
+                drafts.splice(draftIndex, 1);
+                renderDraftList();
+            }
+            return;
+        }
+
+        const draftItem = event.target.closest("[data-draft-id]");
+        const draftId = draftItem?.getAttribute("data-draft-id");
+        if (draftId) {
+            loadDraft(draftId);
+        }
+    });
+
+    userTagTrigger?.addEventListener("click", (event) => {
+        event.preventDefault();
+        openTagPanel();
+    });
+    tagSearchForm?.addEventListener("submit", (event) => event.preventDefault());
+    tagSearchInput?.addEventListener("input", () => runTagSearch());
+    tagCloseButton?.addEventListener("click", () => closeTagPanel());
+    tagCompleteButton?.addEventListener("click", () => {
+        selectedTaggedUsers = pendingTaggedUsers.map((user) => ({ ...user }));
+        syncUserTagTrigger();
+        closeTagPanel();
+    });
+    tagChipList?.addEventListener("click", (event) => {
+        const chip = event.target.closest("[data-tag-remove-id]");
+        if (!chip) {
+            return;
+        }
+        const userId = chip.getAttribute("data-tag-remove-id");
+        pendingTaggedUsers = pendingTaggedUsers.filter(
+            (user) => user.id !== userId,
+        );
+        renderTagChipList();
+        runTagSearch();
+        tagSearchInput?.focus();
+    });
+    tagResults?.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-tag-user-id]");
+        if (!button || button.hasAttribute("disabled")) {
+            return;
+        }
+        const userId = button.getAttribute("data-tag-user-id");
+        const user = currentTagResults.find((item) => item.id === userId);
+        if (!user) {
+            return;
+        }
+        pendingTaggedUsers = [...pendingTaggedUsers, { ...user }];
+        renderTagChipList();
+        if (tagSearchInput) {
+            tagSearchInput.value = "";
+        }
+        renderTagResults([]);
+    });
+
+    mediaAltTrigger?.addEventListener("click", (event) => {
+        event.preventDefault();
+        openMediaEditor();
+    });
+    mediaBackButton?.addEventListener("click", () =>
+        closeMediaEditor({ discardChanges: true }),
+    );
+    mediaSaveButton?.addEventListener("click", () => saveMediaEdits());
+    mediaPrevButton?.addEventListener("click", () => {
+        if (activeMediaIndex === 0) {
+            return;
+        }
+        activeMediaIndex -= 1;
+        renderMediaEditor();
+    });
+    mediaNextButton?.addEventListener("click", () => {
+        if (activeMediaIndex >= pendingMediaEdits.length - 1) {
+            return;
+        }
+        activeMediaIndex += 1;
+        renderMediaEditor();
+    });
+    mediaAltInput?.addEventListener("input", () => {
+        const edit = pendingMediaEdits[activeMediaIndex];
+        if (!edit) {
+            return;
+        }
+        edit.alt = mediaAltInput.value.slice(0, maxMediaAltLength);
+        renderMediaEditor();
+    });
+
+    submitBtn?.addEventListener("click", () => {
+        if (!submitBtn.disabled) {
+            close();
+        }
+    });
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !overlay.hidden) {
+            close();
+        }
+    });
+    window.addEventListener("beforeunload", revokeAttachmentPreviewUrls);
 }

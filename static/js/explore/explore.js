@@ -1,14 +1,15 @@
-// 1. 탭 요소
-const tabProducts = document.getElementById("tabProducts");
-const tabTrending = document.getElementById("tabTrending");
-const tabNews = document.getElementById("tabNews");
+window.onload = () => {
+    // 1. 탭 요소
+    const tabProducts = document.getElementById("tabProducts");
+    const tabTrending = document.getElementById("tabTrending");
+    const tabNews = document.getElementById("tabNews");
 
-// 2. 섹션 요소
-const productsSection = document.getElementById("productsSection");
-const trendingSection = document.getElementById("trendingSection");
-const newsSection = document.getElementById("newsSection");
+    // 2. 섹션 요소
+    const productsSection = document.getElementById("productsSection");
+    const trendingSection = document.getElementById("trendingSection");
+    const newsSection = document.getElementById("newsSection");
 
-if (tabProducts && tabTrending && tabNews && productsSection && trendingSection && newsSection) {
+    if (tabProducts && tabTrending && tabNews && productsSection && trendingSection && newsSection) {
 
     // 3. 탭 전환 함수
     function showProductsTab() {
@@ -54,102 +55,105 @@ if (tabProducts && tabTrending && tabNews && productsSection && trendingSection 
     tabProducts.addEventListener("click", (e) => { showProductsTab(); });
     tabTrending.addEventListener("click", (e) => { showTrendingTab(); });
     tabNews.addEventListener("click", (e) => { showNewsTab(); });
-}
+    }
 
-// 5. Trending 서브탭
-const trendingSubtabs = document.querySelectorAll("#trendingSubtabs .trending-subtab");
-if (trendingSubtabs.length > 0) {
-    trendingSubtabs.forEach((tab) => {
-        tab.addEventListener("click", (e) => {
-            e.preventDefault();
-            trendingSubtabs.forEach((t) => { t.classList.remove("isActive"); });
-            tab.classList.add("isActive");
+    // 5. Trending 서브탭
+    const trendingSubtabs = document.querySelectorAll("#trendingSubtabs .trending-subtab");
+    if (trendingSubtabs.length > 0) {
+        trendingSubtabs.forEach((tab) => {
+            tab.addEventListener("click", (e) => {
+                e.preventDefault();
+                trendingSubtabs.forEach((t) => { t.classList.remove("isActive"); });
+                tab.classList.add("isActive");
+            });
         });
-    });
-}
+    }
 
-// 6. 트렌딩 더보기 메뉴
-const trendReportMenu = document.getElementById("trendReportMenu");
+    // 6. 트렌딩 더보기 메뉴
+    const trendReportMenu = document.getElementById("trendReportMenu");
 
-if (trendReportMenu) {
-    let activeBtn = null;
+    if (trendReportMenu) {
+        let activeBtn = null;
 
-    document.querySelectorAll(".trending-more-btn").forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-            e.stopPropagation();
+        document.querySelectorAll(".trending-more-btn").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
 
-            // 같은 버튼 다시 누르면 닫기
-            if (activeBtn === btn && !trendReportMenu.hidden) {
-                trendReportMenu.hidden = true;
-                activeBtn = null;
-                return;
-            }
+                // 같은 버튼 다시 누르면 닫기
+                if (activeBtn === btn && !trendReportMenu.hidden) {
+                    trendReportMenu.hidden = true;
+                    activeBtn = null;
+                    return;
+                }
 
-            activeBtn = btn;
-            const rect = btn.getBoundingClientRect();
+                activeBtn = btn;
+                const rect = btn.getBoundingClientRect();
 
-            trendReportMenu.style.top  = rect.bottom + "px";
-            trendReportMenu.style.left = (rect.right - 284) + "px";
-            trendReportMenu.hidden = false;
+                trendReportMenu.style.top  = rect.bottom + "px";
+                trendReportMenu.style.left = (rect.right - 284) + "px";
+                trendReportMenu.hidden = false;
 
-            const menuH = trendReportMenu.offsetHeight;
-            if (rect.bottom + menuH > window.innerHeight) {
-                trendReportMenu.style.top = (rect.top - menuH) + "px";
-            }
+                const menuH = trendReportMenu.offsetHeight;
+                if (rect.bottom + menuH > window.innerHeight) {
+                    trendReportMenu.style.top = (rect.top - menuH) + "px";
+                }
+            });
         });
-    });
 
-    // 메뉴 아이템 클릭 시 해당 트렌딩 아이템 → dismissed 상태로 교체
-    trendReportMenu.querySelectorAll(".more-menu").forEach((item) => {
-        item.addEventListener("click", (e) => {
-            if (activeBtn) {
-                const trendingItem = activeBtn.closest(".trending-item");
-                if (trendingItem) {
-                    const dismissed = document.createElement("article");
-                    dismissed.className = "trend-dismissed";
-                    dismissed.setAttribute("role", "article");
-                    dismissed.innerHTML =
-                        '<div class="trend-dismissed__wrapper">' +
-                            '<div class="trend-dismissed__spacer"></div>' +
-                            '<div class="trend-dismissed__body">' +
-                                '<div class="trend-dismissed__box">' +
-                                    '<div class="trend-dismissed__text">' +
-                                        '<span>감사합니다. 이 트렌드를 업데이트하려면 페이지를 새로고침해 주세요.</span>' +
+        // 메뉴 아이템 클릭 시 해당 트렌딩 아이템 → dismissed 상태로 교체
+        trendReportMenu.querySelectorAll(".more-menu").forEach((item) => {
+            item.addEventListener("click", (e) => {
+                if (activeBtn) {
+                    const trendingItem = activeBtn.closest(".trending-item");
+                    if (trendingItem) {
+                        const dismissed = document.createElement("article");
+                        dismissed.className = "trend-dismissed";
+                        dismissed.setAttribute("role", "article");
+                        dismissed.innerHTML =
+                            '<div class="trend-dismissed__wrapper">' +
+                                '<div class="trend-dismissed__spacer"></div>' +
+                                '<div class="trend-dismissed__body">' +
+                                    '<div class="trend-dismissed__box">' +
+                                        '<div class="trend-dismissed__text">' +
+                                            '<span>감사합니다. 이 트렌드를 업데이트하려면 페이지를 새로고침해 주세요.</span>' +
+                                        '</div>' +
                                     '</div>' +
                                 '</div>' +
-                            '</div>' +
-                        '</div>';
-                    trendingItem.replaceWith(dismissed);
+                            '</div>';
+                        trendingItem.replaceWith(dismissed);
+                    }
                 }
-            }
-            trendReportMenu.hidden = true;
-            activeBtn = null;
+                trendReportMenu.hidden = true;
+                activeBtn = null;
+            });
         });
-    });
 
-    // 외부 클릭 시 닫기
-    document.addEventListener("click", (e) => {
-        if (!trendReportMenu.hidden && !trendReportMenu.contains(e.target)) {
-            trendReportMenu.hidden = true;
-            activeBtn = null;
-        }
-    });
+        // 외부 클릭 시 닫기
+        document.addEventListener("click", (e) => {
+            if (!trendReportMenu.hidden && !trendReportMenu.contains(e.target)) {
+                trendReportMenu.hidden = true;
+                activeBtn = null;
+            }
+        });
 
-    // 스크롤 시 닫기
-    window.addEventListener("scroll", (e) => {
-        if (!trendReportMenu.hidden) {
-            trendReportMenu.hidden = true;
-            activeBtn = null;
-        }
-    }, { passive: true });
-}
+        // 스크롤 시 닫기
+        window.addEventListener("scroll", (e) => {
+            if (!trendReportMenu.hidden) {
+                trendReportMenu.hidden = true;
+                activeBtn = null;
+            }
+        }, { passive: true });
+    }
 
 // 7. Post-Card 인터랙션 (Like / Bookmark / 이미지 프리뷰)
 (function () {
     // Toast 알림
     function showToast(message, extraClass) {
         const toast = document.createElement("div");
-        toast.className = "toast" + (extraClass ? " " + extraClass : "");
+        toast.className = "toast";
+        if (extraClass) {
+            toast.classList.add(extraClass);
+        }
         toast.textContent = message;
         document.body.appendChild(toast);
         setTimeout(function () { toast.remove(); }, 2500);
@@ -229,8 +233,6 @@ if (trendReportMenu) {
 })();
 
 // 8. 검색창 포커스 드롭다운 + 최근검색 삭제
-window.addEventListener("load", function () {
-
     const searchForm        = document.getElementById("searchForm");
     const searchInput       = document.getElementById("searchInput");
     const searchClearBtn    = document.getElementById("searchClearBtn");
@@ -290,22 +292,22 @@ window.addEventListener("load", function () {
             }
         }
 
-        searchPanel.addEventListener("mousedown", function (e) {
+        searchPanel.addEventListener("mousedown", (e) => {
             e.preventDefault();
         });
 
-        searchInput.addEventListener("focus", function (e) {
+        searchInput.addEventListener("focus", (e) => {
             searchForm.classList.add("isFocused");
             searchPanel.hidden = false;
             updatePanel();
         });
 
-        searchInput.addEventListener("input", function (e) {
+        searchInput.addEventListener("input", (e) => {
             updatePanel();
         });
 
         if (searchClearBtn) {
-            searchClearBtn.addEventListener("click", function (e) {
+            searchClearBtn.addEventListener("click", (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 searchInput.value = "";
@@ -314,13 +316,13 @@ window.addEventListener("load", function () {
             });
         }
 
-        searchInput.addEventListener("blur", function (e) {
+        searchInput.addEventListener("blur", (e) => {
             if (!document.hasFocus()) { return; }
             searchForm.classList.remove("isFocused");
             searchPanel.hidden = true;
         });
 
-        searchInput.addEventListener("keydown", function (e) {
+        searchInput.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
                 searchForm.classList.remove("isFocused");
                 searchPanel.hidden = true;
@@ -329,7 +331,7 @@ window.addEventListener("load", function () {
         });
 
         if (searchResultTopic) {
-            searchResultTopic.addEventListener("click", function (e) {
+            searchResultTopic.addEventListener("click", (e) => {
                 searchForm.classList.remove("isFocused");
                 searchPanel.hidden = true;
             });
@@ -340,7 +342,7 @@ window.addEventListener("load", function () {
 
     // 개별 삭제 버튼
     if (searchRecentSec) {
-        searchRecentSec.addEventListener("click", function (e) {
+        searchRecentSec.addEventListener("click", (e) => {
             const deleteBtn = e.target.closest(".searchRecentDeleteBtn");
             if (deleteBtn) {
                 e.stopPropagation();
@@ -354,13 +356,14 @@ window.addEventListener("load", function () {
         // 모두 지우기
         const clearAllBtn = searchRecentSec.querySelector(".searchRecentClearAll");
         if (clearAllBtn) {
-            clearAllBtn.addEventListener("click", function (e) {
+            clearAllBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
-                searchRecentSec.querySelectorAll(".searchResultItem").forEach(function (item) {
+                searchRecentSec.querySelectorAll(".searchResultItem").forEach((item) => {
                     item.remove();
                 });
                 showEmpty();
             });
         }
     }
-});
+
+};

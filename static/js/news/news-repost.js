@@ -1303,8 +1303,27 @@ const tabLinks = document.querySelectorAll(".tab-link");
         const curIsBold   = parentSpan ? parentSpan.style.fontWeight === "bold" : false;
         const curIsItalic = parentSpan ? parentSpan.style.fontStyle === "italic" : false;
 
-        // 서식이 같으면 브라우저가 처리
-        if (isBold === curIsBold && isItalic === curIsItalic) return false;
+        // 서식이 같으면
+        if (isBold === curIsBold && isItalic === curIsItalic) {
+            // 서식 없음: 브라우저가 처리
+            if (!isBold && !isItalic) return false;
+            if (!parentSpan) return false;
+            // span 안에서 서식 일치: 브라우저가 span 밖에 삽입하는 문제를 방지해 직접 삽입
+            e.preventDefault();
+            if (!range.collapsed) range.deleteContents();
+            range.collapse(true);
+            const inSpanTextNode = document.createTextNode(e.key);
+            range.insertNode(inSpanTextNode);
+            const inSpanRange = document.createRange();
+            inSpanRange.setStart(inSpanTextNode, e.key.length);
+            inSpanRange.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(inSpanRange);
+            saveReplySelection();
+            syncReplySubmitState();
+            syncReplyFormatButtons();
+            return true;
+        }
 
         // 서식이 다름 → 직접 삽입
         e.preventDefault();
@@ -2694,13 +2713,6 @@ const tabLinks = document.querySelectorAll(".tab-link");
         }
     });
 
-    // 텍스트 선택/커서 변경 시 커서 위치에서 서식 상태 동기화
-    document.addEventListener("selectionchange", () => {
-        if (replyModalOverlay?.hidden || !replyEditor) return;
-        syncActiveFormatsFromCursor();
-        saveReplySelection();
-        syncReplyFormatButtons();
-    });
 
     // 서식 버튼 클릭 시 해당 서식을 적용한다
     replyFormatButtons.forEach((btn) => {

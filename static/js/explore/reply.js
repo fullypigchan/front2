@@ -3130,9 +3130,7 @@ window.onload = function () {
         replyEditor.parentElement?.appendChild(card);
     }
 
-};
-
-// contenteditable에 공통으로 쓰는 커서 이동 유틸이다.
+    // contenteditable에 공통으로 쓰는 커서 이동 유틸이다.
 function placeCaretAtEnd(element) {
     const selection = window.getSelection();
     if (!selection) return;
@@ -3142,3 +3140,7 @@ function placeCaretAtEnd(element) {
     selection.removeAllRanges();
     selection.addRange(range);
 }
+
+};
+
+

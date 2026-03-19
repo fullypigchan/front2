@@ -150,7 +150,10 @@ window.onload = () => {
     // Toast 알림
     function showToast(message, extraClass) {
         const toast = document.createElement("div");
-        toast.className = "toast" + (extraClass ? " " + extraClass : "");
+        toast.className = "toast";
+        if (extraClass) {
+            toast.classList.add(extraClass);
+        }
         toast.textContent = message;
         document.body.appendChild(toast);
         setTimeout(function () { toast.remove(); }, 2500);
@@ -230,8 +233,6 @@ window.onload = () => {
 })();
 
 // 8. 검색창 포커스 드롭다운 + 최근검색 삭제
-window.addEventListener("load", function () {
-
     const searchForm        = document.getElementById("searchForm");
     const searchInput       = document.getElementById("searchInput");
     const searchClearBtn    = document.getElementById("searchClearBtn");
@@ -291,22 +292,22 @@ window.addEventListener("load", function () {
             }
         }
 
-        searchPanel.addEventListener("mousedown", function (e) {
+        searchPanel.addEventListener("mousedown", (e) => {
             e.preventDefault();
         });
 
-        searchInput.addEventListener("focus", function (e) {
+        searchInput.addEventListener("focus", (e) => {
             searchForm.classList.add("isFocused");
             searchPanel.hidden = false;
             updatePanel();
         });
 
-        searchInput.addEventListener("input", function (e) {
+        searchInput.addEventListener("input", (e) => {
             updatePanel();
         });
 
         if (searchClearBtn) {
-            searchClearBtn.addEventListener("click", function (e) {
+            searchClearBtn.addEventListener("click", (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 searchInput.value = "";
@@ -315,13 +316,13 @@ window.addEventListener("load", function () {
             });
         }
 
-        searchInput.addEventListener("blur", function (e) {
+        searchInput.addEventListener("blur", (e) => {
             if (!document.hasFocus()) { return; }
             searchForm.classList.remove("isFocused");
             searchPanel.hidden = true;
         });
 
-        searchInput.addEventListener("keydown", function (e) {
+        searchInput.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
                 searchForm.classList.remove("isFocused");
                 searchPanel.hidden = true;
@@ -330,7 +331,7 @@ window.addEventListener("load", function () {
         });
 
         if (searchResultTopic) {
-            searchResultTopic.addEventListener("click", function (e) {
+            searchResultTopic.addEventListener("click", (e) => {
                 searchForm.classList.remove("isFocused");
                 searchPanel.hidden = true;
             });
@@ -341,7 +342,7 @@ window.addEventListener("load", function () {
 
     // 개별 삭제 버튼
     if (searchRecentSec) {
-        searchRecentSec.addEventListener("click", function (e) {
+        searchRecentSec.addEventListener("click", (e) => {
             const deleteBtn = e.target.closest(".searchRecentDeleteBtn");
             if (deleteBtn) {
                 e.stopPropagation();
@@ -355,15 +356,14 @@ window.addEventListener("load", function () {
         // 모두 지우기
         const clearAllBtn = searchRecentSec.querySelector(".searchRecentClearAll");
         if (clearAllBtn) {
-            clearAllBtn.addEventListener("click", function (e) {
+            clearAllBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
-                searchRecentSec.querySelectorAll(".searchResultItem").forEach(function (item) {
+                searchRecentSec.querySelectorAll(".searchResultItem").forEach((item) => {
                     item.remove();
                 });
                 showEmpty();
             });
         }
     }
-});
 
 };

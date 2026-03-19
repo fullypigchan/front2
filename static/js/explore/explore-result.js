@@ -116,8 +116,8 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
         }
     }
 
-    searchPanel.addEventListener("mousedown", function (event) {
-        event.preventDefault();
+    searchPanel.addEventListener("mousedown", (e) => {
+        e.preventDefault();
     });
 
     searchInput.addEventListener("focus", function () {
@@ -131,9 +131,9 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
     });
 
     if (searchClearBtn) {
-        searchClearBtn.addEventListener("click", function (event) {
-            event.preventDefault();
-            event.stopPropagation();
+        searchClearBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             searchInput.value = "";
             updatePanel();
             searchInput.focus();
@@ -149,8 +149,8 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
         searchPanel.hidden = true;
     });
 
-    searchInput.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") {
+    searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
             searchForm.classList.remove("isFocused");
             searchPanel.hidden = true;
             searchInput.blur();
@@ -165,13 +165,13 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
     }
 
     if (searchRecentSec) {
-        searchRecentSec.addEventListener("click", function (event) {
-            const deleteBtn = event.target.closest(".searchRecentDeleteBtn");
+        searchRecentSec.addEventListener("click", (e) => {
+            const deleteBtn = e.target.closest(".searchRecentDeleteBtn");
             if (!deleteBtn) {
                 return;
             }
 
-            event.stopPropagation();
+            e.stopPropagation();
             const searchItem = deleteBtn.closest(".searchResultItem");
             if (searchItem) {
                 searchItem.remove();
@@ -182,9 +182,9 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
 
         const clearAllBtn = searchRecentSec.querySelector(".searchRecentClearAll");
         if (clearAllBtn) {
-            clearAllBtn.addEventListener("click", function (event) {
-                event.stopPropagation();
-                searchRecentSec.querySelectorAll(".searchResultItem").forEach(function (item) {
+            clearAllBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                searchRecentSec.querySelectorAll(".searchResultItem").forEach((item) => {
                     item.remove();
                 });
 
@@ -254,7 +254,8 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
         closePostMoreDropdown();
         closePostMoreModal();
         const modal = document.createElement("div");
-        modal.className = "notification-dialog notification-dialog--block";
+        modal.className = "notification-dialog";
+        modal.classList.add("notification-dialog--block");
         modal.innerHTML =
             '<div class="notification-dialog__backdrop"></div>' +
             '<div class="notification-dialog__card notification-dialog__card--small" role="alertdialog" aria-modal="true">' +
@@ -297,7 +298,8 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
                 '</button></li>';
         }
         const modal = document.createElement("div");
-        modal.className = "notification-dialog notification-dialog--report";
+        modal.className = "notification-dialog";
+        modal.classList.add("notification-dialog--report");
         modal.innerHTML =
             '<div class="notification-dialog__backdrop"></div>' +
             '<div class="notification-dialog__card notification-dialog__card--report" role="dialog" aria-modal="true">' +
@@ -410,7 +412,7 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
     }
 
     // postMoreButton 클릭 (이벤트 위임)
-    document.addEventListener("click", function (e) {
+    document.addEventListener("click", (e) => {
         const btn = e.target.closest(".postMoreButton");
         if (btn) {
             e.preventDefault();
@@ -428,7 +430,7 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
         }
     });
 
-    document.addEventListener("keydown", function (e) {
+    document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
             closePostMoreDropdown();
             closePostMoreModal();
@@ -492,7 +494,7 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
         pendingBtn = null;
     }
 
-    document.addEventListener("click", function (e) {
+    document.addEventListener("click", (e) => {
         const btn = e.target.closest(".connect-btn");
         if (!btn) { return; }
         if (btn.classList.contains("default")) {
@@ -502,31 +504,31 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
         }
     });
 
-    document.addEventListener("mouseover", function (e) {
+    document.addEventListener("mouseover", (e) => {
         const btn = e.target.closest(".connect-btn.connected");
         if (!btn) { return; }
         updateConnectedButtonHoverState(btn, true);
     });
 
-    document.addEventListener("mouseout", function (e) {
+    document.addEventListener("mouseout", (e) => {
         const btn = e.target.closest(".connect-btn.connected");
         if (!btn) { return; }
         updateConnectedButtonHoverState(btn, false);
     });
 
     if (modalConfirm) {
-        modalConfirm.addEventListener("click", function (e) {
+        modalConfirm.addEventListener("click", (e) => {
             if (pendingBtn) { resetButtonToDefault(pendingBtn); }
             closeDisconnectModal();
         });
     }
 
     if (modalCancel) {
-        modalCancel.addEventListener("click", function (e) { closeDisconnectModal(); });
+        modalCancel.addEventListener("click", (e) => { closeDisconnectModal(); });
     }
 
     if (modal) {
-        modal.addEventListener("click", function (e) {
+        modal.addEventListener("click", (e) => {
             if (e.target === modal) { closeDisconnectModal(); }
         });
     }
@@ -539,7 +541,10 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
         const existing = document.querySelector(".toast");
         if (existing) { existing.remove(); }
         const toast = document.createElement("div");
-        toast.className = "toast" + (extraClass ? " " + extraClass : "");
+        toast.className = "toast";
+        if (extraClass) {
+            toast.classList.add(extraClass);
+        }
         toast.textContent = message;
         document.body.appendChild(toast);
         setTimeout(function () { toast.remove(); }, 2500);
@@ -619,7 +624,7 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
                     '</button>' +
                 '</div>' +
             '</div>';
-        modal.addEventListener("click", function (e) {
+        modal.addEventListener("click", (e) => {
             if (
                 e.target.closest("[data-share-close='true']") ||
                 e.target.classList.contains("share-sheet__backdrop") ||
@@ -657,7 +662,7 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
                     '<span class="' + checkClass + '"><svg viewBox="0 0 24 24" aria-hidden="true"><g><path d="M9.64 18.952l-5.55-4.861 1.317-1.504 3.951 3.459 8.459-10.948L19.4 6.32 9.64 18.952z"></path></g></svg></span>' +
                 '</button>' +
             '</div>';
-        modal.addEventListener("click", function (e) {
+        modal.addEventListener("click", (e) => {
             if (
                 e.target.closest("[data-share-close='true']") ||
                 e.target.classList.contains("share-sheet__backdrop")
@@ -708,7 +713,7 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
                     '</div></div>' +
                 '</div>' +
             '</div>';
-        layer.addEventListener("click", function (e) {
+        layer.addEventListener("click", (e) => {
             const actionButton = e.target.closest(".share-menu-item");
             if (!actionButton || !activeShareButton) {
                 e.stopPropagation();
@@ -735,12 +740,12 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
     }
 
     // Like 버튼
-    document.querySelectorAll(".tweet-action-btn--like").forEach(function (likeButton) {
+    document.querySelectorAll(".tweet-action-btn--like").forEach((likeButton) => {
         const countEl = likeButton.querySelector(".tweet-action-count");
         const path = likeButton.querySelector("svg path");
         if (!path) { return; }
         let isLiked = false;
-        likeButton.addEventListener("click", function (e) {
+        likeButton.addEventListener("click", (e) => {
             isLiked = !isLiked;
             likeButton.classList.toggle("active", isLiked);
             path.setAttribute("d", isLiked ? path.getAttribute("data-path-active") : path.getAttribute("data-path-inactive"));
@@ -753,11 +758,11 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
     });
 
     // Bookmark 버튼
-    document.querySelectorAll(".tweet-action-btn--bookmark").forEach(function (bookmarkButton) {
+    document.querySelectorAll(".tweet-action-btn--bookmark").forEach((bookmarkButton) => {
         const path = bookmarkButton.querySelector("svg path");
         if (!path) { return; }
         let isBookmarked = false;
-        bookmarkButton.addEventListener("click", function (e) {
+        bookmarkButton.addEventListener("click", (e) => {
             isBookmarked = !isBookmarked;
             setBookmarkButtonState(bookmarkButton, isBookmarked);
             showToast(isBookmarked ? "북마크에 저장되었습니다." : "북마크가 해제되었습니다.");
@@ -765,8 +770,8 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
     });
 
     // Share 버튼
-    document.querySelectorAll(".tweet-action-btn--share").forEach(function (shareButton) {
-        shareButton.addEventListener("click", function (e) {
+    document.querySelectorAll(".tweet-action-btn--share").forEach((shareButton) => {
+        shareButton.addEventListener("click", (e) => {
             e.preventDefault();
             e.stopPropagation();
             if (activeShareButton === shareButton) {
@@ -778,11 +783,11 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
     });
 
     // 외부 클릭 시 드롭다운 닫기
-    document.addEventListener("click", function (e) {
+    document.addEventListener("click", (e) => {
         closeShareDropdown();
     });
 
-    document.addEventListener("keydown", function (e) {
+    document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
             closeShareDropdown();
             closeShareModal();
@@ -958,7 +963,7 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
     let replyMediaEdits = [],
         pendingReplyMediaEdits = [],
         activeReplyMediaIndex = 0;
-    // 첨부된 파일 목록, 파일 Object URL 목록
+    // 첨부된 파일 목록, 파일 미리보기 URL 목록
     let attachedReplyFiles = [],
         attachedReplyFileUrls = [];
     // 편집 중인 첨부파일 인덱스, 태그 검색 결과, 캐시된 위치명 목록
@@ -1608,7 +1613,7 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
         syncMediaAltTrigger();
     }
 
-    // 현재 선택된 미디어의 Object URL을 반환한다
+    // 현재 선택된 미디어의 미리보기 URL을 반환한다
     function getCurrentReplyMediaUrl() {
         return attachedReplyFileUrls[activeReplyMediaIndex] ?? "";
     }
@@ -1831,10 +1836,8 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
         return attachedReplyFiles.length > 0;
     }
 
-    // 첨부파일 Object URL을 해제하고 배열을 초기화한다
+    // 첨부파일 미리보기 URL 배열을 초기화한다
     function clearAttachedReplyFileUrls() {
-        if (attachedReplyFileUrls.length === 0) return;
-        attachedReplyFileUrls.forEach((u) => URL.revokeObjectURL(u));
         attachedReplyFileUrls = [];
     }
 
@@ -1865,12 +1868,23 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
         if (replyAttachmentPreview) replyAttachmentPreview.hidden = true;
     }
 
-    // 첨부파일들의 Object URL을 생성한다
+    // store-create.js 방식처럼 FileReader로 첨부파일 미리보기 URL을 생성한다
     function createReplyAttachmentUrls() {
         clearAttachedReplyFileUrls();
-        attachedReplyFileUrls = attachedReplyFiles.map((f) =>
-            URL.createObjectURL(f),
-        );
+        return Promise.all(
+            attachedReplyFiles.map(
+                (file) =>
+                    new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.addEventListener("load", (e) => {
+                            resolve(e.target?.result ?? "");
+                        });
+                    }),
+            ),
+        ).then((urls) => {
+            attachedReplyFileUrls = urls;
+        });
     }
 
     // 이미지 그리드의 개별 셀 HTML을 생성한다
@@ -1918,7 +1932,6 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
             return;
         }
         replyAttachmentPreview.hidden = false;
-        createReplyAttachmentUrls();
         if (isReplyImageSet()) {
             syncReplyMediaEditsToAttachments();
             syncUserTagTrigger();
@@ -1966,8 +1979,18 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
     // 특정 인덱스의 첨부파일을 제거한다
     function removeReplyAttachment(index) {
         attachedReplyFiles = attachedReplyFiles.filter((_, i) => i !== index);
+        attachedReplyFileUrls = attachedReplyFileUrls.filter((_, i) => i !== index);
         pendingAttachmentEditIndex = null;
         renderReplyAttachment();
+    }
+
+    // 첨부파일 배열을 반영하고 FileReader 결과로 미리보기를 갱신한다
+    function applyReplyFiles(nextFiles) {
+        attachedReplyFiles = nextFiles;
+        return createReplyAttachmentUrls().then(() => {
+            renderReplyAttachment();
+            syncReplySubmitState();
+        });
     }
 
     // 파일 입력 변경 시 첨부파일을 처리한다 (교체/추가)
@@ -1986,45 +2009,39 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
                 pendingAttachmentEditIndex = null;
                 return;
             }
+            let nextFiles = [];
             if (rep.type.startsWith("video/")) {
-                attachedReplyFiles = [rep];
+                nextFiles = [rep];
             } else {
                 const ed = isReplyVideoSet() ? [] : [...attachedReplyFiles];
-                attachedReplyFiles =
+                nextFiles =
                     ed.length === 0
                         ? [rep]
                         : ((ed[pendingAttachmentEditIndex] = rep),
                           ed.slice(0, maxReplyImages));
             }
             pendingAttachmentEditIndex = null;
-            renderReplyAttachment();
-            syncReplySubmitState();
+            applyReplyFiles(nextFiles);
             return;
         }
         if (vid) {
-            attachedReplyFiles = [vid];
-            renderReplyAttachment();
-            syncReplySubmitState();
+            applyReplyFiles([vid]);
             return;
         }
         if (imgs.length > 0) {
-            attachedReplyFiles = [
+            applyReplyFiles([
                 ...(isReplyImageSet() ? [...attachedReplyFiles] : []),
                 ...imgs,
-            ].slice(0, maxReplyImages);
-            renderReplyAttachment();
-            syncReplySubmitState();
+            ].slice(0, maxReplyImages));
             return;
         }
-        attachedReplyFiles = [rep];
-        renderReplyAttachment();
-        syncReplySubmitState();
+        applyReplyFiles([rep]);
     }
 
     // 답글 에디터에 텍스트가 입력되어 있는지 확인한다
     function hasReplyEditorText() {
         return replyEditor
-            ? replyEditor.textContent.replace(/\u00a0/g, " ").trim().length > 0
+        ? replyEditor.textContent.replace(/ /g, " ").trim().length > 0
             : false;
     }
 
@@ -2097,8 +2114,27 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
         const curIsBold   = parentSpan ? parentSpan.style.fontWeight === "bold" : false;
         const curIsItalic = parentSpan ? parentSpan.style.fontStyle === "italic" : false;
 
-        // 서식이 같으면 브라우저가 처리
-        if (isBold === curIsBold && isItalic === curIsItalic) return false;
+        // 서식이 같으면
+        if (isBold === curIsBold && isItalic === curIsItalic) {
+            // 서식 없음: 브라우저가 처리
+            if (!isBold && !isItalic) return false;
+            if (!parentSpan) return false;
+            // span 안에서 서식 일치: 브라우저가 span 밖에 삽입하는 문제를 방지해 직접 삽입
+            e.preventDefault();
+            if (!range.collapsed) range.deleteContents();
+            range.collapse(true);
+            const inSpanTextNode = document.createTextNode(e.key);
+            range.insertNode(inSpanTextNode);
+            const inSpanRange = document.createRange();
+            inSpanRange.setStart(inSpanTextNode, e.key.length);
+            inSpanRange.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(inSpanRange);
+            saveReplySelection();
+            syncReplySubmitState();
+            syncReplyFormatButtons();
+            return true;
+        }
 
         // 서식이 다름 → 직접 삽입
         e.preventDefault();
@@ -2439,7 +2475,7 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
     // 500자 기준 원형 게이지와 남은 글자 수를 동시에 갱신한다
     function syncReplySubmitState() {
         if (!replyEditor) return;
-        let content = replyEditor.textContent?.replace(/\u00a0/g, " ") ?? "";
+        let content = replyEditor.textContent?.replace(/ /g, " ") ?? "";
         if (content.length > replyMaxLength) {
             content = content.slice(0, replyMaxLength);
             // innerHTML 유지(서식 보존): 텍스트만 자름
@@ -2564,7 +2600,7 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
                 window.confirm("게시물을 삭제하시겠어요?")
             );
         const hasDraft =
-            replyEditor.textContent.replace(/\u00a0/g, " ").trim().length > 0;
+        replyEditor.textContent.replace(/ /g, " ").trim().length > 0;
         return (
             (!hasDraft && !hasReplyAttachment()) ||
             window.confirm("게시물을 삭제하시겠어요?")
@@ -2926,7 +2962,8 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
         closeNotificationDropdown();
         closeNotificationModal();
         const modal = document.createElement("div");
-        modal.className = "notification-dialog notification-dialog--block";
+        modal.className = "notification-dialog";
+        modal.classList.add("notification-dialog--block");
         modal.innerHTML = `<div class="notification-dialog__backdrop"></div><div class="notification-dialog__card notification-dialog__card--small" role="alertdialog" aria-modal="true" aria-labelledby="notification-block-title" aria-describedby="notification-block-desc"><h2 id="notification-block-title" class="notification-dialog__title">${handle} 님을 차단할까요?</h2><p id="notification-block-desc" class="notification-dialog__description">내 공개 게시물을 볼 수 있지만 더 이상 게시물에 참여할 수 없습니다. 또한 ${handle} 님은 나를 팔로우하거나 쪽지를 보낼 수 없으며, 이 계정과 관련된 알림도 내게 표시되지 않습니다.</p><div class="notification-dialog__actions"><button type="button" class="notification-dialog__danger notification-dialog__confirm-block">차단</button><button type="button" class="notification-dialog__secondary notification-dialog__close">취소</button></div></div>`;
         modal.addEventListener("click", (e) => {
             if (
@@ -2955,7 +2992,8 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
         closeNotificationDropdown();
         closeNotificationModal();
         const modal = document.createElement("div");
-        modal.className = "notification-dialog notification-dialog--report";
+        modal.className = "notification-dialog";
+        modal.classList.add("notification-dialog--report");
         modal.innerHTML = `<div class="notification-dialog__backdrop"></div><div class="notification-dialog__card notification-dialog__card--report" role="dialog" aria-modal="true" aria-labelledby="notification-report-title"><div class="notification-dialog__header"><button type="button" class="notification-dialog__icon-btn notification-dialog__close" aria-label="돌아가기"><svg viewBox="0 0 24 24" aria-hidden="true"><g><path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"></path></g></svg></button><h2 id="notification-report-title" class="notification-dialog__title">신고하기</h2></div><div class="notification-dialog__body"><p class="notification-dialog__question">이 게시물에 어떤 문제가 있나요?</p><ul class="notification-report__list">${notificationReportReasons.map((r) => `<li><button type="button" class="notification-report__item"><span>${r}</span><svg viewBox="0 0 24 24" aria-hidden="true"><g><path d="M9.293 6.293 10.707 4.88 17.828 12l-7.121 7.12-1.414-1.413L14.999 12z"></path></g></svg></button></li>`).join("")}</ul></div></div>`;
         modal.addEventListener("click", (e) => {
             if (
@@ -3206,7 +3244,10 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
     // 임시저장 항목용 체크박스 요소를 생성한다
     function buildDraftCheckbox(sel) {
         const cb = document.createElement("span");
-        cb.className = `draft-panel__checkbox${sel ? " draft-panel__checkbox--checked" : ""}`;
+        cb.className = "draft-panel__checkbox";
+        if (sel) {
+            cb.classList.add("draft-panel__checkbox--checked");
+        }
         cb.setAttribute("aria-hidden", "true");
         cb.innerHTML =
             '<svg viewBox="0 0 24 24"><g><path d="M9.86 18a1 1 0 01-.73-.31l-3.9-4.11 1.45-1.38 3.2 3.38 7.46-8.1 1.47 1.36-8.19 8.9A1 1 0 019.86 18z"></path></g></svg>';
@@ -3490,13 +3531,6 @@ if (tabPopular && tabLatest && tabMembers && popularSection && latestSection && 
         }
     });
 
-    // 텍스트 선택/커서 변경 시 커서 위치에서 서식 상태 동기화
-    document.addEventListener("selectionchange", () => {
-        if (replyModalOverlay?.hidden || !replyEditor) return;
-        syncActiveFormatsFromCursor();
-        saveReplySelection();
-        syncReplyFormatButtons();
-    });
 
     // 서식 버튼 클릭 시 해당 서식을 적용한다
     replyFormatButtons.forEach((btn) => {

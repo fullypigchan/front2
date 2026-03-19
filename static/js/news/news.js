@@ -19,7 +19,10 @@ function formatCount(num) {
         }
 
         const toast = document.createElement("div");
-        toast.className = "toast" + (extraClass ? " " + extraClass : "");
+        toast.className = "toast";
+        if (extraClass) {
+            toast.classList.add(extraClass);
+        }
         toast.textContent = message;
         document.body.appendChild(toast);
 
@@ -399,7 +402,8 @@ function formatCount(num) {
         closePostMoreDropdown();
         closePostMoreModal();
         const modal = document.createElement("div");
-        modal.className = "notification-dialog notification-dialog--block";
+        modal.className = "notification-dialog";
+        modal.classList.add("notification-dialog--block");
         modal.innerHTML =
             '<div class="notification-dialog__backdrop"></div>' +
             '<div class="notification-dialog__card notification-dialog__card--small" role="alertdialog" aria-modal="true">' +
@@ -442,7 +446,8 @@ function formatCount(num) {
                 '</button></li>';
         }
         const modal = document.createElement("div");
-        modal.className = "notification-dialog notification-dialog--report";
+        modal.className = "notification-dialog";
+        modal.classList.add("notification-dialog--report");
         modal.innerHTML =
             '<div class="notification-dialog__backdrop"></div>' +
             '<div class="notification-dialog__card notification-dialog__card--report" role="dialog" aria-modal="true">' +
@@ -587,7 +592,10 @@ function formatCount(num) {
         const existing = document.querySelector(".toast");
         if (existing) { existing.remove(); }
         const toast = document.createElement("div");
-        toast.className = "toast" + (extraClass ? " " + extraClass : "");
+        toast.className = "toast";
+        if (extraClass) {
+            toast.classList.add(extraClass);
+        }
         toast.textContent = message;
         document.body.appendChild(toast);
         setTimeout(function () { toast.remove(); }, 2500);
